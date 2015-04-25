@@ -1,0 +1,60 @@
+IMPORTANTE !!!! MODIFICAR LOS ARCHIVOS DE CONFIGURACION DEL SERVIDOR EN ECLIPSE. ESTOS SE ENCUENTRAN EL PROYECTITO QUE CREA SOLO ECLIPSE QUE SE LLAMA "Servers".
+Importar los archivos de configuración de tomEE a la carpeta del respecto servidor.
+
+Click derecho (En la carpeta de su congiguración en servers) ---> Import... ---> File System 
+---> Browse (buscan la carpeta, en mi caso es: "C:\Program Files\Eclipse\apache-tomee-1.7.1-webprofile\apache-tomee-webprofile-1.7.1\conf"). Marcan "Select All" y listo.
+
+El porque de esto, es porque eclipse usa copias locales al IDE y luego las sobreescribe en la carpeta del servidor. Si se modifican a manopla estos archivos, la proxima
+ves que se levante el servidor, todos los cambios que NO fueron realizados en el IDE no se repercutiran, por lo que siempre perderiamos lo que modificamos.
+
+PD: Si no funciona esto es porque no tienen el driver de conexión a postgre. Se encuentra el jar en la carpeta "driver". El archivo va en la carpeta lib de su servidor de aplicaciones.
+En mi caso: "C:\Program Files\Eclipse\apache-tomee-1.7.1-webprofile\apache-tomee-webprofile-1.7.1\lib"
+
+En el archivo de configuración de TomEE "tomee.xml" debe quedar asi:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+	<Resource id="jdbc/InmoDS" type="DataSource">
+			 JdbcDriver org.postgresql.Driver
+			 JdbcUrl jdbc:postgresql://localhost:5432/DbSIG
+			 UserName postgres
+			 Password sa
+			 JtaManaged true
+			 DefaultAutoCommit false
+	</Resource>
+</tomee>
+
+
+En el archivo de configuración de TomEE "tomcat-users.xml" :
+
+<role rolename="manager-script"/>
+<role rolename="tomee-admin"/> <!-- rol que nos deja entrar a la consola de tomee (no sirve para una mierda) -->
+<role rolename="manager-gui"/>
+<role rolename="manager-jmx"/>
+<role rolename="manager-status"/>
+<user username="admin" password="admin" roles="manager-gui,manager-status,tomee-admin"/>
+ 
+por las dudas, ya esta en la carpeta del proyecto, pero el persistence.xml debe quedar:
+
+<?xml version="1.0"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="Inmo" transaction-type="JTA">
+
+		<!-- default JPA implementation shipped with TomEE (OpenJPA) -->
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+
+		<jta-data-source>jdbc/InmoDS</jta-data-source>
+
+		<class>dominio.Usuario</class>
+		<class>dominio.Propiedad</class>
+
+		<properties>
+			<property name="openjpa.jdbc.DBDictionary" value="postgres"/>
+			<property name="openjpa.InitializeEagerly" value="false"/>
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+		</properties>
+
+	</persistence-unit>
+</persistence>

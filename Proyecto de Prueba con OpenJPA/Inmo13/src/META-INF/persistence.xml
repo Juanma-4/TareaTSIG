@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="Inmo" transaction-type="JTA">
+
+		<!-- default JPA implementation shipped with TomEE (OpenJPA) -->
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+
+		<jta-data-source>jdbc/InmoDS</jta-data-source>
+
+		<class>dominio.Usuario</class>
+		<class>dominio.Propiedad</class>
+
+		<properties>
+			<property name="openjpa.jdbc.DBDictionary" value="postgres"/>
+			<property name="openjpa.InitializeEagerly" value="false"/>
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+		</properties>
+
+	</persistence-unit>
+</persistence>
