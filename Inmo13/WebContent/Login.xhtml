@@ -1,0 +1,28 @@
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	
+</h:head>
+
+<h:body>      
+      
+     <h:panelGroup layout="block" id="div-primerpag">
+   		  <h:outputLabel value="Login" style="font-size:85px" />
+   		  
+   		  <h:form style="margin-top:12px">
+   		  	<h:outputText value="Mail: " />
+   		  	<h:inputText value="#{usuarioMB.mail}" id="mail"></h:inputText>
+   		  	<br/>
+   		    <h:outputText value="Password: " />   		 
+   		    <h:inputSecret value="#{usuarioMB.password}" id="password"></h:inputSecret>
+   		    <br/>
+   		  	<h:commandButton value="Login" action="#{usuarioMB.login()}" />
+   		  </h:form>
+     </h:panelGroup>
+
+</h:body>
+
+
+</html>

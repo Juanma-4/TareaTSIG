@@ -1,0 +1,114 @@
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	
+	<h:outputScript library="defecto" name="js/jquery-1.8.0.min.js" target="head"/>
+
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    
+    <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
+	<h:outputScript target="head">
+	
+
+	
+	 window.onload = function() {
+	
+		   
+		var WGS84 = new OpenLayers.Projection(miEPSG);
+		
+		var limites = new OpenLayers.Bounds(
+			366582.290141166, 6127927.10038269,
+			858252.0151745,6671738.21181725
+		);
+		
+
+		var opciones = {
+			controls: OpenLayers.control.defaults({
+		    attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+		      collapsible: false
+		    })
+		  }).extend([mousePositionControl]),
+			projection: WGS84,
+			maxExtent: limites
+		};
+	
+	
+		/* "Map Constructor"
+		Crea un mapa en el bloque con id "map"  
+		*/
+		var map = new OpenLayers.Map('map',opciones);	
+		
+		
+		/* "Layer Constructor"
+		 Agrega capas al mapa, pidiendo la misma por medio de una llamada Web Map Service 
+	    */
+		var wms = new OpenLayers.Layer.WMS( "Departamentos",
+									   		 urlWMS,
+									   		 {'layers':'sige:00departamento'} );	
+									    
+		map.addLayer(wms);	
+        map.zoomToMaxExtent();
+
+
+	var mousePositionControl = new OpenLayers.control.MousePosition({
+							  coordinateFormat: OpenLayers.coordinate.createStringXY(4),
+							  projection: miEPSG,
+							  className: 'custom-mouse-position',
+							  target: document.getElementById('mouse-position')
+							});
+			
+			
+			
+			
+		
+			projectionSelect.val(mousePositionControl.getProjection().getCode());
+			
+			
+									   
+	  };
+	</h:outputScript>
+	
+	
+</h:head>
+
+<h:body>      
+      
+     <h:panelGroup layout="block" id="div-primerpag">
+   		  <h:outputLabel value="Prueba primer página" style="font-size:85px" />
+   		  
+   		  <h:form style="margin-top:12px">
+   		  	<h:outputText value="Mail: " />
+   		  	<h:inputText value="#{usuarioMB.mail}" id="mail"></h:inputText>
+   		  	<br/>
+   		    <h:outputText value="Password: " />   		 
+   		    <h:inputSecret value="#{usuarioMB.password}" id="password"></h:inputSecret>
+   		    <br/>
+   		  	<h:commandButton value="Aceptar" action="#{usuarioMB.registroUsuario()}" />
+   		  </h:form>
+     </h:panelGroup>
+
+</h:body>
+
+
+<!--  
+	Bootfaces hace unos conflictos cuando usas el tag <script src="...".. entonces lo saque porque no
+			 andaba el mapa, ver esto despues
+			 
+			 
+       xmlns:b="http://bootsfaces.net/ui"
+<h:panelGroup layout="block" id="div-bootfaces">
+
+	
+  <b:button outcome="testButton" value="Bookmark" icon="bookmark">  
+        <f:param name="testId" value="11" />  
+    </b:button>  
+</h:panelGroup>
+-->
+		<!-- Mapa -->
+	   <div style="width:100%; height:100%" id="map"></div>
+		<div class="span6" id="mouse-position">" "</div>
+
+
+</html>
