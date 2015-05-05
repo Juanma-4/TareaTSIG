@@ -13,30 +13,28 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import controladores.IPropiedadController;
-import controladores.IUsuarioController;
+import controladores.IControladorPropiedad;
+import controladores.IControladorUsuario;
 import dominio.Propiedad;
 import dominio.Usuario;
 
 
-@Path("/PropiedadService") 	
-
-
-public class propiedadService extends Application {
+@Path("/ServicioPropiedad") 	
+public class ServicioPropiedad extends Application {
 
 	@EJB
-	private IPropiedadController ipc;
+	private IControladorPropiedad ipc;
 	
 	@EJB
-	private IUsuarioController iuc;
+	private IControladorUsuario iuc;
 	
-	// localhost:8080/Inmo13/PropiedadService/propiedad
+			// localhost:8080/Inmo13/PropiedadService/propiedad
 			@POST
 			@Produces(MediaType.APPLICATION_JSON) 
 			@Consumes(MediaType.APPLICATION_JSON)
-			@Path("/propiedad")
+			@Path("/alta")
 			public Response guardarPropiedad(String datos, @HeaderParam("mail") String mail) {
-				System.out.println("payload - " + datos);
+		
 				boolean creado = false;
 				String booleanJSON = null;
 				
@@ -45,8 +43,6 @@ public class propiedadService extends Application {
 
 				Propiedad propiedad = gson.fromJson(datos, Propiedad.class);
 
-				
-				
 				String codigoRetorno = "200";
 
 				try {
@@ -59,22 +55,19 @@ public class propiedadService extends Application {
 													   propiedad.getNumeroPuerta(),propiedad.getCalle() ,usuario);
 
 					booleanJSON = gson.toJson(creado);
+					
 				} catch (Exception err) {
 					err.printStackTrace();
 					codigoRetorno = "{\"status\":\"500\","
 							+ "\"message\":\"Resource not created.\""
 							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
-					return Response.status(500).entity(codigoRetorno).build();
+					return Response.status(500).entity(booleanJSON).build();
 
 				}
 				return Response.status(201).entity(booleanJSON).build();
 			
 			}
-	
-	
-	
-	
-	
+		
 	
 	
 }

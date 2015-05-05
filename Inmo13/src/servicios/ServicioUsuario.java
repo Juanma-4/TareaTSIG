@@ -15,15 +15,15 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import controladores.IUsuarioController;
+import controladores.IControladorUsuario;
 import dominio.Usuario;
 
 
-@Path("/UsuarioService") 	
-public class usuarioService extends Application {
+@Path("/ServicioUsuario") 	
+public class ServicioUsuario extends Application {
 
 	@EJB
-	private IUsuarioController iuc;
+	private IControladorUsuario iuc;
 	
 	
 		// ---> localhost:8080/Inmo13/rest/UsuarioService/status/
@@ -34,14 +34,13 @@ public class usuarioService extends Application {
 			return Response
 					.ok("{\"status\":\"El servicio de los usuarios esta funcionando...\"}")
 					.build();
-
 		}
 		
-		 // localhost:8080/Inmo13/UsuarioService/usuario
+	    // localhost:8080/Inmo13/UsuarioService/usuario
 		@POST
 		@Produces(MediaType.APPLICATION_JSON)
 		@Consumes(MediaType.APPLICATION_JSON)
-		@Path("/guardar")
+		@Path("/registro")
 		public Response guardarUsuario(String datos) {
 			boolean creado = false;
 			String booleanJSON = null;
@@ -68,52 +67,50 @@ public class usuarioService extends Application {
 		
 		}
 		
-		
+		@POST
+		@Produces(MediaType.APPLICATION_JSON)
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Path("/login")
+		public Response login(String datos) {
+
+			boolean existe = false;
+			String respuesta;
+			ArrayList<Boolean> lista = new ArrayList<Boolean>();
+
+			// Create a new Gson object that could parse all passed in elements
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+	
+			// Get book Object parsed from JSON string
+			Usuario usuario = gson.fromJson(datos, Usuario.class);
+
+			if (iuc.existeUsuario(usuario.getMail(), usuario.getPassword())) {
+
+				existe = true;
+
 			
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/login")
-	public Response login(String datos) {
+				lista.add(existe);
 
-		boolean existe = false;
-		String respuesta;
+				respuesta = toJSONString(lista);
 
-		// Create a new Gson object that could parse all passed in elements
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		Gson gson = gsonBuilder.create();
+				return Response.ok().entity(respuesta).build();
 
-		// Get book Object parsed from JSON string
-		Usuario usuario = gson.fromJson(datos, Usuario.class);
+			} else {
+				
+				lista.add(existe);
 
-		if (iuc.existeUsuario(usuario.getMail(), usuario.getPassword())) {
+				respuesta = toJSONString(lista);
 
-			existe = true;
-
-			ArrayList<Boolean> lista = new ArrayList<Boolean>();
-			lista.add(existe);
-
-			respuesta = toJSONString(lista);
-
-			return Response.ok().entity(respuesta).build();
-
-		} else {
-			ArrayList<Boolean> lista = new ArrayList<Boolean>();
-			lista.add(existe);
-
-			respuesta = toJSONString(lista);
-
-			return Response.status(404).entity(respuesta).build();
+				return Response.status(404).entity(respuesta).build();
+			}
 		}
-	}
 
-	public String toJSONString(Object object) { // Funcion que convierte de
-												// objeto java a JSON
-		GsonBuilder gsonBuilder = new GsonBuilder();
+		public String toJSONString(Object object) { // Funcion que convierte de
+													// objeto java a JSON
+			GsonBuilder gsonBuilder = new GsonBuilder();
 
-		Gson gson = gsonBuilder.create();
-		return gson.toJson(object);
-	}
-	
-	
+			Gson gson = gsonBuilder.create();
+			return gson.toJson(object);
+		}
+		
 }

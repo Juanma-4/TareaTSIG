@@ -168,10 +168,6 @@ public class Propiedad implements Serializable {
 		this.tipoPropiedad = tipoPropiedad;
 	}
 
-	
-
-	
-
 	public String getTipoEstado() {
 		return tipoEstado;
 	}

@@ -12,7 +12,7 @@ import enumerados.Transaccion;
 
 
 @Stateless
-public class PropiedadController implements IPropiedadController{
+public class ControladorPropiedad implements IControladorPropiedad{
 	
 	@EJB
 	private IPropiedadDAO PropiedadDAO;
@@ -22,13 +22,8 @@ public class PropiedadController implements IPropiedadController{
 		boolean guardo = false;
 		
 		try{			
-			System.out.println("Estoy en controlador");
-			System.out.println(Estado);
 			
 			Propiedad p = new Propiedad(Precio,CantDorm,CantBanio,MetrosCuadrados,Parrillero,Garage,TipoPropiedad,Estado,Tipotransaccion,NumeroPuerta,Calle,Usuario);					
-			
-			
-			
 			guardo = PropiedadDAO.guardarPropiedad(p);		
 		
 		}

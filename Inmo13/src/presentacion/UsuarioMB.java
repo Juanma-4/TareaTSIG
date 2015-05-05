@@ -18,7 +18,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import wrappers.WrapperUsuario;
-import controladores.IUsuarioController;
 
 
 @ManagedBean
@@ -32,13 +31,13 @@ public class UsuarioMB implements Serializable {
 		  
 		
 
-	public String registroUsuario() {
+	public void registroUsuario() {
 			
-		//retrofit
-		ClientRequest request;
+		
+		ClientRequest request = null;
 
 			try {
-				request = new ClientRequest("http://localhost:8080/Inmo13/rest/UsuarioService/usuario");
+				request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/registro");
 				WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
 
 				// transformo el usuario a ingresar en Json string
@@ -48,50 +47,54 @@ public class UsuarioMB implements Serializable {
 				request.body("application/json", usuarioJSON);
 
 				// se obtiene una respuesta por parte del webService
-				ClientResponse<String> response = request.post(String.class);
+				ClientResponse<String> respuesta = request.post(String.class);
 
-				if (response.getStatus() != 201) {
+				if (respuesta.getStatus() != 201) {
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage("Error al ingresar un nuevo usuario"));
 					throw new RuntimeException("Failed : HTTP error code : "
-							+ response.getStatus());
-				}
-
-				if(Boolean.parseBoolean(response.getEntity())){
-					
+							+ respuesta.getStatus());
 				}
 				
-				request.clear();
-				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
+				Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));				
+		
+				//if (creado)	{
+				//	FacesContext.getCurrentInstance().getExternalContext().redirect("Vista.xhtml");
+				//}else{				
+					FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");					
+				//}
 				
+			
 			}catch(Exception e){
 				e.printStackTrace();
+			}finally{
+				request.clear();
 			}
-		return null;
+			
 	}
 	
-	public String login(){
-	ClientRequest request;
-	  
-	try {
+	public void login(){
+		
+		ClientRequest request;		  
+		
+		try {
 
-		request = new ClientRequest("http://localhost:8080/Inmo13/rest/UsuarioService/login");		
-		
-		WrapperUsuario u = new WrapperUsuario(mail, password);
-		
-		String userJson = toJSONString(u);			
-		request.body("application/json", userJson);		
-		
-		
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		Gson gson = gsonBuilder.create();
-		
-		ClientResponse<String> response = request.post(String.class);
-		
-		JsonParser parser = new JsonParser();
-	    JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();
-		
-		ArrayList<Boolean> lista = new ArrayList<Boolean>();
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/login");		
+			
+			WrapperUsuario u = new WrapperUsuario(mail, password);			
+			
+			String userJson = toJSONString(u);			
+			request.body("application/json", userJson);					
+			
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+			
+			ClientResponse<String> response = request.post(String.class);
+			
+			JsonParser parser = new JsonParser();
+		    JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();
+			
+			ArrayList<Boolean> lista = new ArrayList<Boolean>();
 
 		    for(JsonElement obj : jArray)
 		    {
@@ -100,56 +103,47 @@ public class UsuarioMB implements Serializable {
 		        
 		  
 		    }
-		
-	//	System.out.println(lista.get(0).toString() + lista.get(1).toString());
-		    
-		if (lista.get(0) == false) {				
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Credenciales incorrectas"));
-			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-			throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
-		}
-	//	else if((lista.get(0) == true) && (lista.get(1) == false))
-		else {				
 			
-			request.clear();
-							
-			response = request.get(String.class);						
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mail", this.mail);
+			if (lista.get(0) == false) {				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Credenciales incorrectas"));
+				FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+				throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
+			}
 			
-			
-				
-				FacesContext.getCurrentInstance().getExternalContext().redirect("AltaPropiedad.xhtml");
+			else {				
+				request.clear();
+								
+				response = request.get(String.class);						
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mail", this.mail);					
+				FacesContext.getCurrentInstance().getExternalContext().redirect("AltaPropiedad.xhtml");			
 				
 			
-		
+			}
+			
+			} catch (Exception e) {
+			System.out.println(e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 		
-		} catch (Exception e) {
-		System.out.println(e.getLocalizedMessage());
-		e.printStackTrace();
+
 	}
-	
-return null;
 
-}
-
-	public String logOut() {
+	public void logOut() {
 
 		// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
-			// return "Index";
-
 		} catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
 		}
+		
 		// return "Index.xhtml?faces-redirect=true";
-		return null;
 	}
-	
-	
+
+
+
 	public String getMail() {
 		return mail;
 	}

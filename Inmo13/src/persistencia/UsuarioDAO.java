@@ -14,7 +14,8 @@ public class UsuarioDAO implements IUsuarioDAO{
 	
 	@PersistenceContext(unitName="Inmo")
     private EntityManager em;	
-public boolean guardarUsuario(Usuario usuario) {
+
+	public boolean guardarUsuario(Usuario usuario) {
 
 		boolean guardo = false;
 		
@@ -28,7 +29,6 @@ public boolean guardarUsuario(Usuario usuario) {
 		return guardo;
 
 	}
-	
 	
 	
 	public boolean modificarUsuario(Usuario usuario) {

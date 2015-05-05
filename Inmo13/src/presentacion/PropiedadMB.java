@@ -1,27 +1,16 @@
 package presentacion;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-import javax.persistence.Enumerated;
 
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
-
-import enumerados.Estado;
-import enumerados.TipoPropiedad;
-import enumerados.Transaccion;
 import wrappers.WrapperPropiedad;
 
 
@@ -35,9 +24,6 @@ public class PropiedadMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-//	@EJB
-//	private	IPropiedadController controladorPropiedad;
-	
 	
 	private Integer numPuerta;
 	private Double precio;
@@ -78,7 +64,7 @@ public class PropiedadMB implements Serializable {
 		ClientRequest request;
 
 		try {
-			request = new ClientRequest("http://localhost:8080/Inmo13/rest/PropiedadService/propiedad");
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/alta");
 			WrapperPropiedad propiedad = new WrapperPropiedad(this.precio, this.cantDorm, this.cantBanio,this.metrosCuadrados,this.parrillero,this.garage,this.tipoPropiedad,this.tipoEstado,this.tipotransaccion,	this.numPuerta, this.calle);
 			
 			System.out.println(propiedad.getTipoEstado());

@@ -1,7 +1,8 @@
 <html  xmlns="http://www.w3.org/1999/xhtml"
        xmlns:h="http://java.sun.com/jsf/html"
        xmlns:ui="http://java.sun.com/jsf/facelets"
-       xmlns:f="http://xmlns.jcp.org/jsf/core">
+       xmlns:f="http://xmlns.jcp.org/jsf/core"
+       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 	
 </h:head>
@@ -13,8 +14,10 @@
    		  
    		  <h:form style="margin-top:12px">
    		  	<h:outputText value="Mail: " />
-   		  	<h:inputText value="#{usuarioMB.mail}" id="mail"></h:inputText>
-   		  	<br/>
+   		<!--    	<h:inputText value="#{usuarioMB.mail}" id="mail"></h:inputText> 
+   		  	<br/>-->
+   		  	<h:inputText id="email" value="#{usuarioMB.mail}" pt:type="email" pt:placeholder="Enter email"/>
+        	<br/>
    		    <h:outputText value="Password: " />   		 
    		    <h:inputSecret value="#{usuarioMB.password}" id="password"></h:inputSecret>
    		    <br/>

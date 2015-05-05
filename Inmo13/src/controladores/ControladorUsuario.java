@@ -1,22 +1,21 @@
 package controladores;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import dominio.Usuario;
 import persistencia.IUsuarioDAO;
 
 @Stateless
-public class UsuarioController implements IUsuarioController {
+public class ControladorUsuario implements IControladorUsuario {
 
 	@EJB
 	private IUsuarioDAO UsuarioDAO;
 	
 	
-	public Boolean guardarUsuario(String mail, String Password) {
+	public boolean guardarUsuario(String mail, String Password) {
 		
-		Boolean guardo = false;
+		boolean guardo = false;
 		
 		try{			
 			
