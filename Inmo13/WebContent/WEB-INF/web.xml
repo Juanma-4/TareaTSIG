@@ -68,4 +68,10 @@ xmlns="http://java.sun.com/xml/ns/javaee"
         <param-value>/rest</param-value>
     </context-param>
  
+ <!-- Para bootfaces -->
+ <context-param>
+    <param-name>BootsFaces_USETHEME</param-name>
+    <param-value>true</param-value>
+</context-param>
+ 
 </web-app>
