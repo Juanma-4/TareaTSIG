@@ -67,6 +67,39 @@ public class ServicioUsuario extends Application {
 		
 		}
 		
+		 // localhost:8080/Inmo13/ServicioUsuario/modificar
+		@POST
+		@Produces(MediaType.APPLICATION_JSON)
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Path("/modificar")
+		public Response modificarUsuario(String datos) {
+			boolean creado = false;
+			String booleanJSON = null;
+			
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+
+			Usuario usuario = gson.fromJson(datos, Usuario.class);
+
+			String codigoRetorno = "200";			
+			
+			try {
+				creado = this.iuc.modificarUsuario(usuario);
+				booleanJSON = gson.toJson(creado);
+				
+			} catch (Exception err) {
+				err.printStackTrace();
+				codigoRetorno = "{\"status\":\"500\","
+						+ "\"message\":\"Resource not created.\""
+						+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
+				return Response.status(500).entity(booleanJSON).build();
+			}
+			return Response.status(201).entity(booleanJSON).build();
+		
+		}
+		
+		
+		
 		@POST
 		@Produces(MediaType.APPLICATION_JSON)
 		@Consumes(MediaType.APPLICATION_JSON)
