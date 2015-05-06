@@ -99,7 +99,6 @@ public class ServicioUsuario extends Application {
 		}
 		
 		
-		
 		@POST
 		@Produces(MediaType.APPLICATION_JSON)
 		@Consumes(MediaType.APPLICATION_JSON)
