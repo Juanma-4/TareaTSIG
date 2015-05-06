@@ -1,31 +1,42 @@
-<html  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:ui="http://java.sun.com/jsf/facelets"
-       xmlns:f="http://xmlns.jcp.org/jsf/core"
-       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-<h:head>
-	
-</h:head>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+     <h:head>
 
-<h:body>      
-      
-     <h:panelGroup layout="block" id="div-primerpag">
-   		  <h:outputLabel value="Login" style="font-size:85px" />
-   		  
-   		  <h:form style="margin-top:12px">
-   		  	<h:outputText value="Mail: " />
-   		<!--    	<h:inputText value="#{usuarioMB.mail}" id="mail"></h:inputText> 
-   		  	<br/>-->
-   		  	<h:inputText id="email" value="#{usuarioMB.mail}" pt:type="email" pt:placeholder="Enter email"/>
-        	<br/>
-   		    <h:outputText value="Password: " />   		 
-   		    <h:inputSecret value="#{usuarioMB.password}" id="password"></h:inputSecret>
-   		    <br/>
-   		  	<h:commandButton value="Login" action="#{usuarioMB.login()}" />
-   		  </h:form>
-     </h:panelGroup>
-
-</h:body>
-
-
+       
+        <style type="text/css">
+            .form-signin {
+                margin: 0 auto;
+                max-width: 330px;
+                padding: 15px;
+            }
+        </style>
+    </h:head>
+    <h:body style="padding-top: 60px; background-color: #add;">
+        <b:container>
+            <h:form styleClass="form-signin" prependId="false">
+                <h2 class="form-signin-heading">Login Administradores</h2>
+                <b:inputText id="email" placeholder="Email" value="#{usuarioMB.mail}" >
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="user" />
+                    </f:facet>
+                   
+                </b:inputText>
+                <b:inputText id="password" placeholder="Contraseña" type="password" value="#{usuarioMB.password}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key" />
+                    </f:facet>
+                </b:inputText>
+                <b:selectBooleanCheckbox value="true" caption="Recodarme"/>
+                
+                <b:commandButton look="primary" value="Login"   action="#{usuarioMB.login()}" update="form:inform infoshow" icon="log-in" size="lg"/>
+           						  
+            </h:form>
+        </b:container>
+    </h:body>
 </html>
+
