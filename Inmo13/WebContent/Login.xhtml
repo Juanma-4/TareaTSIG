@@ -1,12 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://xmlns.jcp.org/jsf/core" 
+xmlns:b="http://bootsfaces.net/ui" 
+xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    
      <h:head>
 
+      
        
         <style type="text/css">
             .form-signin {
@@ -36,17 +39,8 @@
                 <b:commandButton look="primary" value="Login"   action="#{usuarioMB.login()}" update="form:inform infoshow" icon="log-in" size="lg"/>
            						  
             </h:form>
-        </b:container>
-        
-        
-        <b:container>
-            <b:row>
-                <b:column>
-                    <h1>Hello, world!</h1>
-                </b:column>
-            </b:row>
-        </b:container>
-        
+
+       </b:container>
         
     </h:body>
 </html>
