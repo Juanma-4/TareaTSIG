@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<!--  
+			<h:link outcome="Index">
+				<h:graphicImage name="img/casa.jpg" style="height:100% !Important; with:auto; float:left;" />
+			</h:link>
+			
+			-->
+			
+			
+			
+			<p:panel id="panel1" style="float:right;" rendered="#{not empty usuarioMB.mail}" >
+			
+		
+					
+			
+				<h:form id="formulario-navbar" style="float:right;"> <!--  prependId="false"  -->
+					<h:outputText value="Bienvenido, #{usuarioMB.mail}" rendered="#{not empty usuarioMB.mail}"/><br/>
+					<h:commandLink rendered="#{not empty usuarioMB.mail}" id="logoutLink" value="LogOut" action="#{usuarioMB.logOut()}"></h:commandLink>
+					
+					
+					
+					
+					
+					
+				</h:form>
+			</p:panel>
+
+	
+			</html>
