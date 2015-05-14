@@ -6,22 +6,13 @@
 
 <div style="height: 100%!Important;">
  <h:form>
-				<p:menu>
-					<p:submenu label="Menu">
-						
-						
+	<p:menu>
+		<p:submenu label="Menu">
 			<p:menuitem value="Alta Administrador"  action="#{usuarioMB.irRegistroUsuario()}" icon="ui-icon-gear"  />
-			<p:menuitem value="Alta Propiedad"  action="#{usuarioMB.irAltaPropiedad()}" icon="ui-icon-pencil"/>
-						
-					
-
-	
-						
-					</p:submenu>																		  
-				</p:menu> 
-				
-
-	
+			<p:menuitem value="BM Administrador"  action="#{usuarioMB.BMUsuario()}" icon="ui-icon-pencil"  />		
+			<p:menuitem value="Alta Propiedad"  action="#{usuarioMB.irAltaPropiedad()}" icon="ui-icon-gear"/>		
+		</p:submenu>																		  
+	</p:menu> 
 </h:form>
 </div>
 </html>

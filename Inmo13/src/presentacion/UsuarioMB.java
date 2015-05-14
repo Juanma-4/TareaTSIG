@@ -28,17 +28,13 @@ public class UsuarioMB implements Serializable {
 
 	private String mail;
 	private String password;
-		  
-		
 
 	public void registroUsuario() {
-			
-		
+
 		ClientRequest request = null;
 
 			try {
 			
-
 				request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/registro");
 				WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
 
@@ -79,21 +75,20 @@ public class UsuarioMB implements Serializable {
 	
 	public String irRegistroUsuario(){
 		
-	return "AltaUsuario.xhtml?faces-redirect=true";
+		return "AltaUsuario.xhtml?faces-redirect=true";
 	
 	}
 	
-	public void altaPropiedad(){
+	public String BMUsuario(){
 		
-
-		try {
-					
+		return "BMUsuario.xhtml?faces-redirect=true";
+		
+	}
 	
-			
+	public void altaPropiedad(){
+		try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("AltaPropiedad.xhtml");					
 			
-			
-		
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
@@ -106,7 +101,7 @@ public class UsuarioMB implements Serializable {
 		
 		return "AltaPropiedad.xhtml?faces-redirect=true";
 		
-		}
+	}
 	
 	public void login(){
 		
@@ -177,29 +172,21 @@ public class UsuarioMB implements Serializable {
 		// return "Index.xhtml?faces-redirect=true";
 	}
 
-
-
 	public String getMail() {
 		return mail;
 	}
-
 
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
 
-
 	public String getPassword() {
 		return password;
 	}
 
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-
 
 	public String toJSONString(Object object) { // Funcion que convierte de
 		// objeto java a JSON
