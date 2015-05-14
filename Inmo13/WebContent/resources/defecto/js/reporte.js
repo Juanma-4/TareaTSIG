@@ -36,93 +36,118 @@ window.onload = function() {
 		type : google.maps.MapTypeId.TERRAIN
 		});						
 	
-	/*	
-		reglaPublica = new OpenLayers.Rule({
-			filter : new OpenLayers.Filter.Comparison({
-				type : OpenLayers.Filter.Comparison.LIKE,
-				property : "gid",
-				value : 8,
-			}),
-			symbolizer : {
-				pointRadius : 10,
-				fillColor : "green",
-				fillOpacity : 1,
-				strokeColor : "black"
-			}
-		});
 		
 		
-		
-		var estiloPropPublica = new OpenLayers.Style();
-		estiloPropPublica.addRules([ reglaPublica ]);
-		
-		
-		var mapaEstilo = new OpenLayers.StyleMap({
-			"default" : estiloPropPublica,
-			
-		});
-		
-	*/	
-		var estiloProp = new OpenLayers.StyleMap({
+////////Creacion de los estilos y reglas para las propiedades publicas, reservadas y privadas /////////
+
+		var estiloPropPublica = new OpenLayers.StyleMap({
 			"default" : new OpenLayers.Style(null, {
 				rules : [ new OpenLayers.Rule({
 					filter : new OpenLayers.Filter.Comparison({
 					type : OpenLayers.Filter.Comparison.EQUAL_TO,
-					property : "id" ,
-					value : 9 ,
+					property : "tipoestado" ,
+					value : "Publica" ,
 					}),
 					symbolizer : {
-						"Point" : {
-							pointRadius : 20,
-							externalGraphic : "resources/defecto/img/localizacion.png",
-							graphicOpacity : 1,
-							graphicWidth : 50,
-							graphicHeight : 36
-	
-						}
+						pointRadius : 7,
+						fillColor : "green",
+						fillOpacity : 0.5,
+						strokeColor : "black"
 					}
 				}) ]
 			})
 		});
 		
-
+		var estiloPropPrivada = new OpenLayers.StyleMap({
+			"default" : new OpenLayers.Style(null, {
+				rules : [ new OpenLayers.Rule({
+					filter : new OpenLayers.Filter.Comparison({
+					type : OpenLayers.Filter.Comparison.EQUAL_TO,
+					property : "tipoestado" ,
+					value : "Privada" ,
+					}),
+					symbolizer : {
+						pointRadius : 7,
+						fillColor : "red",
+						fillOpacity : 0.5,
+						strokeColor : "black"
+					}
+				}) ]
+			})
+		});
+		
+		var estiloPropReservadas = new OpenLayers.StyleMap({
+			"default" : new OpenLayers.Style(null, {
+				rules : [ new OpenLayers.Rule({
+					filter : new OpenLayers.Filter.Comparison({
+					type : OpenLayers.Filter.Comparison.EQUAL_TO,
+					property : "tipoestado" ,
+					value : "Reservada" ,
+					}),
+					symbolizer : {
+						pointRadius : 7,
+						fillColor : "blue",
+						fillOpacity : 0.5,
+						strokeColor : "black"
+					}
+				}) ]
+			})
+		});
+		
+		
+		
+		
+/////////// Usuo de WFS para traer las propiedades con las reglas y estilos definidos arriba ////////
+		
+		
+		var PropiedadesPublicas = new OpenLayers.Layer.Vector("Propiedades Publicas", {
+			strategies : [ new OpenLayers.Strategy.BBOX() ],
+			styleMap: estiloPropPublica,
+			protocol : new OpenLayers.Protocol.WFS({
+				version : "1.1.0",
+				url : urlWFS,
+				featureType : "propiedadGeom",
+				featureNS : urlGeoServer,
+				geometryName : "geom",
+				srsName: gEPSG,
+				
+			}),
+		});	
 	
-		/* "Layer Constructor" : Pide capa de porpiedadesGeom via WFS  */
-		var propiedadesGeom = new OpenLayers.Layer.Vector("PropiedadesGeom", {
+		var PropiedadesPrivadas = new OpenLayers.Layer.Vector("Propiedades Privadas", {
 			strategies : [ new OpenLayers.Strategy.BBOX() ],
-			styleMap: estiloProp,
+			styleMap: estiloPropPrivada,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
-				featureType : "deportes",
+				featureType : "propiedadGeom",
 				featureNS : urlGeoServer,
 				geometryName : "geom",
 				srsName: gEPSG,
 				
 			}),
 		});	
-		
-		
-	/*	
-		/* "Layer Constructor" : Pide capa de porpiedadesGeom via WFS  
-		var propiedades = new OpenLayers.Layer.Vector("Propiedades", {
-			strategies : [ new OpenLayers.Strategy.BBOX() ],
-			styleMap: estiloProp,
-			protocol : new OpenLayers.Protocol.WFS({
-				version : "1.1.0",
-				url : urlWFS,
-				featureType : "propiedad",
-				featureNS : urlGeoServer,
-				geometryName : "geom",
-				srsName: gEPSG,
-				
-			}),
-		});	
-				*/				    
 			
-		//Para que no traiga esa capa cuando cargue los overlay (capa encima de la base) 
+		var PropiedadesReservadas = new OpenLayers.Layer.Vector("Propiedades Reservadas", {
+			strategies : [ new OpenLayers.Strategy.BBOX() ],
+			styleMap: estiloPropReservadas,
+			protocol : new OpenLayers.Protocol.WFS({
+				version : "1.1.0",
+				url : urlWFS,
+				featureType : "propiedadGeom",
+				featureNS : urlGeoServer,
+				geometryName : "geom",
+				srsName: gEPSG,
+				
+			}),
+		});	
+		
+	////// agregó las 3 capas de propiedades hechas antes ////////////////
 	
-		map.addLayers([ google_maps, gphy,propiedadesGeom]);
+		PropiedadesReservadas.setVisibility(false);
+		PropiedadesPrivadas.setVisibility(false);
+		
+		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas]);
 		
 		
 		map.zoomToExtent(limites);		
