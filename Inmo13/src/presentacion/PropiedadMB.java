@@ -11,6 +11,7 @@ import org.jboss.resteasy.client.ClientResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import wrappers.WrapperPropiedad;
 
 
@@ -96,6 +97,14 @@ public class PropiedadMB implements Serializable {
 			
 		return null;
 	}
+	
+    public String irReporte(){
+		
+		return "Reporte.xhtml?faces-redirect=true";
+	
+	}
+	
+	
 	
 	public Integer getNumPuerta() {
 		return numPuerta;
