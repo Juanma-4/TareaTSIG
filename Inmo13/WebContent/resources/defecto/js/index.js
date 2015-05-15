@@ -76,10 +76,29 @@ window.onload = function() {
 				
 			}),
 		});				    
-								    
+								  
+		
+		var estiloBuses = new OpenLayers.StyleMap({
+			"default" : new OpenLayers.Style(null, {
+				rules : [ new OpenLayers.Rule({
+					symbolizer : {
+						"Point" : {
+							pointRadius : 20,
+							externalGraphic : "resources/defecto/img/buses.png",
+							graphicOpacity : 1,
+							graphicWidth : 10,
+							graphicHeight : 10
+	
+						}
+					}
+				}) ]
+			})
+		});
+		
+		
 		var paradas = new OpenLayers.Layer.Vector("Paradas de Omnibus", {
 			strategies : [ new OpenLayers.Strategy.BBOX() ],
-			styleMap: styleMap,
+			styleMap: estiloBuses,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
@@ -91,9 +110,30 @@ window.onload = function() {
 			}),
 		});		
 		
+		
+		
+		var estiloPlazaDeportes = new OpenLayers.StyleMap({
+			"default" : new OpenLayers.Style(null, {
+				rules : [ new OpenLayers.Rule({
+					symbolizer : {
+						"Point" : {
+							pointRadius : 20,
+							externalGraphic : "resources/defecto/img/pelota.png",
+							graphicOpacity : 1,
+							graphicWidth : 15,
+							graphicHeight : 15
+	
+						}
+					}
+				}) ]
+			})
+		});
+		
+		
+		
 		var deportes = new OpenLayers.Layer.Vector("Plazas de Deportes", {
 			strategies : [ new OpenLayers.Strategy.BBOX() ],
-			//styleMap: styleMap,
+			styleMap: estiloPlazaDeportes,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
