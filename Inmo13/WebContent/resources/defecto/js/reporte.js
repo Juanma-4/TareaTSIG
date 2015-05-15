@@ -154,21 +154,7 @@ window.onload = function() {
 		PropiedadesReservadas.setVisibility(false);
 		PropiedadesPrivadas.setVisibility(false);
 		
-		
-		var PopUp = new OpenLayers.Layer.WMS("Informacion",
-		        "http://localhost:8080/geoserver/wms", 
-		        {'layers': 'sige:propiedad', transparent: true, format: 'image/gif'},
-		        {isBaseLayer: false}
-		 
-		    );
-		
-		highlightLayer = new OpenLayers.Layer.Vector("Highlighted Features", {
-            displayInLayerSwitcher: false, 
-            isBaseLayer: false 
-            }
-        );
-		
-		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas, PopUp,highlightLayer]);
+		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas]);
 
 		/*	Control para la selección de popUps */
 		selectControl = new OpenLayers.Control.SelectFeature([PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas],
