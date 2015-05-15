@@ -2,6 +2,8 @@ var apreto = false;
 var punto;
 var gid;
 var saveStrategy;
+
+
 window.onload = function() {
 	   
 		var WGS84 = new OpenLayers.Projection(miEPSG);
@@ -147,19 +149,56 @@ window.onload = function() {
 		PropiedadesReservadas.setVisibility(false);
 		PropiedadesPrivadas.setVisibility(false);
 		
-		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas]);
 		
+		var Prop = new OpenLayers.Layer.WMS("Bodies of Water",
+		        "http://localhost:8080/geoserver/wms", 
+		        {'layers': 'sige:propiedadGeom', transparent: true, format: 'image/gif'},
+		        {isBaseLayer: false}
+		    );
+		
+		highlightLayer = new OpenLayers.Layer.Vector("Highlighted Features", {
+            displayInLayerSwitcher: false, 
+            isBaseLayer: false 
+            }
+        );
+		
+		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas, Prop,highlightLayer]);
+
+		
+		infoControls = new OpenLayers.Control.WMSGetFeatureInfo({
+            url: "http://localhost:8080/geoserver/wms", 
+            title: 'Identify features by clicking',
+            queryVisible: true,
+            eventListeners: {
+                getfeatureinfo: function(event) {
+                    map.addPopup(new OpenLayers.Popup.FramedCloud(
+                        "chicken", 
+                        map.getLonLatFromPixel(event.xy),
+                        null,
+                        event.text,
+                        null,
+                        true
+                    ));
+                }
+            }
+        });
+		
+		  
+		
+		
+		map.addControl(infoControls);
+		infoControls.activate();
+        map.addControl(new OpenLayers.Control.LayerSwitcher());
 		
 		map.zoomToExtent(limites);		
 		
 	
 		
-	  
 	  	/// PARA CENTRAR EN MONTEVIDEO
     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
             	    WGS84,  map.getProjectionObject()), miZoom + 3);
 		
-							
+  		
 };
 
 	
