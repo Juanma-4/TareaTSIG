@@ -3,6 +3,11 @@ var punto;
 var gid;
 var saveStrategy;
 
+//Para popUp
+var selectControl;
+var selectedFeature;
+
+var map;
 
 window.onload = function() {
 	   
@@ -28,7 +33,7 @@ window.onload = function() {
 	
 	
 		/* "Map Constructor" : Crea un mapa en el bloque con id "map"  */		
-		var map = new OpenLayers.Map('map', opciones);	
+		map = new OpenLayers.Map('map', opciones);	
 		
 		var google_maps = new OpenLayers.Layer.Google("Google Maps", {
 			numZoomLevels : 20
@@ -45,20 +50,20 @@ window.onload = function() {
 		var estiloPropPublica = new OpenLayers.StyleMap({
 			"default" : new OpenLayers.Style(null, {
 				rules : [ new OpenLayers.Rule({
-					filter : new OpenLayers.Filter.Comparison({
-					type : OpenLayers.Filter.Comparison.EQUAL_TO,
-					property : "tipoestado" ,
-					value : "Publica" ,
-					}),
-					symbolizer : {
-						pointRadius : 7,
-						fillColor : "green",
-						fillOpacity : 0.5,
-						strokeColor : "black"
-					}
-				}) ]
-			})
-		});
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "tipoestado" ,
+								value : "Publica" ,
+							}),
+							symbolizer : {
+								pointRadius : 7,
+								fillColor : "green",
+								fillOpacity : 0.5,
+								strokeColor : "black"
+							}
+					})]
+				})
+			});
 		
 		var estiloPropPrivada = new OpenLayers.StyleMap({
 			"default" : new OpenLayers.Style(null, {
@@ -165,32 +170,19 @@ window.onload = function() {
 		
 		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas, PopUp,highlightLayer]);
 
+		/*	Control para la selección de popUps */
+		selectControl = new OpenLayers.Control.SelectFeature([PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas],
+				    {
+				        onSelect: onPopupFeatureSelect,
+				        onUnselect: onPopupFeatureUnselect,
+				        //hover:true,
+				        //highlightOnly: false // en true solo se agranda, es solo para eso
+				    });
 		
-		infoControls = new OpenLayers.Control.WMSGetFeatureInfo({
-            url: "http://localhost:8080/geoserver/wms", 
-            title: 'Identify features by clicking',
-            queryVisible: true,
-            eventListeners: {
-                getfeatureinfo: function(event) {
-                    map.addPopup(new OpenLayers.Popup.FramedCloud(
-                        "popup", 
-                        map.getLonLatFromPixel(event.xy),
-                        null,          
-                        event.text,
-                        null,
-                        true
-                    ));
-                }
-            }
-        });
+	    map.addControl(selectControl);
+	    selectControl.activate();
 		
-		  
-		
-		
-		map.addControl(infoControls);
-		infoControls.activate();
-        map.addControl(new OpenLayers.Control.LayerSwitcher());
-		
+	    
 		map.zoomToExtent(limites);		
 		
 	
@@ -202,4 +194,29 @@ window.onload = function() {
   		
 };
 
-	
+
+function onPopupClose(evt) {
+    selectControl.unselect(selectedFeature);
+}
+
+function onPopupFeatureSelect(feature) {
+    selectedFeature = feature;
+    popup = new OpenLayers.Popup.FramedCloud(
+    		"chicken",
+	        feature.geometry.getBounds().getCenterLonLat(),
+	        null,
+	        '<div style="color:#FF0000;text-align:center">'+feature.data.calle+ '</br><a href="http://test.url">test.url</a>' + '</div>',
+	        null, 
+	        true, 
+	        onPopupClose
+	);
+    popup.panMapIfOutOfView = true;
+    popup.autoSize = true;
+    feature.popup = popup;
+    map.addPopup(popup);
+}
+function onPopupFeatureUnselect(feature) {
+    map.removePopup(feature.popup);
+    feature.popup.destroy();
+    feature.popup = null;
+}

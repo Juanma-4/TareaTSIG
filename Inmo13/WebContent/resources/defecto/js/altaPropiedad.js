@@ -40,10 +40,31 @@ window.onload = function() {
 		saveStrategy = new OpenLayers.Strategy.Save();	
 		saveStrategy.events.register("success", '', exito);
 		saveStrategy.events.register("failure", '', fallo);	    
-						
+					
+		/* 	Estilo de la propiedad que se va a ingresar */
+		var estiloProp = new OpenLayers.StyleMap({
+			"default" : new OpenLayers.Style(null, {
+				rules : [ new OpenLayers.Rule({
+					symbolizer : {
+						"Point" : {
+							pointRadius : 20,
+							externalGraphic : "resources/defecto/img/localizacion.png",
+							graphicOpacity : 1,
+							graphicWidth : 50,
+							graphicHeight : 36
+	
+						}
+					}
+				}) ]
+			})
+		});
+		
+		
+		
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS-T  */
 		var propiedades = new OpenLayers.Layer.Vector("Propiedad", {
 			strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
+			styleMap: estiloProp,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
@@ -76,6 +97,7 @@ window.onload = function() {
 		map.addLayers([ google_maps, gphy, propiedades]);
 		map.zoomToExtent(limites);		
 		
+		
 	
 		map.events.register("click", map, function(e) {	
 			if(apreto){
@@ -87,7 +109,7 @@ window.onload = function() {
 					        (posicion.lon), (posicion.lat) ));			
 								
 			 propiedades.addFeatures([propiedad]);	
-			 document.getElementById('formPropiedad:fid').value = punto.id;
+			// document.getElementById('formPropiedad:fid').value = propiedad.id;
 		   // alert("Punto id:"+ punto.id + "Punto fid: " + punto.fid + "Puntos almacenados: " + propiedades.features.length);
 		   // alert("input valor :"+ document.getElementById('formPropiedad:fid').value);
 		    
@@ -123,7 +145,7 @@ window.onload = function() {
 	 propiedad.attributes.tipoestado = document.getElementById('formPropiedad:tipoEstado').value;
 	 propiedad.attributes.tipopropiedad = document.getElementById('formPropiedad:tipoPropiedad').value;
 	 propiedad.attributes.tipotransaccion =  document.getElementById('formPropiedad:tipoTransaccion').value;
-	 propiedad.attributes.usuario =  "admin@gmail.com"//document.getElementById('formPropiedad:numeroPuerta').value;
+	 propiedad.attributes.usuario = document.getElementById('formPropiedad:usuario').value; // "admin@gmail.com" para probar
 	 propiedad.attributes.fid =  propiedad.id;//document.getElementById('formPropiedad:fid').value;
 	 
 	 propiedad.state = OpenLayers.State.INSERT;

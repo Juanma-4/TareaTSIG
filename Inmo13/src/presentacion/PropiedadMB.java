@@ -3,6 +3,7 @@ package presentacion;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -33,8 +34,12 @@ public class PropiedadMB implements Serializable {
 	private String tipoEstado;
 	private String calle;
 	private String fid;
+	private String usuario;
 	
-	
+	@PostConstruct
+	public void iniciar(){
+		this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
+	}
 	
 	public void altaPropiedad() {
 		/*
@@ -87,6 +92,14 @@ public class PropiedadMB implements Serializable {
 	
 	}
 	
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
 	public Integer getNumPuerta() {
 		return numPuerta;
 	}
