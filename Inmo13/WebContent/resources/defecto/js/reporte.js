@@ -150,10 +150,11 @@ window.onload = function() {
 		PropiedadesPrivadas.setVisibility(false);
 		
 		
-		var Prop = new OpenLayers.Layer.WMS("Bodies of Water",
+		var PopUp = new OpenLayers.Layer.WMS("Informacion",
 		        "http://localhost:8080/geoserver/wms", 
 		        {'layers': 'sige:propiedadGeom', transparent: true, format: 'image/gif'},
 		        {isBaseLayer: false}
+		 
 		    );
 		
 		highlightLayer = new OpenLayers.Layer.Vector("Highlighted Features", {
@@ -162,7 +163,7 @@ window.onload = function() {
             }
         );
 		
-		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas, Prop,highlightLayer]);
+		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas, PopUp,highlightLayer]);
 
 		
 		infoControls = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -172,9 +173,9 @@ window.onload = function() {
             eventListeners: {
                 getfeatureinfo: function(event) {
                     map.addPopup(new OpenLayers.Popup.FramedCloud(
-                        "chicken", 
+                        "popup", 
                         map.getLonLatFromPixel(event.xy),
-                        null,
+                        null,          
                         event.text,
                         null,
                         true
