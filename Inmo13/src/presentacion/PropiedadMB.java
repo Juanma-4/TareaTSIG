@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
@@ -14,17 +15,11 @@ import com.google.gson.GsonBuilder;
 
 import wrappers.WrapperPropiedad;
 
-
-//import controladores.IPropiedadController;
-
 @ManagedBean
 @javax.faces.bean.SessionScoped
 public class PropiedadMB implements Serializable {
 
-	
-
 	private static final long serialVersionUID = 1L;
-
 	
 	private Integer numPuerta;
 	private Double precio;
@@ -37,37 +32,18 @@ public class PropiedadMB implements Serializable {
 	private String tipotransaccion;
 	private String tipoEstado;
 	private String calle;
-	private Integer gid;
+	private String fid;
 	
 	
 	
-/*	
-	public ArrayList<SelectItem> getTipoPropiedadList() {
-		 for(TipoPropiedad stat :TipoPropiedad.values()){
-	    	 tipoPropiedadList.add(new SelectItem(stat,stat.getTipoPropiedad()));
-	     }
-	     return tipoPropiedadList;
-	}
-
-
-	public void setTipoPropiedadList(ArrayList<SelectItem> tipoPropiedadList2) {
-		tipoPropiedadList = tipoPropiedadList2;
-	}
-
-
-	public TipoPropiedad[] getTiposPropiedad() {
-		return TipoPropiedad.values();
-	}
-*/
-
-	public String altaPropiedad() {
-		
+	public void altaPropiedad() {
+		/*
 		
 		ClientRequest request;
 
 		try {
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/alta");
-			WrapperPropiedad propiedad = new WrapperPropiedad(this.precio, this.cantDorm, this.cantBanio,this.metrosCuadrados,this.parrillero,this.garage,this.tipoPropiedad,this.tipoEstado,this.tipotransaccion,	this.numPuerta, this.calle,this.gid);
+			WrapperPropiedad propiedad = new WrapperPropiedad(this.precio, this.cantDorm, this.cantBanio,this.metrosCuadrados,this.parrillero,this.garage,this.tipoPropiedad,this.tipoEstado,this.tipotransaccion,	this.numPuerta, this.calle,this.fid);
 			
 			String mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
 			
@@ -83,28 +59,33 @@ public class PropiedadMB implements Serializable {
 
 			if (response.getStatus() != 201) {
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage("Error al ingresar un nuevo usuario"));
+						new FacesMessage("Error al ingresar una nueva propiedad"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ response.getStatus());
 			}
-
 			
 			FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-			
-		return null;
+			*/
+		
+		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//return null;
 	}
 	
-    public String irReporte(){
+	public String irReporte(){
 		
 		return "Reporte.xhtml?faces-redirect=true";
 	
 	}
-	
-	
 	
 	public Integer getNumPuerta() {
 		return numPuerta;
@@ -185,9 +166,6 @@ public class PropiedadMB implements Serializable {
 		this.tipoPropiedad = tipoPropiedad;
 	}
 
-
-
-
 	public String getTipotransaccion() {
 		return tipotransaccion;
 	}
@@ -209,12 +187,12 @@ public class PropiedadMB implements Serializable {
 	}
 
 	
-	public Integer getGid() {
-		return gid;
+	public String getFid() {
+		return fid;
 	}
 
-	public void setGid(Integer gid) {
-		this.gid = gid;
+	public void setFid(String fid) {
+		this.fid = fid;
 	}
 
 	public void setCalle(String calle) {

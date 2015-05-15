@@ -1,6 +1,5 @@
 ﻿var apreto = false;
-var punto;
-var gid;
+var propiedad;
 var saveStrategy;
 window.onload = function() {
 	   
@@ -37,45 +36,61 @@ window.onload = function() {
 		});		
 				
 		
-		/* Estrategia que se va a utilizar para guardar el punto. */		
+		/* Estrategia que se va a utilizar para guardar la propiedad. */		
 		saveStrategy = new OpenLayers.Strategy.Save();	
 		saveStrategy.events.register("success", '', exito);
 		saveStrategy.events.register("failure", '', fallo);	    
 						
-		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
-		var wfs = new OpenLayers.Layer.Vector("Propiedad", {
+		/* "Layer Constructor" : Pide capa de porpiedades via WFS-T  */
+		var propiedades = new OpenLayers.Layer.Vector("Propiedad", {
 			strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
-				featureType : "propiedadGeom",
+				featureType : "propiedad",
 				featureNS : urlGeoServer,
 				geometryName : "geom",
+				srsName: gEPSG,
 			  	
 			}),
-		});				    
-								    
-									    
-		map.addLayers([ google_maps, gphy, wfs]);
+		});		
+		
+		
+		
+		/*	PARA EL FUTURO... a propiedades se le saca saveStrategy
+		var nuevaPropiedad = new OpenLayers.Layer.Vector("Nueva Propiedad", {
+			strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
+			protocol : new OpenLayers.Protocol.WFS({
+				version : "1.1.0",
+				url : urlWFS,
+				featureType : "propiedad",
+				featureNS : urlGeoServer,
+				geometryName : "geom",
+				srsName: gEPSG,
+			  	
+			}),
+		});	
+		*/
+		
+		//propiedades.setVisibility(false);					    
+		map.addLayers([ google_maps, gphy, propiedades]);
 		map.zoomToExtent(limites);		
 		
 	
 		map.events.register("click", map, function(e) {	
 			if(apreto){
-				wfs.removeFeatures(punto);
+				propiedades.removeFeatures(propiedad);
 			}
 		    var posicion = map.getLonLatFromPixel(e.xy);	
 							
-			 punto = new OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(
+		    propiedad = new OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(
 					        (posicion.lon), (posicion.lat) ));			
 								
-		    wfs.addFeatures([punto]);	
-		    gid = wfs.features.length; //Es el gid que se guardará en la tabla de info de las propiedades.
+			 propiedades.addFeatures([propiedad]);	
+			 document.getElementById('formPropiedad:fid').value = punto.id;
+		   // alert("Punto id:"+ punto.id + "Punto fid: " + punto.fid + "Puntos almacenados: " + propiedades.features.length);
+		   // alert("input valor :"+ document.getElementById('formPropiedad:fid').value);
 		    
-		  //  alert(gid);
-		    document.getElementById('formPropiedad:gid').value = gid;
-		   // alert("input valor :"+ document.getElementById('formPropiedad:gid').value);
-			//alert(wfs.features); 
 		    apreto = true;
 		});
 	  
@@ -95,7 +110,25 @@ window.onload = function() {
  	alert("Error al guardar"); 
  }
  
- function darAltaGeom(){
-	 punto.state = OpenLayers.State.INSERT;
+ function darAltaGeom(){	 
+	 // Preparo los datos	 
+	 propiedad.attributes.calle =  document.getElementById('formPropiedad:calle').value;
+	 propiedad.attributes.cantbanio = parseInt(document.getElementById('formPropiedad:cantBanio').value);
+	 propiedad.attributes.cantdorm = parseInt(document.getElementById('formPropiedad:cantDormitorio').value);
+	 propiedad.attributes.garage = document.getElementById('formPropiedad:garage').checked;
+	 propiedad.attributes.metroscuadrados = parseFloat(document.getElementById('formPropiedad:metrosCuadrados').value);
+	 propiedad.attributes.numeroPuerta = parseInt(document.getElementById('formPropiedad:numeroPuerta').value);
+	 propiedad.attributes.parrillero = document.getElementById('formPropiedad:parrillero').checked;
+	 propiedad.attributes.precio = parseFloat(document.getElementById('formPropiedad:precio').value);
+	 propiedad.attributes.tipoestado = document.getElementById('formPropiedad:tipoEstado').value;
+	 propiedad.attributes.tipopropiedad = document.getElementById('formPropiedad:tipoPropiedad').value;
+	 propiedad.attributes.tipotransaccion =  document.getElementById('formPropiedad:tipoTransaccion').value;
+	 propiedad.attributes.usuario =  "admin@gmail.com"//document.getElementById('formPropiedad:numeroPuerta').value;
+	 propiedad.attributes.fid =  propiedad.id;//document.getElementById('formPropiedad:fid').value;
+	 
+	 propiedad.state = OpenLayers.State.INSERT;
 	 saveStrategy.save();	
+	// alert(punto.attributes);
+	// alert("Punto id:"+ punto.id + "Punto fid: " + punto.fid);
+	// document.getElementById('formPropiedad:fid').value = punto.id;
  }

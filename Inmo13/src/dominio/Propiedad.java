@@ -38,9 +38,6 @@ public class Propiedad implements Serializable {
 	@Column(name = "garage", nullable = false)
 	private Boolean garage;
 	
-	@Column(name = "gid", nullable = false)
-	private Integer gid;
-
 	/*
 	 * @Enumerated(EnumType.STRING) private TipoPropiedad tipoPropiedad;
 	 * 
@@ -68,6 +65,9 @@ public class Propiedad implements Serializable {
 
 	@Column(name = "calle", nullable = false)
 	private String calle;
+	
+	@Column(name = "fid", nullable = false)
+	private String fid;
 
 	public Propiedad() {
 	}
@@ -75,7 +75,7 @@ public class Propiedad implements Serializable {
 	public Propiedad(double precio, Integer cantDorm, Integer cantBanio,
 			double metrosCuadrados, boolean parrillero, boolean garage,
 			String tipoPropiedad, String estado, String tipotransaccion,
-			Integer numeroPuerta, String calle, Integer gid,Usuario usuario) {
+			Integer numeroPuerta, String calle, String fid,Usuario usuario) {
 
 		this.precio = precio;
 		this.cantDorm = cantDorm;
@@ -88,8 +88,8 @@ public class Propiedad implements Serializable {
 		this.tipotransaccion = tipotransaccion;
 		this.numeroPuerta = numeroPuerta;
 		this.calle = calle;
-		this.gid = gid;
 		this.usuario = usuario;
+		this.fid = fid;
 
 	}
 
@@ -141,12 +141,12 @@ public class Propiedad implements Serializable {
 		this.parrillero = parrillero;
 	}
 
-	public Integer getGid() {
-		return gid;
+	public String getFid() {
+		return fid;
 	}
 
-	public void setGid(Integer gid) {
-		this.gid = gid;
+	public void setFid(String fid) {
+		this.fid = fid;
 	}
 
 	public Boolean getGarage() {

@@ -43,7 +43,7 @@ public class ServicioPropiedad extends Application {
 
 				Propiedad propiedad = gson.fromJson(datos, Propiedad.class);
 
-				String codigoRetorno = "200";
+				//String codigoRetorno = "200";
 
 				try {
 					Usuario usuario = iuc.buscarUsuario(mail);
@@ -52,15 +52,15 @@ public class ServicioPropiedad extends Application {
 													   propiedad.getCantBanio(),propiedad.getMetrosCuadrados(),
 													   propiedad.getParrillero(),propiedad.getGarage(),propiedad.getTipoPropiedad(),
 													   propiedad.getTipoEstado(),propiedad.getTipotransaccion(), 
-													   propiedad.getNumeroPuerta(),propiedad.getCalle() ,propiedad.getGid(),usuario);
+													   propiedad.getNumeroPuerta(),propiedad.getCalle() ,propiedad.getFid(),usuario);
 
 					booleanJSON = gson.toJson(creado);
 					
 				} catch (Exception err) {
 					err.printStackTrace();
-					codigoRetorno = "{\"status\":\"500\","
-							+ "\"message\":\"Resource not created.\""
-							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
+					//					codigoRetorno = "{\"status\":\"500\","
+					//							+ "\"message\":\"Resource not created.\""
+					//							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
 					return Response.status(500).entity(booleanJSON).build();
 
 				}

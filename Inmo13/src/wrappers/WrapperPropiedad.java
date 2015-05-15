@@ -11,44 +11,47 @@ public class WrapperPropiedad {
 
 	@SerializedName("precio")
 	private Double precio;
-	
+
 	@SerializedName("cantDorm")
 	private Integer cantDorm;
-	
+
 	@SerializedName("cantBanio")
 	private Integer cantBanio;
-	
+
 	@SerializedName("metrosCuadrados")
 	private Double metrosCuadrados;
-	
+
 	@SerializedName("parrillero")
 	private Boolean parrillero;
-	
+
 	@SerializedName("garage")
 	private Boolean garage;
-	
+
 	@SerializedName("tipoPropiedad")
 	private String tipoPropiedad;
-	
+
 	@SerializedName("tipotransaccion")
 	private String tipotransaccion;
-	
+
 	@SerializedName("tipoEstado")
 	private String tipoEstado;
-	
+
 	@SerializedName("numeroPuerta")
 	private Integer numeroPuerta;
-	
+
 	@SerializedName("calle")
 	private String calle;
 
-	@SerializedName("gid")
-	private Integer gid;
-	
+	@SerializedName("fid")
+	private String fid;
+
 	public WrapperPropiedad() {
 	}
 
-	public WrapperPropiedad(Double precio, Integer cantDorm, Integer cantBanio, Double metrosCuadrados, Boolean parrillero, Boolean garage, String tipoPropiedad, String tipoEstado, String tipotransaccion,Integer numeroPuerta, String calle,Integer gid ) {
+	public WrapperPropiedad(Double precio, Integer cantDorm, Integer cantBanio,
+			Double metrosCuadrados, Boolean parrillero, Boolean garage,
+			String tipoPropiedad, String tipoEstado, String tipotransaccion,
+			Integer numeroPuerta, String calle, String fid) {
 
 		this.precio = precio;
 		this.cantDorm = cantDorm;
@@ -60,19 +63,17 @@ public class WrapperPropiedad {
 		this.tipoEstado = tipoEstado;
 		this.tipotransaccion = tipotransaccion;
 		this.calle = calle;
-		this.gid = gid;
+		this.fid = fid;
 		this.numeroPuerta = numeroPuerta;
-		
-	}
-	
-	
-	
-	public Integer getGid() {
-		return gid;
+
 	}
 
-	public void setGid(Integer gid) {
-		this.gid = gid;
+	public String getFid() {
+		return fid;
+	}
+
+	public void setFid(String fid) {
+		this.fid = fid;
 	}
 
 	public Double getPrecio() {

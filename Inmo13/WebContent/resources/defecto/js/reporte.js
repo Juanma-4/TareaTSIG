@@ -108,7 +108,7 @@ window.onload = function() {
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
-				featureType : "propiedadGeom",
+				featureType : "propiedad",
 				featureNS : urlGeoServer,
 				geometryName : "geom",
 				srsName: gEPSG,
@@ -122,7 +122,7 @@ window.onload = function() {
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
-				featureType : "propiedadGeom",
+				featureType : "propiedad",
 				featureNS : urlGeoServer,
 				geometryName : "geom",
 				srsName: gEPSG,
@@ -136,7 +136,7 @@ window.onload = function() {
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
-				featureType : "propiedadGeom",
+				featureType : "propiedad",
 				featureNS : urlGeoServer,
 				geometryName : "geom",
 				srsName: gEPSG,
@@ -152,7 +152,7 @@ window.onload = function() {
 		
 		var PopUp = new OpenLayers.Layer.WMS("Informacion",
 		        "http://localhost:8080/geoserver/wms", 
-		        {'layers': 'sige:propiedadGeom', transparent: true, format: 'image/gif'},
+		        {'layers': 'sige:propiedad', transparent: true, format: 'image/gif'},
 		        {isBaseLayer: false}
 		 
 		    );
