@@ -109,7 +109,7 @@ window.onload = function() {
 					        (posicion.lon), (posicion.lat) ));			
 								
 			 propiedades.addFeatures([propiedad]);	
-			// document.getElementById('formPropiedad:fid').value = propiedad.id;
+			 document.getElementById('formPropiedad:fid').value = propiedad.id;
 		   // alert("Punto id:"+ punto.id + "Punto fid: " + punto.fid + "Puntos almacenados: " + propiedades.features.length);
 		   // alert("input valor :"+ document.getElementById('formPropiedad:fid').value);
 		    
@@ -139,13 +139,13 @@ window.onload = function() {
 	 propiedad.attributes.cantdorm = parseInt(document.getElementById('formPropiedad:cantDormitorio').value);
 	 propiedad.attributes.garage = document.getElementById('formPropiedad:garage').checked;
 	 propiedad.attributes.metroscuadrados = parseFloat(document.getElementById('formPropiedad:metrosCuadrados').value);
-	 propiedad.attributes.numeropuerta = parseInt(document.getElementById('formPropiedad:numPuerta').value);
+	 propiedad.attributes.numeropuerta = parseInt(document.getElementById('formPropiedad:numeroPuerta').value);
 	 propiedad.attributes.parrillero = document.getElementById('formPropiedad:parrillero').checked;
 	 propiedad.attributes.precio = parseFloat(document.getElementById('formPropiedad:precio').value);
 	 propiedad.attributes.tipoestado = document.getElementById('formPropiedad:tipoEstado').value;
 	 propiedad.attributes.tipopropiedad = document.getElementById('formPropiedad:tipoPropiedad').value;
 	 propiedad.attributes.tipotransaccion =  document.getElementById('formPropiedad:tipoTransaccion').value;
-	 propiedad.attributes.tipoMoneda =  document.getElementById('formPropiedad:tipoMoneda').value;
+	 propiedad.attributes.tipomoneda =  document.getElementById('formPropiedad:tipoMoneda').value;
 	 propiedad.attributes.piso =  document.getElementById('formPropiedad:piso').value;
 	 
 	 propiedad.attributes.usuario = document.getElementById('formPropiedad:usuario').value; // "admin@gmail.com" para proba
