@@ -38,6 +38,12 @@ public class Propiedad implements Serializable {
 	@Column(name = "garage", nullable = false)
 	private Boolean garage;
 	
+	@Column(name = "tipoMoneda", nullable = false)
+	private String tipoMoneda;
+	
+	@Column(name = "piso", nullable = false)
+	private String piso;
+	
 	/*
 	 * @Enumerated(EnumType.STRING) private TipoPropiedad tipoPropiedad;
 	 * 
@@ -75,7 +81,7 @@ public class Propiedad implements Serializable {
 	public Propiedad(double precio, Integer cantDorm, Integer cantBanio,
 			double metrosCuadrados, boolean parrillero, boolean garage,
 			String tipoPropiedad, String estado, String tipotransaccion,
-			Integer numeroPuerta, String calle, String fid,Usuario usuario) {
+			Integer numeroPuerta, String calle, String fid,String tipoMoneda,String piso,Usuario usuario) {
 
 		this.precio = precio;
 		this.cantDorm = cantDorm;
@@ -90,7 +96,8 @@ public class Propiedad implements Serializable {
 		this.calle = calle;
 		this.usuario = usuario;
 		this.fid = fid;
-
+        this.tipoMoneda = tipoMoneda;
+        this.piso = piso;
 	}
 
 	public Integer getId() {
@@ -204,5 +211,23 @@ public class Propiedad implements Serializable {
 	public void setCalle(String calle) {
 		this.calle = calle;
 	}
+
+	public String getTipoMoneda() {
+		return tipoMoneda;
+	}
+
+	public void setTipoMoneda(String tipoMoneda) {
+		this.tipoMoneda = tipoMoneda;
+	}
+
+	public String getPiso() {
+		return piso;
+	}
+
+	public void setPiso(String piso) {
+		this.piso = piso;
+	}
+	
+	
 
 }

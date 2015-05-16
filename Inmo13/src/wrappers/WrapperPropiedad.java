@@ -45,13 +45,20 @@ public class WrapperPropiedad {
 	@SerializedName("fid")
 	private String fid;
 
+	@SerializedName("tipoMoneda")
+	private String tipoMoneda;
+
+	@SerializedName("piso")
+	private String piso;
+
+	
 	public WrapperPropiedad() {
 	}
 
 	public WrapperPropiedad(Double precio, Integer cantDorm, Integer cantBanio,
 			Double metrosCuadrados, Boolean parrillero, Boolean garage,
 			String tipoPropiedad, String tipoEstado, String tipotransaccion,
-			Integer numeroPuerta, String calle, String fid) {
+			Integer numeroPuerta, String calle, String fid,String tipoMoneda, String piso) {
 
 		this.precio = precio;
 		this.cantDorm = cantDorm;
@@ -65,6 +72,8 @@ public class WrapperPropiedad {
 		this.calle = calle;
 		this.fid = fid;
 		this.numeroPuerta = numeroPuerta;
+		this.tipoMoneda = tipoMoneda;
+		this.piso = piso;
 
 	}
 
@@ -74,6 +83,23 @@ public class WrapperPropiedad {
 
 	public void setFid(String fid) {
 		this.fid = fid;
+	}
+	
+
+	public String getTipoMoneda() {
+		return tipoMoneda;
+	}
+
+	public void setTipoMoneda(String tipoMoneda) {
+		this.tipoMoneda = tipoMoneda;
+	}
+
+	public String getPiso() {
+		return piso;
+	}
+
+	public void setPiso(String piso) {
+		this.piso = piso;
 	}
 
 	public Double getPrecio() {

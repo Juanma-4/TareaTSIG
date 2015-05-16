@@ -51,6 +51,16 @@
 
    		  	<h:outputText value="Precio" />
    		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  
+   		  	<h:selectOneMenu id="tipoMoneda" value="#{propiedadMB.tipoMoneda}">
+	   			<f:selectItem itemValue="$" itemLabel="$" />
+	   			<f:selectItem itemValue="US$" itemLabel="US$" />
+   		  	</h:selectOneMenu>
+   		  	
+   		  	<br/><br/>
+   		  	
+   		  	<h:outputText value="Numero Piso" />
+   		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Campo obligatorio"></h:inputText>
    		  	<br/><br/>
    		  	
    		    <h:outputText value="Cantidad Baños" />

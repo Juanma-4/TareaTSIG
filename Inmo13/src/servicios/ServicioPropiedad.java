@@ -52,7 +52,7 @@ public class ServicioPropiedad extends Application {
 													   propiedad.getCantBanio(),propiedad.getMetrosCuadrados(),
 													   propiedad.getParrillero(),propiedad.getGarage(),propiedad.getTipoPropiedad(),
 													   propiedad.getTipoEstado(),propiedad.getTipotransaccion(), 
-													   propiedad.getNumeroPuerta(),propiedad.getCalle() ,propiedad.getFid(),usuario);
+													   propiedad.getNumeroPuerta(),propiedad.getCalle() ,propiedad.getFid(),propiedad.getTipoMoneda(),propiedad.getPiso(),usuario);
 
 					booleanJSON = gson.toJson(creado);
 					

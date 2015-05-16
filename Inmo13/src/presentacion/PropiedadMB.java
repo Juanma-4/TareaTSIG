@@ -35,6 +35,9 @@ public class PropiedadMB implements Serializable {
 	private String calle;
 	private String fid;
 	private String usuario;
+	private String tipoMoneda;
+	private String piso;
+	
 	
 	@PostConstruct
 	public void iniciar(){
@@ -98,6 +101,24 @@ public class PropiedadMB implements Serializable {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	
+	
+	public String getTipoMoneda() {
+		return tipoMoneda;
+	}
+
+	public void setTipoMoneda(String tipoMoneda) {
+		this.tipoMoneda = tipoMoneda;
+	}
+
+	public String getPiso() {
+		return piso;
+	}
+
+	public void setPiso(String piso) {
+		this.piso = piso;
 	}
 
 	public Integer getNumPuerta() {
