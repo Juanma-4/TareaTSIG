@@ -191,7 +191,33 @@ function onPopupFeatureSelect(feature) {
     		"chicken",
 	        feature.geometry.getBounds().getCenterLonLat(),
 	        null,
-	        '<div style="color:#FF0000;text-align:center">'+feature.data.calle+ '</br><a href="http://test.url">test.url</a>' + '</div>',
+	        '<div style="color:#FF0000;text-align:center">'+
+	        feature.data.calle +
+	        '</br>' + 
+	        feature.data.numeropuerta +
+	        '</div>' +
+	        
+	        '<div style="color:#000000">'+
+	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Precio: </label>' + feature.data.precio +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
+	        '</br>'+
+	        
+	        
+	        
+	        
+	        
+	       '</div>'
+	        
+	        ,
 	        null, 
 	        true, 
 	        onPopupClose
