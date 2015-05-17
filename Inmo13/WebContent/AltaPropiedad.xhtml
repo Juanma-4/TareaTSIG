@@ -1,8 +1,12 @@
-<html  xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="IndexAdmin.xhtml"  
+  xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+ <ui:define name="contenido">
+ 
 <h:head>
 	 
 	<h:outputScript library="defecto" name="js/jquery-1.8.0.min.js" target="head"/>
@@ -16,23 +20,26 @@
     <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
     <h:outputScript library="defecto" name="js/altaPropiedad.js" target="head"/>
     
-	
 </h:head>
 
 <h:body>      
       
-     <h:panelGroup layout="block" id="div-primerpag">
-   		  <h:outputLabel value="Alta Propiedad" style="font-size:85px" />
+     <h:panelGroup layout="block" id="div-altaPropiedad">
+	     <ui:define name="titulo">
+	        Alta Propiedad
+	     </ui:define>
+   		<!-- <h:outputLabel value="" style="font-size:85px" />  -->
    		  
+   		  <p:growl id="growl" widgetVar="growl" showDetail="false" />
    		  <h:form style="margin-top:12px" id="formPropiedad">
    		  
    		  	
    		    <h:outputText value="Calle " />
-   		  	<h:inputText value="#{propiedadMB.calle}" id="calle" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  	<h:inputText value="#{propiedadMB.calle}" id="calle" required="true" requiredMessage="Ingrese una calle"></h:inputText>
    		  	<br/><br/>
    		  	
    		  	<h:outputText value="Nro Puerta " />
-   		  	<h:inputText value="#{propiedadMB.numPuerta}" id="numeroPuerta" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  	<h:inputText value="#{propiedadMB.numPuerta}" id="numeroPuerta" required="true" requiredMessage="Ingrese un Nº de puerta"></h:inputText>
    		  
    		  	<br/><br/>
    		  	
@@ -50,9 +57,9 @@
    		 	<br/><br/>
 
    		  	<h:outputText value="Precio" />
-   		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Ingrese un precio"></h:inputText>
    		  
-   		  	<h:selectOneMenu id="Moneda" value="#{propiedadMB.tipoMoneda}">
+   		  	<h:selectOneMenu id="moneda" value="#{propiedadMB.tipoMoneda}">
 	   			<f:selectItem itemValue="$" itemLabel="$" />
 	   			<f:selectItem itemValue="US$" itemLabel="US$" />
    		  	</h:selectOneMenu>
@@ -60,19 +67,19 @@
    		  	<br/><br/>
    		  	
    		  	<h:outputText value="Numero Piso" />
-   		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Ingrese un numero de piso"></h:inputText>
    		  	<br/><br/>
    		  	
    		    <h:outputText value="Cantidad Baños" />
-   		  	<h:inputText value="#{propiedadMB.cantBanio}" id="cantBanio" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  	<h:inputText value="#{propiedadMB.cantBanio}" id="cantBanio" required="true" requiredMessage="Ingrese la cantidad de los baños"></h:inputText>
    		  	<br/><br/>
    		  	
    		  	<h:outputText value="Cantidad Dormitorios" />
-   		  	<h:inputText value="#{propiedadMB.cantDorm}" id="cantDormitorio" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  	<h:inputText value="#{propiedadMB.cantDorm}" id="cantDormitorio" required="true" requiredMessage="Ingrese la cantidad de dormitorios"></h:inputText>
    		  	<br/><br/>
    		  	
    		  	<h:outputText value="Metros Cuadrados " />
-   		  	<h:inputText value="#{propiedadMB.metrosCuadrados}" id="metrosCuadrados" required="true" requiredMessage="Campo obligatorio"></h:inputText>
+   		  	<h:inputText value="#{propiedadMB.metrosCuadrados}" id="metrosCuadrados" required="true" requiredMessage="Ingrese los metros cuadrados"></h:inputText>
    		  	<br/><br/>
    		  	
 			<h:outputText value="Parrillero" />
@@ -107,10 +114,11 @@
 			<div id="coordenadas"></div>		
 			
    		  	<br/>
-   		  	<h:commandButton value="Aceptar" action="#{propiedadMB.altaPropiedad()}" onclick="darAltaGeom()"/>
+   		  	<h:commandButton type="submit" id="botonFormPropiedad" value="Aceptar" action="#{propiedadMB.altaPropiedad()}"  update="growl"/>
    		  </h:form>
      </h:panelGroup>
 
 </h:body>
 
-</html>
+</ui:define>
+</ui:composition>
