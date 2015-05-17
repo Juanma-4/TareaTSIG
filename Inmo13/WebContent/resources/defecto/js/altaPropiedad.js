@@ -1,9 +1,15 @@
-﻿var apreto = false;
+﻿//////////********** VARIABLES **********//////////
+var apreto = false;
 var propiedad;
 var saveStrategy;
 var propiedades;
+var nuevaPropiedad;
+var growl;
+
+//////////********** CREACIÓN DE MAPA, CAPAS Y CONTROLES **********//////////
 window.onload = function() {
-	 	   
+		growl = PF('growl');
+		
  		var WGS84 = new OpenLayers.Projection(miEPSG);
  		var WGS84_google_mercator = new OpenLayers.Projection(gEPSG);		
  		
@@ -75,38 +81,26 @@ window.onload = function() {
  				srsName: gEPSG,
  			  	
  			}),
- 		});		
+ 		});	
+ 		 
  		
+ 		 nuevaPropiedad = new OpenLayers.Layer.Vector("Nueva Propiedad", {
+             styleMap: estiloProp,
+             geometryType : OpenLayers.Geometry.Point,
+             displayInLayerSwitcher : false,
+         });
+
  		/// para dibujar
- 		dibujar = new OpenLayers.Control.DrawFeature(propiedades,
+ 		dibujar = new OpenLayers.Control.DrawFeature(nuevaPropiedad,
  													 OpenLayers.Handler.Point, {
  															featureAdded : onFeatureAdded,
  	    });
  		
  		map.addControl(dibujar);		
  		dibujar.activate();
- 		
- 		
- 		/*	PARA EL FUTURO... a propiedades se le saca saveStrategy
- 		var nuevaPropiedad = new OpenLayers.Layer.Vector("Nueva Propiedad", {
- 			strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
- 			protocol : new OpenLayers.Protocol.WFS({
- 				version : "1.1.0",
- 				url : urlWFS,
- 				featureType : "propiedad",
- 				featureNS : urlGeoServer,
- 				geometryName : "geom",
- 				srsName: gEPSG,
- 			  	
- 			}),
- 		});	
- 		*/
- 		
- 		//propiedades.setVisibility(false);					    
- 		map.addLayers([ google_maps, gphy, propiedades]);
+ 				    
+ 		map.addLayers([ google_maps, gphy, propiedades, nuevaPropiedad]);
  		map.zoomToExtent(limites);		
- 		
- 		
  	
  	/*	map.events.register("click", map, function(e) {	
  			if(apreto){
@@ -132,25 +126,30 @@ window.onload = function() {
  							
  };
 
+//////////********** CONTROLES AL INGRESAR PROPIEDAD **********//////////
+ function exito(){
+	 alert("Se guardo con éxito");
+ }
+ 
+ function fallo(){
+	 alert("Error al guardar"); 
+ }
+ 
  function onFeatureAdded(feature) {
  	if(apreto){
- 		propiedades.removeFeatures(propiedad);
- 	}
- 	
+ 		nuevaPropiedad.removeFeatures(propiedad);
+ 	} 	
  	propiedad = feature;
  	//propiedades.addFeatures([propiedad]);	//No es necesario porque el dibujar ya lo agrega
  	apreto = true;
  }
  	
-  function exito(){
-  	alert("Se guardo con éxito");
-  }
   
-  function fallo(){
-  	alert("Error al guardar"); 
-  }
-  
-  function darAltaGeom(){	 
+function darAltaGeom(){	
+	  
+	
+	 //Agrego la nueva feature a la capa de propiedades
+	 propiedades.addFeatures([nuevaPropiedad.getFeatureById(propiedad.id)]);
  	 
  	 // Preparo los datos	 
  	 propiedad.attributes.calle =  document.getElementById('formPropiedad:calle').value;
@@ -164,15 +163,60 @@ window.onload = function() {
  	 propiedad.attributes.tipoestado = document.getElementById('formPropiedad:tipoEstado').value;
  	 propiedad.attributes.tipopropiedad = document.getElementById('formPropiedad:tipoPropiedad').value;
  	 propiedad.attributes.tipotransaccion =  document.getElementById('formPropiedad:tipoTransaccion').value;
- 	 propiedad.attributes.tipomoneda =  document.getElementById('formPropiedad:Moneda').value;
- 	 propiedad.attributes.piso =  document.getElementById('formPropiedad:piso').value;
  	 propiedad.attributes.usuario = document.getElementById('formPropiedad:usuario').value; // "admin@gmail.com" para probar
  	 propiedad.attributes.fid =  propiedad.id;//document.getElementById('formPropiedad:fid').value;
+ 	 propiedad.attributes.piso =  document.getElementById('formPropiedad:piso').value;
+ 	 propiedad.attributes.tipomoneda =  document.getElementById('formPropiedad:moneda').value;
 
-
-     // propiedad.state = OpenLayers.State.INSERT; //No es necesario porque el dibujar ya le cambia el estado.
+ 	// propiedad.state = OpenLayers.State.INSERT; //No es necesario porque el dibujar ya le cambia el estado.
  	 saveStrategy.save();	
  	// alert(punto.attributes);
  	// alert("Punto id:"+ punto.id + "Punto fid: " + punto.fid);
  	// document.getElementById('formPropiedad:fid').value = punto.id;
-  }
+}
+
+/////////////*************** FUNCIONES DE CONTROL ***************/////////////
+
+$(function() {  
+	$("#formPropiedad\\:botonFormPropiedad").click(function(){ 
+	  if (apreto){			  
+		  if(controlarInputs()){
+			  darAltaGeom();
+		  }else
+			  return false;
+	  }else{
+		  growl.show([{summary:'Error', detail: 'Debe ingresar una propiedad'}]); //, severity: 'info severity'}]) warn
+		  return false;
+	  }
+	});
+	
+}); 
+
+function controlarInputs(){
+	
+	if(!$.trim($("#formPropiedad\\:calle").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar una calle!'}]); 
+		return false;
+	}else if(!$.trim($("#formPropiedad\\:numeroPuerta").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar un numero de puerta!'}]); 
+		return false;
+	}else if(!$.trim($("#formPropiedad\\:precio").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar un precio!'}]); 
+		return false;
+	}else if(!$.trim($("#formPropiedad\\:piso").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar un Nº de piso!'}]); 
+		return false;
+	}else if(!$.trim($("#formPropiedad\\:cantBanio").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar una cantidad de baños!'}]); 
+		return false;
+	}else if(!$.trim($("#formPropiedad\\:cantDormitorio").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar una cantidad de dormitorios!'}]); 
+		return false;
+	}else if(!$.trim($("#formPropiedad\\:metrosCuadrados").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar una cantidad de metros cuadrados!'}]); 
+		return false;
+	}else{
+		return true;
+	}
+	
+}
