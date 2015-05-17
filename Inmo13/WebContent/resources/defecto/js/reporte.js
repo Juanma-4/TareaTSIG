@@ -195,14 +195,23 @@ function onPopupFeatureSelect(feature) {
 	        feature.data.calle +
 	        '</br>' + 
 	        feature.data.numeropuerta +
-	        '</div>' +
-	        
-	        '<div style="color:#000000">'+
+	        '<div>'+
+	        '<div style="color:#FF0000;text-align:center">'+
+	        feature.data.calle +
+	        '</br>' + 
+	        feature.data.numeropuerta +
+	        '</div>'
+	        +
+   
+	        '</br>'+ '</br>'+
+	  '<div style="color:#000000">'+
 	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
 	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label>' + feature.data.precio +
+	        '<label for="usr"style="color:#000000" >Precio: </label>' + feature.data.tipomoneda +'<label>  </label>'+ feature.data.precio +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
 	        '</br>'+
@@ -210,13 +219,18 @@ function onPopupFeatureSelect(feature) {
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
 	        '</br>'+
-	        
-	        
-	        
-	        
-	        
+	        '<label for="usr"style="color:#000000" >Parrillero: </label>' + feature.data.parrillero +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Garage: </label>' + feature.data.garage +
+	        '</br>'+
+	     '</div>'+
+	        '<div style="color:#FF0000;text-align:center">'+
+	       
+	      //  '<Button value="Aceptar" action="#{usuarioMB.registroUsuario()}"' +'</Button>' //Muy loco ! jaja 
+	        '<a  href="http://localhost:8080/Inmo13/faces/InfoPropiedad.xhtml?fid='+ feature.data.fid + '" "form-signin-heading" style="color: rgb(0,255,0)">Ver</a>'+
+	       
+	       + '</div>'+
 	       '</div>'
-	        
 	        ,
 	        null, 
 	        true, 
