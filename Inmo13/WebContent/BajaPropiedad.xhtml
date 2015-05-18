@@ -1,0 +1,96 @@
+<ui:composition template="IndexAdmin.xhtml"  
+  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="titulo">
+	        Baja Propiedad
+     </ui:define>   
+	     
+ <ui:define name="contenido">
+ 
+<h:head>
+	
+	<h:outputStylesheet>
+        .customEditingToolbar {
+            float: right;
+            right: 0px;
+            height: 30px; 
+            width: 200px;
+        }
+        .customEditingToolbar div {
+            float: right;
+            margin: 5px;
+            width: 24px;
+            height: 24px;
+        }
+        .olControlNavigationItemActive { 
+            background-image: url("../resources/OpenLayers-2.13.1/theme/default/img/editing_tool_bar.png");
+            background-repeat: no-repeat;
+            background-position: -103px -23px; 
+        }
+        .olControlNavigationItemInactive { 
+            background-image: url("../resources/OpenLayers-2.13.1/theme/default/img/editing_tool_bar.png");
+            background-repeat: no-repeat;
+            background-position: -103px -0px; 
+        }
+        .olControlDrawFeaturePointItemInactive { 
+            background-image: url("../resources/OpenLayers-2.13.1/theme/default/img/editing_tool_bar.png");
+            background-repeat: no-repeat;
+            background-position: -77px 0px; 
+        }
+        .olControlDrawFeaturePointItemActive { 
+            background-image: url("../resources/OpenLayers-2.13.1/theme/default/img/editing_tool_bar.png");
+            background-repeat: no-repeat;
+            background-position: -77px -23px ;                                                                   
+        }
+        .olControlModifyFeatureItemActive { 
+            background-image: url(../resources/OpenLayers-2.13.1/theme/default/img/move_feature_on.png);
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlModifyFeatureItemInactive { 
+            background-image: url(../resources/OpenLayers-2.13.1/theme/default/img/move_feature_off.png);
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDeleteFeatureItemActive { 
+            background-image: url(../resources/OpenLayers-2.13.1/theme/default/img/remove_point_on.png);
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+        .olControlDeleteFeatureItemInactive { 
+            background-image: url(../resources/OpenLayers-2.13.1/theme/default/img/remove_point_off.png);
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+        }
+    
+	</h:outputStylesheet>
+
+	<!-- Google Maps -->
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    
+    <h:outputScript library="defecto" name="js/proj4js-combined.js" target="head"/>
+    
+    <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
+    <h:outputScript library="defecto" name="js/bajaPropiedad.js" target="head"/>
+    
+</h:head>
+
+<h:body>      
+      
+     <p:growl id="growl" widgetVar="growl" showDetail="false" />
+     <h:panelGroup layout="block" id="div-bajaPropiedad">	     		    		  
+			 
+		<div style="width:100%; height:100%" id="map"></div>
+		<div id="coordenadas"></div>		
+			
+     </h:panelGroup>
+
+</h:body>
+
+</ui:define>
+</ui:composition>

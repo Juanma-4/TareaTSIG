@@ -95,6 +95,12 @@ public class PropiedadMB implements Serializable {
 	
 	}
 	
+	public String irIndex(){
+			
+		return "IndexAdmin.xhtml?faces-redirect=true";
+		
+	}
+	
 	public String getUsuario() {
 		return usuario;
 	}

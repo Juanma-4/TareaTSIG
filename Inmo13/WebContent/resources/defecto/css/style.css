@@ -1,165 +1,160 @@
-body {
-    position: relative;
-    margin: 0px;
-    font-family: helvetica;
-    display: flex;
+html {
+/*	background: url("#{resource['images:2.JPG']}") no-repeat center center fixed;
+*/	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	width: 100%;
 }
 
-header {
-    border-bottom: 1px solid #acacac;
-    position: fixed;
-    text-align: center;
-    padding: 5px;
-    width: 100%;
-    background: crimson;
-    z-index: 2;
+.Label {
+	float: left;
+	width: 25%;
+	margin-right: 0.5em;
+	padding-top: 0.2em;
+	text-align: right;
+	font-weight: bold;
+	"
 }
 
-aside {
-    width: 250px;
-    height: 100%;
-    padding-top: 42px;
-    display: inline-block;
-    border-right: 1px solid grey;
+.ui-datalist-item {
+	border: outset 5px #052607 !Important;
 }
 
-article {
-    display: inline-block;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.ui-widget-content a {
+	color: white !Important;
 }
 
-header>* {
-    padding: 5px;
+#canchita {
+	height: 100%;
+	overflow-x: auto;
+	background-position: 40%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
-header>input {
-    border: 2px solid #a50a25;
+.fondo {
+	width: 100%;
 }
 
-header>*:focus {
-    border-color: #500713;
-    outline: none;
+.navbar {
+	background-color: rgba(55, 170, 206, 1) !Important;
+	width: 100%;
+	height: 15% !Important;
+	background: rgba(55, 170, 206, 1);
+	color: rgba(55, 170, 206, 1);
+	float: left;
 }
 
-header>button {
-    background: white;
-    border: 2px solid #a50a25;
+.menu {
+	background-color: rgba(55, 170, 206, 1) !Important;
+	min-width: 12% !Important;
 }
 
-ul {
-    list-style: none;    
-    padding: 0px;
-    margin: 0px;
+.ui-layout-unit-content {
+	background-color: rgba(55, 170, 206, 1) !Important;
 }
 
-li {
-    font-size: 10pt;
-    padding: 7px 20px;
-    position: relative;
+.Content .ui-layout-unit-content {
+	background-color: rgba(55, 170, 206, 1) !Important;
 }
 
-li.hoverable {
-    cursor: pointer;
+.ui-widget-content {
+	background-color: rgba(9, 40, 12, 0.7) !Important;
+	color: white !Important;
 }
 
-li.hoverable:hover {
-    background: #F9FCFF;
+.ui-menu {
+	background: none !Important;
+	background-color: rgba(9, 40, 12, 0.8) !Important;
 }
 
-li>.count {
-    border-radius: 100%;
-    background: crimson;
-    color: white;
-    position: absolute;
-    right: 10px;
-    padding: 5px;
-    line-height: 8px;
-    font-size: 8pt;
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    text-align: center;
+.ui-menuitem-link {
+	color: white !Important;
 }
 
-aside>h5 {
-    margin: 0px;
-    padding: 10px;    
+.ui-menuitem-link:hover {
+	background: none !Important;
+	background-color: rgba(0, 24, 0, 0.8) !Important;
+	font-size: inherit;
+	border: none;
 }
 
-#dialog {
-    border-radius: 4px;
-    border: 1px solid #bbb;
-    width: 400px;
-    font-size: 0pt;
+.Container {
+	width: 100%;
+	float: left;
 }
 
-#dialog>span:first-child {
-    width: 99%;
-    display: inline-block;
-    text-align: center;
-    position: relative;
-    margin: 0.5%;
-    padding: 8px 0px;
-    background: crimson;
-    color: white;
-    font-size: 10pt;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+.Content {
+	width: 85%;
+	float: left;
+	min-height: 500px;
 }
 
-#dialog>span>span {
-    text-transform: capitalize;
+.footer {
+	width: 100%;
+	height: 30px !Important;
+	background-color: rgba(9, 40, 12, 0.9);
+	color: rgba(255, 255, 255, 1);
+	position: absolute;
+	bottom: 0;
+	float: left;
 }
 
-#dialog>#message-board {
-    height: 300px;
-    overflow-y: auto;
+#panel {
+	position: absolute;
+	top: 5px;
+	left: 50%;
+	margin-left: -180px;
+	z-index: 5;
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #999;
 }
 
-#dialog>#message-board>div {
-    font-size: 10pt;
-    padding: 6px 15px;
-    border-bottom: 1px solid #999;
+#Selectable .ui-selecting {
+	background: #707070;
 }
 
-#dialog>#message-board>div:nth-child(even) {
-    background: #F9FCFF;
+#Selectable .ui-selected {
+	background: #EEEEEE !Important;
+	color: #707070 !Important;
 }
 
-#dialog>#message-board>div>:first-child {
-    display: block;
-    color: gray;
-    margin-bottom: 10px;
+#Selectable {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
 }
 
-#dialog>#message {
-    width: 300px;
-    border: 0px;
-    padding: 5px;
-    font-family: helvetica;
-    vertical-align: top;
-    resize: none;
-}
-#dialog>#message:focus {
-    outline: 0px;
+#Selectable li {
+	font-size: 50px;
+	height: 100px;
+	line-height: 100px;
+	margin-top: 5px;
+	margin-bottom:
 }
 
-#dialog>#send {
-    width: 92px;
-    height: 36px;
-    margin: 4px;
-    border: 0px;
-    color: white;
-    background: crimson;
-    vertical-align: top;
-    border-radius: 2px;
-    cursor: pointer;
+ui-widget-content {
+	background: #cedc98;
+	border: 1px solid #DDDDDD;
+	color: #333333;
 }
 
-#dialog>hr {
-    border: 0px;
-    border-top: 1px solid #bbb;
+.div-welcome {
+	margin-top: 10%;
+	font-size: 500%;
+	text-align: center !Important;
+	width: 100% !Important;
+	height: 70% !Important;
+}
+
+.div-empty {
+	margin-top: 10%;
+	font-size: 200%;
+	text-align: center !Important;
+	width: 100% !Important;
+	height: 20% !Important;
 }

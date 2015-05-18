@@ -103,6 +103,12 @@ public class UsuarioMB implements Serializable {
 		
 	}
 	
+	public String irBajaPropiedad(){
+		
+		return "BajaPropiedad.xhtml?faces-redirect=true";
+		
+	}
+	
 	public void login(){
 		
 		ClientRequest request;		  

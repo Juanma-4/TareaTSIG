@@ -38,7 +38,7 @@ window.onload = function() {
  			numZoomLevels : 20
  		});
  		
- 		var gphy = new OpenLayers.Layer.Google("Google Physical", {
+ 		var google_fisico = new OpenLayers.Layer.Google("Google Fisico", {
  		type : google.maps.MapTypeId.TERRAIN
  		});		
  				
@@ -99,26 +99,9 @@ window.onload = function() {
  		map.addControl(dibujar);		
  		dibujar.activate();
  				    
- 		map.addLayers([ google_maps, gphy, propiedades, nuevaPropiedad]);
+ 		map.addLayers([ google_maps, google_fisico, propiedades, nuevaPropiedad]);
  		map.zoomToExtent(limites);		
  	
- 	/*	map.events.register("click", map, function(e) {	
- 			if(apreto){
- 				propiedades.removeFeatures(propiedad);
- 			}var posicion = map.getLonLatFromPixel(e.xy);	
- 		    
- 							
- 		    propiedad = new OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(
- 					        (posicion.lon), (posicion.lat) ));			
- 								
- 			 propiedades.addFeatures([propiedad]);	
- 			// document.getElementById('formPropiedad:fid').value = propiedad.id;
- 		   // alert("Punto id:"+ punto.id + "Punto fid: " + punto.fid + "Puntos almacenados: " + propiedades.features.length);
- 		   // alert("input valor :"+ document.getElementById('formPropiedad:fid').value);
- 		    
- 		    apreto = true;
- 		});
- 	  */
  	  	/// PARA CENTRAR EN MONTEVIDEO
      	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
              	    WGS84,  map.getProjectionObject()), miZoom + 3);
@@ -128,11 +111,11 @@ window.onload = function() {
 
 //////////********** CONTROLES AL INGRESAR PROPIEDAD **********//////////
  function exito(){
-	 alert("Se guardo con éxito");
+	 growl.show([{summary:'Exito', detail: 'Se guardo la propiedad', severity:'Info'}]); 
  }
  
  function fallo(){
-	 alert("Error al guardar"); 
+	 growl.show([{summary:'Error', detail: 'Error al ingresar la propiedad'}]); 
  }
  
  function onFeatureAdded(feature) {
@@ -170,9 +153,6 @@ function darAltaGeom(){
 
  	// propiedad.state = OpenLayers.State.INSERT; //No es necesario porque el dibujar ya le cambia el estado.
  	 saveStrategy.save();	
- 	// alert(punto.attributes);
- 	// alert("Punto id:"+ punto.id + "Punto fid: " + punto.fid);
- 	// document.getElementById('formPropiedad:fid').value = punto.id;
 }
 
 /////////////*************** FUNCIONES DE CONTROL ***************/////////////
