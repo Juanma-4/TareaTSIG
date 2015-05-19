@@ -191,17 +191,14 @@ function onPopupFeatureSelect(feature) {
     		"chicken",
 	        feature.geometry.getBounds().getCenterLonLat(),
 	        null,
-	        '<div style="color:#FF0000;text-align:center">'+
-	        feature.data.calle +
-	        '</br>' + 
-	        feature.data.numeropuerta +
+	        
 	        '<div>'+
 	        '<div style="color:#FF0000;text-align:center">'+
 	        feature.data.calle +
 	        '</br>' + 
 	        feature.data.numeropuerta +
-	        '</div>'
-	        +
+	        '</div>'+
+	       
    
 	        '</br>'+ '</br>'+
 	  '<div style="color:#000000">'+
@@ -223,14 +220,14 @@ function onPopupFeatureSelect(feature) {
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Garage: </label>' + feature.data.garage +
 	        '</br>'+
-	     '</div>'+
-	        '<div style="color:#FF0000;text-align:center">'+
+	    '</div>'+
+	        '</div>'    
 	       
 	      //  '<Button value="Aceptar" action="#{usuarioMB.registroUsuario()}"' +'</Button>' //Muy loco ! jaja 
-	        '<a  href="http://localhost:8080/Inmo13/faces/InfoPropiedad.xhtml?fid='+ feature.data.fid + '" "form-signin-heading" style="color: rgb(0,255,0)">Ver</a>'+
+	      //  '<a  href="http://localhost:8080/Inmo13/faces/InfoPropiedad.xhtml?fid='+ feature.data.fid + '" "form-signin-heading" style="color: rgb(0,255,0)">Ver</a>'+
 	       
-	       + '</div>'+
-	       '</div>'
+	       
+	      
 	        ,
 	        null, 
 	        true, 
