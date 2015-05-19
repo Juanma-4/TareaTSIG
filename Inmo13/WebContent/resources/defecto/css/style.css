@@ -25,6 +25,14 @@ html {
 	color: white !Important;
 }
 
+div.oldMap {
+  z-index: 0;
+  padding: 0 !important;
+  margin: initial;
+  cursor: default;
+  margin-left: -15px;
+}
+
 #canchita {
 	height: 100%;
 	overflow-x: auto;
