@@ -39,10 +39,7 @@ window.onload = function() {
  		saveStrategy = new OpenLayers.Strategy.Save();	
  		saveStrategy.events.register("success", '', exito);
  		saveStrategy.events.register("failure", '', fallo);	    
- 				
 
-
- 		/* 	Estilo de la propiedad que se va a ingresar */
  		var estiloProp = new OpenLayers.StyleMap({
  				"default" : new OpenLayers.Style(null, {
  					rules : [ new OpenLayers.Rule({
@@ -75,6 +72,7 @@ window.onload = function() {
  			  	
  			}),
  		});	
+ 		  		
  		 
  		map.addLayers([ google_maps, google_fisico, propiedades]);
  		map.zoomToExtent(limites);	
@@ -83,80 +81,50 @@ window.onload = function() {
      	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
              	    WGS84,  map.getProjectionObject()), miZoom + 3);
  		
-     	
-     	/**OpenLayers.Handler.Feature
-     	 * Handler to respond to mouse events related to a drawn feature. Callbacks with the following keys will be 
-     	 * notified of the following events associated with features: click, clickout, over, out, and dblclick.
-     	 */
-     	
-     	/* Creo clase OpenLayers de tipo OpenLayers.Control.DeleteFeature con mi programación. */
-     	 var BorrarFeature = OpenLayers.Class(OpenLayers.Control, {
-     	 	initialize : function(capa, opciones) {
-     	 		OpenLayers.Control.prototype.initialize.apply(this, [ opciones ]);
-     	 		this.capa = capa;
-     	 		this.handler = new OpenLayers.Handler.Feature(this, capa, {
-     	 			click : this.clickFeature
-     	 		});
-     	 	},
-     	 	clickFeature : function(feature) {
-     	    	 		
-     	 		// if feature doesn't have a fid, destroy it
-     	 		if (feature.fid == undefined) {
-     	 			this.capa.destroyFeatures([ feature ]);
-     	 		} else {     	 		
-     	 		
-     	 			feature.state = OpenLayers.State.DELETE;
-     	 			this.capa.events.triggerEvent("afterfeaturemodified", {
-     	 				feature : feature
-     	 			});
-     	 		propiedades.removeFeatures(feature);
-     	 		}
-     	 	},
-     	 	setMap : function(map) {
-     	 		this.handler.setMap(map);
-     	 		OpenLayers.Control.prototype.setMap.apply(this, arguments);
-     	 	},
-     	 	CLASS_NAME : "OpenLayers.Control.DeleteFeature"
-     	 });
-     	
-     	
+
      	// Creo el panel para los controles.
      	var panel = new OpenLayers.Control.Panel({
      		displayClass : 'customEditingToolbar'
      	});
-
-     	var navegar = new OpenLayers.Control.Navigation({
-     		title : "Navegación Mapa"
+     	
+ 		
+ 		var navegar = new OpenLayers.Control.Navigation({
+     		title : "Navegación Mapa",
+     		displayClass: 'olControlNavigation'
      	});
-
-     	var del = new BorrarFeature(propiedades, {
-     		title : "Borrar Propiedad"
-     	});
-
-     	save = new OpenLayers.Control.Button({
+     	
+    
+        var modificar = new OpenLayers.Control.ModifyFeature(propiedades, {
+        	mode: OpenLayers.Control.ModifyFeature.RESHAPE | OpenLayers.Control.ModifyFeature.DRAG,
+        	title: "Modificar Propiedad",
+            displayClass: 'olControlModifyFeature'
+         });
+        
+    	save = new OpenLayers.Control.Button({
      		title : "Guardar",
      		trigger : function() {
+     			if(modificar.feature) {
+     				modificar.selectControl.unselectAll();
+               }
      	 		saveStrategy.save();
      		},
      		displayClass : "olControlSaveFeatures"
      	});
-
-     	panel.addControls([ navegar, del, save]);
-     	panel.defaultControl = navegar;
-     	map.addControl(panel);
+        
+        panel.addControls([ navegar, modificar, save]);
+        panel.defaultControl = navegar;
+        map.addControl(panel);
+  
+    
+     	
  };
  
  function exito(){
-	 growl.show([{summary:'Exito', detail: 'Se borraron las propiedades', severity:'Info'}]); 
+	 growl.show([{summary:'Exito', detail: 'Se modificaron las propiedades', severity:'Info'}]); 
  }
  
  function fallo(){
-	 growl.show([{summary:'Error', detail: 'Error al borrar las propiedades'}]); 
+	 growl.show([{summary:'Error', detail: 'Error al modificar las propiedades'}]); 
  }
  
- /*********************** 
-  * 
-  * https://github.com/tmcw/OpenLayerer/blob/master/openlayers_src/OpenLayers-2.9.1/examples/wfs-snap-split.html
-  * ***********************/
- 
- 
+  	

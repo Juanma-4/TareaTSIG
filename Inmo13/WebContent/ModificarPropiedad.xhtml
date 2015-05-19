@@ -6,14 +6,13 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	<ui:define name="titulo">
-	        Baja Propiedad
+	        Modificar Propiedad
      </ui:define>   
 	     
  <ui:define name="contenido">
  
 <h:head>
-	
-	<h:outputStylesheet library="defecto" name="css/bajaPropiedad.css" />
+	<h:outputStylesheet library="defecto" name="css/modificarPropiedad.css" />
 	<!-- Google Maps -->
 	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="http://openlayers.org/api/OpenLayers.js"></script>
@@ -21,14 +20,14 @@
     <h:outputScript library="defecto" name="js/proj4js-combined.js" target="head"/>
     
     <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
-    <h:outputScript library="defecto" name="js/bajaPropiedad.js" target="head"/>
+    <h:outputScript library="defecto" name="js/modificarPropiedad.js" target="head"/>
     
 </h:head>
 
 <h:body>      
       
      <p:growl id="growl" widgetVar="growl" showDetail="false" />
-     <h:panelGroup layout="block" id="div-bajaPropiedad">	     		    		  
+     <h:panelGroup layout="block" id="div-modificarPropiedad">	     		    		  
 			 
 		<div style="width:100%; height:100%" id="map"></div>
 		<div id="coordenadas"></div>		

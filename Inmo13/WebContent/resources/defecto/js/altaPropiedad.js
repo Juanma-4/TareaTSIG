@@ -47,26 +47,25 @@ window.onload = function() {
  		saveStrategy = new OpenLayers.Strategy.Save();	
  		saveStrategy.events.register("success", '', exito);
  		saveStrategy.events.register("failure", '', fallo);	    
- 					
+
+
  		/* 	Estilo de la propiedad que se va a ingresar */
  		var estiloProp = new OpenLayers.StyleMap({
- 			"default" : new OpenLayers.Style(null, {
- 				rules : [ new OpenLayers.Rule({
- 					symbolizer : {
- 						"Point" : {
- 							pointRadius : 20,
- 							externalGraphic : "resources/defecto/img/localizacion.png",
- 							graphicOpacity : 1,
- 							graphicWidth : 50,
- 							graphicHeight : 36
- 	
+ 				"default" : new OpenLayers.Style(null, {
+ 					rules : [ new OpenLayers.Rule({
+ 						symbolizer : {
+ 							"Point" : {
+ 								pointRadius : 20,
+ 								externalGraphic : "resources/defecto/img/localizacion.png",
+ 								graphicOpacity : 1,
+ 								graphicWidth : 50,
+ 								graphicHeight : 36
+
+ 							}
  						}
- 					}
- 				}) ]
- 			})
- 		});
- 		
- 		
+ 					}) ]
+ 				})
+ 			});
  		
  		/* "Layer Constructor" : Pide capa de porpiedades via WFS-T  */
  		 propiedades = new OpenLayers.Layer.Vector("Propiedad", {
