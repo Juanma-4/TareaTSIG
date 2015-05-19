@@ -15,7 +15,7 @@
 	<!-- Google Maps -->
 	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	
-	<h:outputScript library="defecto" name="js/jquery-1.8.0.min.js" target="head"/>
+	<h:outputScript library="defecto" name="js/jquery-1.11.3.min.js" target="head"/>
 	
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -26,51 +26,254 @@
     
     <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
     <h:outputScript library="defecto" name="js/index.js" target="head"/>
+    <h:outputStylesheet library="defecto" name="css/mapaStyle.css"/>
    
-    	
+
 	
 </h:head>
 
 <h:body>      
+
+  <div id="#wrap">
+
        <div class="container">
 
       <!-- Static navbar -->
+      <div class ="container-fluid">
+      
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
             <a class="navbar-brand" href="#">Inmo13</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li><a href="http://localhost:8080/Inmo13/faces/Login.xhtml">Login</a></li>
-             
+             <ul class="nav navbar-nav">
+            <li class="text-navbar active"></li>
+            <li><a href="http://localhost:8080/Inmo13/faces/Login.xhtml">Login</a></li>
               
             </ul>
+            
+           
+            
    
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
+      </div>
 
     </div> <!-- /container -->
-      
-     	<div style="width:100%; height:100%" id="map"></div>
-			<div id="coordenadas"></div>
+     
 
+      
+  <div class="row center-container">  
+  
+    
+    
+    <div class="center-row col-lg-3 col-md-4 col-sm-3 col-xs-12 col-filtros">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-filtros">
+    <div class="header-filtros-text"><h3>Seleccione el tipo de propiedad que desea buscar</h3></div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-filtros-divider"></div></div>
+    <div class="body-filtros">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <form method="get" id="filtro-centros">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 body-filtros-title"><h4><strong>Busco . . .</strong></h4></div>
+    
+    
+    <!-- Empiezan los filtros -->
+    <div>
+   
+    
+    <div >
+     
+    <label style="color: white; font-size: 13px;">Propiedad		</label>
+     <h:selectOneMenu id= "tipoEstado" value="1">
+	   			<f:selectItem itemValue="Casa" itemLabel="Casa" />
+	   			<f:selectItem itemValue="Apartamento" itemLabel="Apartamento" />
+	   			<f:selectItem itemValue="Terreno" itemLabel="Terreno" />
+	   			</h:selectOneMenu>
+	</div>
+	<br></br>
+	
+	 <div >
+	  <label style="color: white; font-size: 13px;">Operación</label>
+    <h:selectOneMenu id= "tipoEstado" value="1">
+	   			<f:selectItem itemValue="Venta" itemLabel="Comprar" />
+	   			<f:selectItem itemValue="Alquiler" itemLabel="Alquilar" />
+	   			</h:selectOneMenu>
+	
+    </div>
+	<br></br>
+	
+	
+	
+	
+	<div >
+	<label style="color: white; font-size: 13px;">Rango Precios</label><br></br>
+     <h:selectOneMenu id= "tipoEstado" value="1">
+	   			<f:selectItem itemValue="" itemLabel="$" />
+	   			<f:selectItem itemValue="" itemLabel="US$" />
+	   </h:selectOneMenu>
+	 <label style="color: white; font-size: 13px;">Min</label>
+	 <input type="text" value="" id="id_number" size="5" maxlength="16" />
+	 <label style="color: white; font-size: 13px;">Máx</label>
+	 <input type="text" value="" id="id_number" size="5" maxlength="16" />
+	 <br></br>
+	</div>
+	
+	<br></br>
+	
+	<div>
+	 <label style="color: white; font-size: 13px;">Dormitorios</label>
+     <h:selectOneMenu id= "t" value="1">
+	   			<f:selectItem itemValue="" itemLabel="1" />
+	   			<f:selectItem itemValue="" itemLabel="2" />
+	   			<f:selectItem itemValue="" itemLabel="3" />
+	   			<f:selectItem itemValue="" itemLabel="4" />
+	   			<f:selectItem itemValue="" itemLabel="5" />
+	   			<f:selectItem itemValue="" itemLabel="6" />
+	   			<f:selectItem itemValue="" itemLabel="7" />
+	   			<f:selectItem itemValue="" itemLabel="8" />
+	   			<f:selectItem itemValue="" itemLabel="9" />
+	   			<f:selectItem itemValue="" itemLabel="10" />
+	   	 			</h:selectOneMenu>
+
+	</div>
+	<br></br>
+	<div>
+	<label style="color: white; font-size: 13px;">Baños</label>
+     <h:selectOneMenu id= "t" value="1">
+	   			<f:selectItem itemValue="" itemLabel="1" />
+	   			<f:selectItem itemValue="" itemLabel="2" />
+	   			<f:selectItem itemValue="" itemLabel="3" />
+	   			<f:selectItem itemValue="" itemLabel="4" />
+	   			<f:selectItem itemValue="" itemLabel="5" />
+	   	 			</h:selectOneMenu>
+	</div>
+    <br></br>
+    
+    <div >
+	<label style="color: white; font-size: 13px;"> m² </label>
+    <input type="text" value="" id="id_number" size="1" maxlength="16" />
+	</div>
+    
+     <br></br>
+    <div>
+	<label style="color: white; font-size: 13px;">Barrio</label>
+     <h:selectOneMenu id= "t" value="1">
+     			<f:selectItem itemValue="" itemLabel="Todos" />
+	   			<f:selectItem itemValue="" itemLabel="MANGA TOLEDO CHICO" />
+	   			<f:selectItem itemValue="" itemLabel="COLON SURESTE ABAYUBA" />
+	   			<f:selectItem itemValue="" itemLabel="VILLA GARCIA MANGA RURAL" />
+	   			<f:selectItem itemValue="" itemLabel="BAÃADOS DE CARRASCO" />
+	   			<f:selectItem itemValue="" itemLabel="PEÃAROL LAVALLEJA" />
+	   			<f:selectItem itemValue="" itemLabel="MANGA" />
+	   			<f:selectItem itemValue="" itemLabel="PUNTA RIELES BELLA ITALIA" />
+	   			<f:selectItem itemValue="" itemLabel="CASAVALLE" />
+	   			<f:selectItem itemValue="" itemLabel="PIEDRAS BLANCAS" />
+	   			<f:selectItem itemValue="" itemLabel="JARDINES DEL HIPODROMO" />
+	   			<f:selectItem itemValue="" itemLabel="CASABO PAJAS BLANCAS" />
+	   			<f:selectItem itemValue="" itemLabel="LAS ACACIAS" />
+	   			<f:selectItem itemValue="" itemLabel="LA PALOMA TOMKINSON" />
+	   			<f:selectItem itemValue="" itemLabel="BELVEDERE" />
+	   			<f:selectItem itemValue="" itemLabel="PASO DE LAS DURANAS" />
+	   			<f:selectItem itemValue="" itemLabel="ITUZAINGO" />
+	   			<f:selectItem itemValue="" itemLabel="FLOR DE MAROÃAS" />
+	   			<f:selectItem itemValue="" itemLabel="AIRES PUROS" />
+	   			<f:selectItem itemValue="" itemLabel="CASTRO CASTELLANOS" />
+	   			<f:selectItem itemValue="" itemLabel="TRES OMBUES PBLO VICTORIA" />
+	   			<f:selectItem itemValue="" itemLabel="CERRITO" />
+	   			<f:selectItem itemValue="" itemLabel="PRADO NUEVA SAVONA" />
+	   			<f:selectItem itemValue="" itemLabel="VILLA ESPAÃOLA" />
+	   			<f:selectItem itemValue="" itemLabel="MAROÃAS PARQUE GUARANI" />
+	   			<f:selectItem itemValue="" itemLabel="BRAZO ORIENTAL" />
+	   			<f:selectItem itemValue="" itemLabel="LAS CANTERAS" />
+	   			<f:selectItem itemValue="" itemLabel="LA TEJA" />
+	   			<f:selectItem itemValue="" itemLabel="MERCADO MODELO Y BOLIVAR" />
+	   			<f:selectItem itemValue="" itemLabel="ATAHUALPA" />
+	   			<f:selectItem itemValue="" itemLabel="CAPURRO BELLA VISTA" />
+	   			<f:selectItem itemValue="" itemLabel="UNION" />
+	   			<f:selectItem itemValue="" itemLabel="CARRASCO NORTE" />
+	   			<f:selectItem itemValue="" itemLabel="JACINTO VERA" />
+	   			<f:selectItem itemValue="" itemLabel="LARRAÃAGA" />
+	   			<f:selectItem itemValue="" itemLabel="FIGURITA" />
+	   			<f:selectItem itemValue="" itemLabel="MALVIN NORTE" />
+	   			<f:selectItem itemValue="" itemLabel="CARRASCO" />
+	   			<f:selectItem itemValue="" itemLabel="REDUCTO" />
+	   			<f:selectItem itemValue="" itemLabel="CERRO" />
+	   			<f:selectItem itemValue="" itemLabel="PUNTA GORDA" />
+	   			<f:selectItem itemValue="" itemLabel="VILLA MUÃOZ RETIRO" />
+	   			<f:selectItem itemValue="" itemLabel="LA COMERCIAL" />
+	   			<f:selectItem itemValue="" itemLabel="BUCEO" />
+	   			<f:selectItem itemValue="" itemLabel="MALVIN" />
+	   			<f:selectItem itemValue="" itemLabel="AGUADA" />
+	   			<f:selectItem itemValue="" itemLabel="LA BLANQUEADA" />
+	   			<f:selectItem itemValue="" itemLabel="TRES CRUCES" />
+	   			<f:selectItem itemValue="" itemLabel="PQUE BATLLE VILLA DOLORES" />
+	   			<f:selectItem itemValue="" itemLabel="PUERTO" />
+	   			<f:selectItem itemValue="" itemLabel="CORDON" />
+	   			<f:selectItem itemValue="" itemLabel="CENTRO" />
+	   			<f:selectItem itemValue="" itemLabel="CIUDAD VIEJA" />
+	   			<f:selectItem itemValue="" itemLabel="POCITOS" />
+	   			<f:selectItem itemValue="" itemLabel="PALERMO" />
+	   			<f:selectItem itemValue="" itemLabel="PARQUE RODO" />
+	   			<f:selectItem itemValue="" itemLabel="BARRIO SUR" />
+	   			<f:selectItem itemValue="" itemLabel="PUNTA CARRETAS" />
+	   			<f:selectItem itemValue="" itemLabel="COLON CENTRO Y NOROESTE" />
+	   			<f:selectItem itemValue="" itemLabel="CONCILIACION" />
+	   			<f:selectItem itemValue="" itemLabel="NUEVO PARIS" />
+	   			<f:selectItem itemValue="" itemLabel="LEZICA MELILLA" />
+	   			<f:selectItem itemValue="" itemLabel="PASO DE LA ARENA" />
+	   	 			</h:selectOneMenu>
+	</div>
+    <br></br>
+    
+    
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 body-filtros-opciones">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="checkbox"><div class="icheckbox_square-blue">
+    <input type="checkbox" id="type-1" name="1" value="1" class="chk-filtro"></input></div>
+    <label for="type-1">Parrillero</label></div></div>
+    
+    
+    
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="checkbox"><div class="icheckbox_square-blue">
+    <input type="checkbox" id="type-2" name="2" value="1" class="chk-filtro"></input></div>
+    <label for="type-2">Piscina</label></div></div>
+    
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 body-filtros-distancia">
+    <!-- Inicio slider -->
+    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-9 slider-qtpd-container">
+    <div class="nstSlider slider-qtpd" data-range_min="0" data-range_max="150" data-cur_min="30">
+    <div class="leftGrip slider-qtpd-movil nst-animating" tabindex="0" style="left: 157.5px;"></div>
+    </div></div>
+    
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-3">
+    <p id="slider-text" class="rightLabel slider-text"></p>
+    </div></div>
+    
+    <div class="col-lg-12 col-md-12 col-sm-12"><!-- Inicio boton buscar -->
+    <!-- Para LG y MD -->
+    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar">
+    <h2>Buscar</h2></div>
+    </div>
+    
+<!-- Fin filtros --></div></form>
+    
+   
+    
+  </div>
+  </div>  
+ </div>    	
+		<div class="center-row col-lg-9 col-md-8 col-sm-9 col-xs-12 col-mapa map">
+		<div id="map" style="position: relative; overflow: hidden; transform: translateZ(0px); background-color: rgb(229, 227, 223);"></div>
+		</div>						
+			
+</div>
+</div>
 </h:body>
 
 
-<!--  
-	Bootfaces hace unos conflictos cuando usas el tag <script src="...".. entonces lo saque porque no
-			 andaba el mapa, ver esto despues
-			 
-			 
-       xmlns:b="http://bootsfaces.net/ui"
--->
-		<!-- Mapa 
-	   <div style="width:100%; height:100%" id="map"></div>
-	   
-	   
-		<div id="coordinates"></div>
-		-->
 
 </html>
