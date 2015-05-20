@@ -10,12 +10,31 @@
     </ui:define>
 
 	<ui:define name="contenido">
-		<h1><h:outputText value="Usuarios" /></h1>
-   		<br/>
-		<p:messages/>
-   		<br/>
-		<h:form>
-   			
+	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:85px" />
+    
+      	<h:form id="form">
+		    <p:dataTable id="listAdmin" var="usu" value="#{usuarioMB.administradores}" 
+		    	emptyMessage="No existen Usuarios" style=" text-align:center;">
+		    	
+		        <p:growl id="message" showDetail="true" /> 
+		        <f:facet name="header">
+		             Administradores
+		        </f:facet>
+		        
+		        <p:column headerText="Mail">
+		            <h:outputText value="#{usu.mail}" />
+		        </p:column>
+		        
+		      	<p:column headerText="Password">
+		            <h:outputText value="#{usu.password}" />
+		        </p:column>	      	
+		        	        
+		        <p:column headerText="Acciones">
+   					<h:commandLink value="Modificar Password" action="#{usuarioMB.ModificarUsuario(usu.mail, usu.password)}" /> -
+   					<h:commandLink value="Eliminar" onclick="return confirm('¿Estas seguro que desea eliminar a #{usu.mail} del sistema?')" action="#{usuarioMB.EliminarUsuario(usu.mail)}" />
+   				</p:column>
+   				
+		    </p:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

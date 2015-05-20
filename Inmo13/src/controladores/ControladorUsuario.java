@@ -1,5 +1,7 @@
 package controladores;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -64,6 +66,12 @@ public class ControladorUsuario implements IControladorUsuario {
 			e.printStackTrace();			
 		}
 		return modifico;
+	}
+	
+	public List<Usuario> listarUsuarios() {
+		List<Usuario> equipos = UsuarioDAO.listarUsuarios();
+		return equipos;
+		  
 	}
 	
 }
