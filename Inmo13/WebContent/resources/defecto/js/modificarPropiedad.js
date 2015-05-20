@@ -95,6 +95,7 @@ window.onload = function() {
      	
     
         var modificar = new OpenLayers.Control.ModifyFeature(propiedades, {
+        	selectControl: new OpenLayers.Control.SelectFeature([propiedades]),
         	mode: OpenLayers.Control.ModifyFeature.RESHAPE | OpenLayers.Control.ModifyFeature.DRAG,
         	title: "Modificar Propiedad",
             displayClass: 'olControlModifyFeature'
@@ -103,9 +104,9 @@ window.onload = function() {
     	save = new OpenLayers.Control.Button({
      		title : "Guardar",
      		trigger : function() {
-     			if(modificar.feature) {
+     			if(modificar.feature){
      				modificar.selectControl.unselectAll();
-               }
+     			}
      	 		saveStrategy.save();
      		},
      		displayClass : "olControlSaveFeatures"
@@ -115,8 +116,16 @@ window.onload = function() {
         panel.defaultControl = navegar;
         map.addControl(panel);
   
-    
-     	
+        /*
+        propiedades.events.on({
+            'beforefeaturemodified': function(evt) {
+            	modificar.selectControl.select(evt.feature);
+             },
+             'afterfeaturemodified': function(evt) {
+            	 modificar.selectControl.unselect(evt.feature);
+             }
+        });
+        */
  };
  
  function exito(){
