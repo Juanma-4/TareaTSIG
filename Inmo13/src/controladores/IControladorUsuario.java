@@ -1,9 +1,7 @@
 package controladores;
-
 import java.util.List;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 
 import dominio.Usuario;
 
@@ -13,4 +11,5 @@ public interface IControladorUsuario {
 	public boolean existeUsuario(String mail, String password);
 	public Usuario buscarUsuario(String mail);
 	public boolean modificarUsuario(Usuario u);
+	public List<Usuario> listarUsuarios();
 }

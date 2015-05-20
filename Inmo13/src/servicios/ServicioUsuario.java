@@ -1,6 +1,7 @@
 package servicios;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -11,6 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import utilidades.UsuarioAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -98,6 +101,24 @@ public class ServicioUsuario extends Application {
 		
 		}
 		
+
+		@GET
+		@Produces(MediaType.APPLICATION_JSON)
+		@Path("/administradores")	
+		public Response getAdministradores(){
+			String response = null;
+			try {
+				List<Usuario> usuarios = iuc.listarUsuarios();
+				response = usuarioToJSONString(usuarios);
+					
+			} catch (Exception err) {
+				response = "{\"status\":\"401\","
+				+ "\"message\":\"No content found \""
+				+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
+				return Response.status(401).entity(response).build();
+			}
+			return Response.ok(response).build();
+		}	
 		
 		@POST
 		@Produces(MediaType.APPLICATION_JSON)
@@ -144,5 +165,11 @@ public class ServicioUsuario extends Application {
 			Gson gson = gsonBuilder.create();
 			return gson.toJson(object);
 		}
+		
+		public String usuarioToJSONString(List<Usuario> usuarios) {  
+		    GsonBuilder gsonBuilder = new GsonBuilder();
+		    Gson gson = gsonBuilder.registerTypeAdapter(Usuario.class, new UsuarioAdapter()).create();
+		    return gson.toJson(usuarios);
+		} 
 		
 }

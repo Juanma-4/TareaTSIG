@@ -45,7 +45,6 @@ public class UsuarioDAO implements IUsuarioDAO{
 		return modifico;
 	}
 
-
 	public boolean existeUsuario(Usuario usuario) {
 		
 		boolean existe = false;
@@ -72,7 +71,13 @@ public class UsuarioDAO implements IUsuarioDAO{
 		return usuario;
 	}
 
-
+	@SuppressWarnings("unchecked")
+	public List<Usuario> listarUsuarios() {
+		//	List<Usuario> usus = em.createQuery("Select u FROM Usuario u", Usuario.class).getResultList();
+		//return usus;
+		return em.createQuery("SELECT o FROM Usuario o").getResultList();
+		
+	}
 
 
 	
