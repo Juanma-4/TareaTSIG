@@ -31,7 +31,7 @@
 		        	        
 		        <p:column headerText="Acciones">
    					<h:commandLink value="Modificar Password" action="#{usuarioMB.ModificarUsuario(usu.mail, usu.password)}" /> -
-   					<h:commandLink value="Eliminar" onclick="return confirm('¿Estas seguro que desea eliminar a #{usu.mail} del sistema?')" action="#{usuarioMB.EliminarUsuario(usu.mail)}" />
+   					<h:commandLink value="Eliminar" onclick="return confirm('¿Estas seguro que desea eliminar a #{usu.mail} del sistema?')" action="#{usuarioMB.eliminarUsuario(usu.mail)}" />
    				</p:column>
    				
 		    </p:dataTable>

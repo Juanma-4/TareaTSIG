@@ -1,12 +1,9 @@
 package persistencia;
 
 import java.util.List;
-
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import dominio.Usuario;
 
 @Stateless
@@ -29,7 +26,6 @@ public class UsuarioDAO implements IUsuarioDAO{
 		return guardo;
 
 	}
-	
 	
 	public boolean modificarUsuario(Usuario usuario) {
 		
@@ -79,6 +75,19 @@ public class UsuarioDAO implements IUsuarioDAO{
 		
 	}
 
-
+	public void insert(Usuario u)
+    {
+    	em.persist(u);
+    }
+    
+    public void update(Usuario u)
+    {
+    	em.merge(u);
+    }
+    
+    public void delete(Usuario u)
+    {
+    	em.remove(u);
+    }
 	
 }

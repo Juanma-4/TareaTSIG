@@ -3,24 +3,33 @@ package presentacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import controladores.IControladorUsuario;
 import wrappers.WrapperUsuario;
-
-
+	
 @ManagedBean
 @javax.faces.bean.SessionScoped
 public class UsuarioMB implements Serializable {
 
+	
+	@EJB
+	private IControladorUsuario icu;
+	
 	private static final long serialVersionUID = 1L;
 
 	private String mail;
@@ -149,8 +158,9 @@ public class UsuarioMB implements Serializable {
 		return null;
 	}
 	
-	public void EliminarUsuario(String mail) {
-
+	public String eliminarUsuario(String mail) {
+		icu.eliminarUsuario(mail);
+		return "IndexAdmin.xhtml?faces-redirect=true";
 		
 	}
 	

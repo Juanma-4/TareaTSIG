@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import dominio.Usuario;
 import persistencia.IUsuarioDAO;
 
@@ -13,8 +12,7 @@ public class ControladorUsuario implements IControladorUsuario {
 
 	@EJB
 	private IUsuarioDAO UsuarioDAO;
-	
-	
+		
 	public boolean guardarUsuario(String mail, String Password) {
 		
 		boolean guardo = false;
@@ -43,8 +41,6 @@ public class ControladorUsuario implements IControladorUsuario {
 		}
 		return existe;
 	}
-	
-
 
 	public Usuario buscarUsuario(String nick) {
 		Usuario usuario = null;
@@ -56,7 +52,6 @@ public class ControladorUsuario implements IControladorUsuario {
 		
 		return usuario;
 	}
-
 
 	public boolean modificarUsuario(Usuario usuario) {
 		boolean modifico = false;
@@ -72,6 +67,24 @@ public class ControladorUsuario implements IControladorUsuario {
 		List<Usuario> equipos = UsuarioDAO.listarUsuarios();
 		return equipos;
 		  
+	}
+	
+	/*
+	for(Zona z : zdao.listAll())
+	{
+		if(z.getRepartidores().contains(r))
+		{
+			z.getRepartidores().remove(r);
+			zdao.update(z);
+		}
+	}
+*/
+	@Override
+	public void eliminarUsuario(String mail) {
+	///// TODO Auto-generated method stub
+
+		Usuario usu = UsuarioDAO.getUsuario(mail);
+		UsuarioDAO.delete(usu);
 	}
 	
 }

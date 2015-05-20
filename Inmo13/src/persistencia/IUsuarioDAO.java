@@ -10,6 +10,10 @@ public interface IUsuarioDAO {
 	public Usuario getUsuario(String nick);
 	public boolean modificarUsuario(Usuario u);
 	public List<Usuario> listarUsuarios();
+	public void insert(Usuario u);
+    public void update(Usuario u);
+    public void delete(Usuario u);
+    
 }
 
 
