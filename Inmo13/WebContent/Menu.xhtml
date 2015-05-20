@@ -8,14 +8,15 @@
  <h:form>
 	<p:menu>
 		<p:submenu label="Menu">
-			<p:menuitem value="Alta Administrador"  action="#{usuarioMB.irRegistroUsuario()}" icon="ui-icon-gear"  />
+			<p:menuitem value="Alta Administrador"  action="#{usuarioMB.irRegistroUsuario()}" icon="ui-icon-gear"/>
 			<p:menuitem value="BM Administrador"  action="#{usuarioMB.BMUsuario()}" icon="ui-icon-pencil"  />		
-			<p:menuitem value="Alta Propiedad"  action="#{usuarioMB.irAltaPropiedad()}" icon="ui-icon-gear"/>
-			<p:menuitem value="Baja Propiedad"  action="#{usuarioMB.irBajaPropiedad()}" icon="ui-icon-gear"/>
-			<p:menuitem value="Modificar Propiedad"  action="#{usuarioMB.irModificarPropiedad()}" icon="ui-icon-gear"/>
+			<p:menuitem value="Nueva Propiedad"  action="#{usuarioMB.irAltaPropiedad()}" icon="ui-icon-gear"/>
+			<p:menuitem value="BM Propiedad"  action="#{usuarioMB.irBMPropiedad()}" icon="ui-icon-gear"/>
 			<p:menuitem value="Reporte"  action="#{propiedadMB.irReporte()}" icon="ui-icon-gear"/>		
 		</p:submenu>																		  
 	</p:menu> 
 </h:form>
 </div>
 </html>
+
+<!-- 			icon="fa-user-plus" <p:menuitem value="Baja Propiedad"  action="#{usuarioMB.irBajaPropiedad()}" icon="ui-icon-gear"/> -->

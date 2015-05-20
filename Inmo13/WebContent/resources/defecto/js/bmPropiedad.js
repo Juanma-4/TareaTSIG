@@ -3,6 +3,7 @@ var propiedad;
 var saveStrategy;
 var propiedades;
 var growl;
+var modifico = false;
 //////////********** CREACIÓN DE MAPA, CAPAS Y CONTROLES **********//////////
 window.onload = function() {		
 		growl = PF('growl');
@@ -133,27 +134,58 @@ window.onload = function() {
      		title : "Borrar Propiedad"
      	});
 
+     	 var modificar = new OpenLayers.Control.ModifyFeature(propiedades, {
+         	selectControl: new OpenLayers.Control.SelectFeature([propiedades]),
+         	mode: OpenLayers.Control.ModifyFeature.RESHAPE | OpenLayers.Control.ModifyFeature.DRAG,
+         	title: "Modificar Propiedad",
+             displayClass: 'olControlModifyFeature'
+          });
+     	 
      	save = new OpenLayers.Control.Button({
      		title : "Guardar",
      		trigger : function() {
+     			if(modificar.feature){
+     				modificar.selectControl.unselectAll();
+     				modifico = true;
+     			}
      	 		saveStrategy.save();
      		},
      		displayClass : "olControlSaveFeatures"
      	});
+     	
+     	/*
+        propiedades.events.on({
+            'beforefeaturemodified': function(evt) {
+            	modificar.selectControl.select(evt.feature);
+             },
+             'afterfeaturemodified': function(evt) {
+            	 modificar.selectControl.unselect(evt.feature);
+             }
+        });
+        */
 
-     	panel.addControls([ navegar, del, save]);
+     	panel.addControls([ navegar, del, modificar,save]);
      	panel.defaultControl = navegar;
      	map.addControl(panel);
  };
- 
+//////**** Funciones **** //////
  function exito(){
-	 growl.show([{summary:'Exito', detail: 'Se borraron las propiedades', severity:'Info'}]); 
+	 if(modifico){
+		 growl.show([{summary:'Exito', detail: 'Se modificaron las propiedades', severity:'Info'}]); 
+	 }else{
+		 growl.show([{summary:'Exito', detail: 'Se borraron las propiedades', severity:'Info'}]); 
+	 }
+	 
  }
  
  function fallo(){
-	 growl.show([{summary:'Error', detail: 'Error al borrar las propiedades'}]); 
+	 if(modifico){
+		 growl.show([{summary:'Error', detail: 'Error al modificar las propiedades'}]); 
+	 }else{
+		 growl.show([{summary:'Error', detail: 'Error al borrar las propiedades'}]); 
+	 }
  }
- 
+
  /*********************** 
   * 
   * https://github.com/tmcw/OpenLayerer/blob/master/openlayers_src/OpenLayers-2.9.1/examples/wfs-snap-split.html

@@ -188,9 +188,9 @@ public class UsuarioMB implements Serializable {
 		return "BajaPropiedad.xhtml?faces-redirect=true";
 		
 	}
-	public String irModificarPropiedad(){
+	public String irBMPropiedad(){
 		
-		return "ModificarPropiedad.xhtml?faces-redirect=true";
+		return "BMPropiedad.xhtml?faces-redirect=true";
 		
 	}
 	
