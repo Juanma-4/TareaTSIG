@@ -161,6 +161,33 @@ window.onload = function() {
 		
 							
 };
+//////////////////////funcion que hace la busqueda en si misma 
+
+function hacerBusqueda(){	
+	
+	propiedad.attributes.tipopropiedad = document.getElementById('formPropiedad:tipoPropiedad').value;
+	propiedad.attributes.tipotransaccion =  document.getElementById('formPropiedad:tipoTransaccion').value;
+	propiedad.attributes.tipomoneda =  document.getElementById('formPropiedad:moneda').value;
+	propiedad.attributes.minimo = parseInt(document.getElementById('formPropiedad:minimo').value);
+	propiedad.attributes.maximo = parseInt(document.getElementById('formPropiedad:maximo').value);
+    propiedad.attributes.cantbanio = parseInt(document.getElementById('formPropiedad:cantBanio').value);
+ 	propiedad.attributes.cantdorm = parseInt(document.getElementById('formPropiedad:cantDormitorio').value);
+ 	propiedad.attributes.metroscuadrados = parseFloat(document.getElementById('formPropiedad:metrosCuadrados').value);
+ 	propiedad.attributes.barrio =  document.getElementById('formPropiedad:barrio').value;
+ 	propiedad.attributes.parrillero = document.getElementById('formPropiedad:parrillero').checked;
+ 	propiedad.attributes.garage = document.getElementById('formPropiedad:garage').checked; 
+ 	
+}
+
+
+
+//////////////////funcion para tomar los input de los filtros
+$(function() {  
+	$("#filtro-centros\\:btn-submit-buscar").click(function(){ 
+	  
+			 hacerBusqueda();	
+	});
+}); 
 
 	
  function exito(){

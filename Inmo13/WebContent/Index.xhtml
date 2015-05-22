@@ -136,7 +136,7 @@
     <div >
      
     <label class = "labelClass" style="color: white; font-size: 13px;">Propiedad </label>
-     <h:selectOneMenu id= "tipoEstado" value="1">
+     <h:selectOneMenu id= "tipoPropiedad" value="1">
 	   			<f:selectItem itemValue="Casa" itemLabel="Casa" />
 	   			<f:selectItem itemValue="Apartamento" itemLabel="Apartamento" />
 	   			<f:selectItem itemValue="Terreno" itemLabel="Terreno" />
@@ -146,7 +146,7 @@
 	
 	 <div >
 	  <label class = "labelClass"  style="color: white; font-size: 13px;">Operación</label>
-    <h:selectOneMenu id= "tipoEstado" value="1">
+    <h:selectOneMenu id= "tipoTransaccion" value="1">
 	   			<f:selectItem itemValue="Venta" itemLabel="Comprar" />
 	   			<f:selectItem itemValue="Alquiler" itemLabel="Alquilar" />
 	   			</h:selectOneMenu>
@@ -159,14 +159,14 @@
 	
 	<div >
 	<label style="color: white; font-size: 13px;">Rango Precios</label><br></br>
-     <h:selectOneMenu id= "tipoEstado" value="1">
+     <h:selectOneMenu id= "moneda" value="1">
 	   			<f:selectItem itemValue="" itemLabel="$" />
 	   			<f:selectItem itemValue="" itemLabel="US$" />
 	   </h:selectOneMenu>
 	 <label style="color: white; font-size: 13px;">Min</label>
-	 <input type="text" value="" id="id_number" size="5" maxlength="16" />
+	 <input type="text" value="" id="minimo" size="5" maxlength="16" />
 	 <label style="color: white; font-size: 13px;">Máx</label>
-	 <input type="text" value="" id="id_number" size="5" maxlength="16" />
+	 <input type="text" value="" id="maximo" size="5" maxlength="16" />
 	 <br></br>
 	</div>
 	
@@ -174,42 +174,42 @@
 	
 	<div>
 	 <label class = "labelClass" style="color: white; font-size: 13px;">Dormitorios</label>
-     <h:selectOneMenu id= "t" value="1">
-	   			<f:selectItem itemValue="" itemLabel="1" />
-	   			<f:selectItem itemValue="" itemLabel="2" />
-	   			<f:selectItem itemValue="" itemLabel="3" />
-	   			<f:selectItem itemValue="" itemLabel="4" />
-	   			<f:selectItem itemValue="" itemLabel="5" />
-	   			<f:selectItem itemValue="" itemLabel="6" />
-	   			<f:selectItem itemValue="" itemLabel="7" />
-	   			<f:selectItem itemValue="" itemLabel="8" />
-	   			<f:selectItem itemValue="" itemLabel="9" />
-	   			<f:selectItem itemValue="" itemLabel="10" />
+     <h:selectOneMenu id= "cantBanio" value="1">
+	   			<f:selectItem itemValue="1" itemLabel="1" />
+	   			<f:selectItem itemValue="2" itemLabel="2" />
+	   			<f:selectItem itemValue="3" itemLabel="3" />
+	   			<f:selectItem itemValue="4" itemLabel="4" />
+	   			<f:selectItem itemValue="5" itemLabel="5" />
+	   			<f:selectItem itemValue="6" itemLabel="6" />
+	   			<f:selectItem itemValue="7" itemLabel="7" />
+	   			<f:selectItem itemValue="8" itemLabel="8" />
+	   			<f:selectItem itemValue="9" itemLabel="9" />
+	   			<f:selectItem itemValue="10" itemLabel="10" />
 	   	 			</h:selectOneMenu>
 
 	</div>
 	<br></br>
 	<div>
 	<label class = "labelClass" style="color: white; font-size: 13px;">Baños</label>
-     <h:selectOneMenu id= "t" value="1">
-	   			<f:selectItem itemValue="" itemLabel="1" />
-	   			<f:selectItem itemValue="" itemLabel="2" />
-	   			<f:selectItem itemValue="" itemLabel="3" />
-	   			<f:selectItem itemValue="" itemLabel="4" />
-	   			<f:selectItem itemValue="" itemLabel="5" />
+     <h:selectOneMenu id= "cantDormitorio" value="1">
+	   			<f:selectItem itemValue="1" itemLabel="1" />
+	   			<f:selectItem itemValue="2" itemLabel="2" />
+	   			<f:selectItem itemValue="3" itemLabel="3" />
+	   			<f:selectItem itemValue="4" itemLabel="4" />
+	   			<f:selectItem itemValue="5" itemLabel="5" />
 	   	 			</h:selectOneMenu>
 	</div>
     <br></br>
     
     <div >
 	<label class = "labelClass"  style="color: white; font-size: 13px;"> m² </label>
-    <input type="text" value="" id="id_number" size="1" maxlength="16" />
+    <input type="text" value="" id="metrosCuadrados" size="1" maxlength="16" />
 	</div>
     
      <br></br>
     <div>
 	<label style="color: white; font-size: 13px;">Barrio</label>
-     <h:selectOneMenu id= "t" value="1">
+     <h:selectOneMenu id= "barrio" value="1">
      			<f:selectItem itemValue="" itemLabel="Todos" />
 	   			<f:selectItem itemValue="" itemLabel="MANGA TOLEDO CHICO" />
 	   			<f:selectItem itemValue="" itemLabel="COLON SURESTE ABAYUBA" />
@@ -282,15 +282,15 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 body-filtros-opciones">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     <div class="checkbox"><div class="icheckbox_square-blue">
-    <input type="checkbox" id="type-1" name="1" value="1" class="chk-filtro"></input></div>
+    <input type="checkbox" id="parrillero" name="1" value="1" class="chk-filtro"></input></div>
     <label for="type-1">Parrillero</label></div></div>
     
     
     
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     <div class="checkbox"><div class="icheckbox_square-blue">
-    <input type="checkbox" id="type-2" name="2" value="1" class="chk-filtro"></input></div>
-    <label for="type-2">Piscina</label></div></div>
+    <input type="checkbox" id="garage" name="2" value="1" class="chk-filtro"></input></div>
+    <label for="type-2">Garage</label></div></div>
  
   
      <div>
@@ -321,7 +321,7 @@
     
     <div class="col-lg-12 col-md-12 col-sm-12"><!-- Inicio boton buscar -->
     <!-- Para LG y MD -->
-    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar">
+    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar" >
     <h2>Buscar</h2></div>
     </div>
     
