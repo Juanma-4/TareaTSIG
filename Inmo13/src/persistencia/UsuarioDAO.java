@@ -46,7 +46,7 @@ public class UsuarioDAO implements IUsuarioDAO{
 		boolean existe = false;
 		try {
 			Usuario user = em.find(Usuario.class, usuario.getMail()); // Si no se encuentra retorna NULL
-			existe = user == null ? false:true;
+			existe = ((user != null) && (user.getPassword().trim().equals(usuario.getPassword()))) ? true:existe;				
 		}catch(Exception e){
 			e.printStackTrace();
 		}

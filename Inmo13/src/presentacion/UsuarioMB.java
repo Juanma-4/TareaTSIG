@@ -240,7 +240,7 @@ public class UsuarioMB implements Serializable {
 			if (lista.get(0) == false) {				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Credenciales incorrectas"));
 				FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-				throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
+			//throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
 			}
 			
 			else {				
