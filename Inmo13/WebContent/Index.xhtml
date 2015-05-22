@@ -7,6 +7,7 @@
  
 	<link rel="stylesheet" type="text/css" href="../resources/bootstrap/css/bootstrap.min.css"></link>
 	<link rel="stylesheet" type="text/css" href="../resources/bootstrap/css/bootstrap-theme.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="../resources/defecto/css/slider.css"></link>
 	
 	 
 
@@ -36,11 +37,11 @@
     
  
    <script>
-   var slider = new Slider("#ex6");
-   slider.on("slide", function(slideEvt) {
+   $("#ex6").slider();
+   $("#ex6").on("slide", function(slideEvt) {
    	$("#ex6SliderVal").text(slideEvt.value);
    });
-  </script> 
+   </script>
   <!-- 
   
    -->
@@ -253,13 +254,13 @@
     <input type="checkbox" id="type-2" name="2" value="1" class="chk-filtro"></input></div>
     <label for="type-2">Piscina</label></div></div>
     
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 body-filtros-distancia">
-   
-   <input id="ex6" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
-<span id="ex6CurrentSliderValLabel">KM: <span id="ex6SliderVal"></span></span>
     
-    
+   <div class='slider-example'>
+   <input id="ex6" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="3"></input>
+<span id="ex6CurrentSliderValLabel">KM: <span id="ex6SliderVal">3</span> </span>
     </div>
+    
+
    
  
     <!-- <div id="slider"></div> </div>-->
