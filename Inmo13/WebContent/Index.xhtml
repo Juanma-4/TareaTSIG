@@ -37,15 +37,53 @@
     
  
    <script>
-   $("#ex6").slider();
-   $("#ex6").on("slide", function(slideEvt) {
-   	$("#ex6SliderVal").text(slideEvt.value);
+   
+   
+   $(function(){
+      
+	   $("#sliderMar").slider();
+	   $("#sliderMar").on("slide", function(slideEvt) {
+	   	$("#ex6SliderVal").text(slideEvt.value);
+	   });
+	   
    });
-   </script>
-  <!-- 
+   
+   
+   $(function(){
+	      
+	   $("#sliderBus").slider();
+	   $("#sliderBus").on("slide", function(slideEvt) {
+	   	$("#BusSliderVal").text(slideEvt.value);
+	   });
+	   
+   });
+   
+   
+   $(function(){
+	      
+	   $("#sliderPInteres").slider();
+	   $("#sliderPInteres").on("slide", function(slideEvt) {
+	   	$("#PInteresSliderVal").text(slideEvt.value);
+	   });
+	   
+   });
+   
   
-   -->
+  
+   
+   
+   </script>
+  
  	
+	<style>
+	#ex1Slider .slider-selection {
+	background: #BABABA;
+}
+	
+	
+	
+
+	</style>
 	
 </h:head>
 
@@ -253,17 +291,33 @@
     <div class="checkbox"><div class="icheckbox_square-blue">
     <input type="checkbox" id="type-2" name="2" value="1" class="chk-filtro"></input></div>
     <label for="type-2">Piscina</label></div></div>
-    
-    
-   <div class='slider-example'>
-   <input id="ex6" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="3"></input>
-<span id="ex6CurrentSliderValLabel">KM: <span id="ex6SliderVal">3</span> </span>
+ 
+  
+     <div>
+    <input id="sliderMar"  data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="5"></input>
+    <br></br>
+    <span style="color: white; font-size: 16px" >Distacia del Mar: <span id="ex6SliderVal" style="color: white; font-size: 16px">5</span> km</span>
     </div>
     
-
+    <br></br>
+    
+     <div>
+    <input id="sliderBus"  data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="2000" data-slider-step="1" data-slider-value="500"></input>
+    <br></br>
+    <span style="color: white; font-size: 16px" >Distacia a parada más cercana: <span id="BusSliderVal" style="color: white; font-size: 16px">500</span> m</span>
+    </div>
+    
+    <br></br>
+    
+    <div>
+    <input id="sliderPInteres"  data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="30" data-slider-step="1" data-slider-value="10"></input>
+    <br></br>
+    <span style="color: white; font-size: 16px" >Distacia a puntos de interés: <span id="PInteresSliderVal" style="color: white; font-size: 16px">10</span> Km</span>
+    </div>
+   
    
  
-    <!-- <div id="slider"></div> </div>-->
+    
     
     <div class="col-lg-12 col-md-12 col-sm-12"><!-- Inicio boton buscar -->
     <!-- Para LG y MD -->
