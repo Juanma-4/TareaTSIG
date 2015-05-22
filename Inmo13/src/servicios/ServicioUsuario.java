@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -18,6 +22,7 @@ import utilidades.UsuarioAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import utilidades.Correo;
 import controladores.IControladorUsuario;
 import dominio.Usuario;
 
@@ -157,6 +162,23 @@ public class ServicioUsuario extends Application {
 				return Response.status(404).entity(respuesta).build();
 			}
 		}
+		
+		@PUT
+		@Path("/contacto/{propiedad}/{mail}/{correo}/{asunto}")
+		public void enviarCorreo(@PathParam("mail") String mail, @PathParam("correo") String correo,@PathParam("asunto") String asunto, @PathParam("cuerpo") String cuerpo) throws AddressException, MessagingException
+		{
+			//buscar el administrador con el nick, dependiendo de la propiedad que el usuario esta mirando
+			
+		
+		/*
+	 *  public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
+    	String asunto, String mensaje) throws AddressException, MessagingException
+    	{*/
+		Correo c = new Correo();
+		c.enviarMensajeConAuth("smtp.gmail.com", 587,mail, "gayoso.javier@gmail.com","gestioncatastrofes", asunto, cuerpo);
+			
+			
+		}
 
 		public String toJSONString(Object object) { // Funcion que convierte de
 													// objeto java a JSON
@@ -171,5 +193,6 @@ public class ServicioUsuario extends Application {
 		    Gson gson = gsonBuilder.registerTypeAdapter(Usuario.class, new UsuarioAdapter()).create();
 		    return gson.toJson(usuarios);
 		} 
+		
 		
 }

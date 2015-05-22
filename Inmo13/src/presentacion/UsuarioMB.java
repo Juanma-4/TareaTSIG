@@ -86,7 +86,7 @@ public class UsuarioMB implements Serializable {
 		
 		ClientRequest request = null;
 		try {
-			request = new ClientRequest("http://localhost:8082/Inmo13/rest/ServicioUsuario/modificar");
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/modificar");
 		
 			//WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
 			WrapperUsuario usuario = new WrapperUsuario(mail,pass);
@@ -124,7 +124,7 @@ public class UsuarioMB implements Serializable {
 	public List<WrapperUsuario> getUsuarios(){		
 		//System.out.println("entro get administradores");
 				
-		ClientRequest request = new ClientRequest("http://localhost:8082/Inmo13/rest/ServicioUsuario/administradores");
+		ClientRequest request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/administradores");
 		
 		ArrayList<WrapperUsuario> lwu = new ArrayList<WrapperUsuario>();
 		
