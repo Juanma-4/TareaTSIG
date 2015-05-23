@@ -165,8 +165,47 @@ window.onload = function() {
 
 function hacerBusqueda(){	
 	
-	propiedad.attributes.tipopropiedad = document.getElementById('formPropiedad:tipoPropiedad').value;
-	propiedad.attributes.tipotransaccion =  document.getElementById('formPropiedad:tipoTransaccion').value;
+	 var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
+	 
+
+	 /*
+	 
+	 var estiloFiltro = new OpenLayers.StyleMap({
+			"default" : new OpenLayers.Style(null, {
+				rules : [ new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "tipoestado" ,
+								value : tipopropiedad ,
+							}),
+							symbolizer : {
+								pointRadius : 7,
+								fillColor : "green",
+								fillOpacity : 0.5,
+								strokeColor : "black"
+							}
+					})]
+				})
+			});
+	 
+	 
+	 var PropiedadesFiltradas = new OpenLayers.Layer.Vector("Propiedades Filtradas", {
+			strategies : [ new OpenLayers.Strategy.BBOX() ],
+			styleMap: estiloFiltro,
+			protocol : new OpenLayers.Protocol.WFS({
+				version : "1.1.0",
+				url : urlWFS,
+				featureType : "propiedad",
+				featureNS : urlGeoServer,
+				geometryName : "geom",
+				srsName: gEPSG,
+				
+			}),
+		});	
+	 
+	 map.addLayers([ PropiedadesFiltradas]);
+	 
+	propiedad.attributes.tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
 	propiedad.attributes.tipomoneda =  document.getElementById('formPropiedad:moneda').value;
 	propiedad.attributes.minimo = parseInt(document.getElementById('formPropiedad:minimo').value);
 	propiedad.attributes.maximo = parseInt(document.getElementById('formPropiedad:maximo').value);
@@ -175,21 +214,40 @@ function hacerBusqueda(){
  	propiedad.attributes.metroscuadrados = parseFloat(document.getElementById('formPropiedad:metrosCuadrados').value);
  	propiedad.attributes.barrio =  document.getElementById('formPropiedad:barrio').value;
  	propiedad.attributes.parrillero = document.getElementById('formPropiedad:parrillero').checked;
- 	propiedad.attributes.garage = document.getElementById('formPropiedad:garage').checked; 
+ 	propiedad.attributes.garage = document.getElementById('formPropiedad:garage').checked; */
  	
 }
 
 
 
 //////////////////funcion para tomar los input de los filtros
+
+/*function busqueda() {
+	hacerBusqueda($("#filtro-centros\\:botonFiltro"));
+}*/
+/*
 $(function() {  
-	$("#filtro-centros\\:btn-submit-buscar").click(function(){ 
+	$('.col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar').click(function(){ 
 	  
 			 hacerBusqueda();	
 	});
-}); 
+});
+*/
 
-	
+$(function() { 
+	var a = "holaaaaaaaaassssss"; 
+	$("#filtro-centros\\:botonBusqueda").click(function(){ 
+		var a = "hola";
+		hacerBusqueda();
+		var b = "holabbbbb";
+		var c = "holabbbbbccc";
+	});
+});
+
+
+
+
+
  function exito(){
  	alert("Se guardo con éxito");
  }
@@ -198,7 +256,4 @@ $(function() {
  	alert("Error al guardar"); 
  }
  
- function darAltaGeom(){
-	 punto.state = OpenLayers.State.INSERT;
-	 saveStrategy.save();	
- }
+ 
