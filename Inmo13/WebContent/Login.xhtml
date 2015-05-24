@@ -2,7 +2,8 @@
 xmlns:h="http://java.sun.com/jsf/html"
 xmlns:f="http://xmlns.jcp.org/jsf/core" 
 xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:p="http://primefaces.org/ui">
+xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     
     
 <h:head>
@@ -99,7 +100,7 @@ xmlns:p="http://primefaces.org/ui">
 													<i class="glyphicon glyphicon-envelope"></i>
 												</span> 
 												
-												 <h:inputText value="#{usuarioMB.mail}" id="mail" class="form-control" placeholder="Email"></h:inputText>
+												 <h:inputText value="#{usuarioMB.mail}" id="mail" class="form-control" pt:placeholder="Email"></h:inputText>
 												   
 										
 											</div>
@@ -111,7 +112,7 @@ xmlns:p="http://primefaces.org/ui">
 												</span>
 												
 												
-												   <h:inputSecret value="#{usuarioMB.password}" id="password"  class="form-control" placeholder="Contraseña"></h:inputSecret>
+												   <h:inputSecret value="#{usuarioMB.password}" id="password"  class="form-control" pt:placeholder="Contraseña"></h:inputSecret>
 										
 											
 											</div>

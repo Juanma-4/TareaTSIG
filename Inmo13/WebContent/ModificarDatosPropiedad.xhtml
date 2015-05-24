@@ -1,0 +1,117 @@
+<ui:composition template="IndexAdmin.xhtml"  
+  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+    <ui:define name="titulo">
+       Modificar Datos Propiedad
+    </ui:define>
+    
+<ui:define name="contenido">
+ 
+<h:head>
+	 
+	<!-- Google Maps -->
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    
+    <h:outputScript library="defecto" name="js/proj4js-combined.js" target="head"/>
+    
+    <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
+    
+</h:head>
+
+<h:body>      
+      
+     <h:panelGroup layout="block" id="div-altaPropiedad">
+	
+   		<p:growl id="growl" widgetVar="growl" showDetail="false" />
+     
+     <h:form style="margin-top:12px" id="formBMPropiedad">
+   		  
+   		  	
+   		    <h:outputText value="Calle " />
+   		  	<h:inputText value="#{propiedadMB.calle}" id="calle" required="true" requiredMessage="Ingrese una calle"></h:inputText>
+   		  	<br/><br/>
+   		  	
+   		  	<h:outputText value="Nro Puerta " />
+   		  	<h:inputText value="#{propiedadMB.numPuerta}" id="numeroPuerta" required="true" requiredMessage="Ingrese un Nº de puerta"></h:inputText>
+   		  
+   		  	<br/><br/>
+   		  	
+   		  	<h:selectOneMenu id="tipoPropiedad" value="#{propiedadMB.tipoPropiedad}">
+	   			<f:selectItem id="casa" itemValue="CASA" itemLabel="Casa" />
+	   			<f:selectItem id="apartamento" itemValue="APARTAMENTO" itemLabel="Apartamento" />
+	   			<f:selectItem id="terreno" itemValue="TERRENO" itemLabel="Terreno" />
+   		  	</h:selectOneMenu>
+   		 	<br/><br/>
+   		  	
+   		  	<h:selectOneMenu id="tipoTransaccion" value="#{propiedadMB.tipotransaccion}">
+	   			<f:selectItem itemValue="Alquiler" itemLabel="Alquiler" />
+	   			<f:selectItem itemValue="Venta" itemLabel="Venta" />
+   		  	</h:selectOneMenu>
+   		 	<br/><br/>
+
+   		  	<h:outputText value="Precio" />
+   		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Ingrese un precio"></h:inputText>
+   		  
+   		  	<h:selectOneMenu id="moneda" value="#{propiedadMB.tipoMoneda}">
+	   			<f:selectItem itemValue="$" itemLabel="$" />
+	   			<f:selectItem itemValue="US$" itemLabel="US$" />
+   		  	</h:selectOneMenu>
+   		  	
+   		  	<br/><br/>
+   		  	
+   		  	<h:outputText value="Numero Piso" />
+   		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Ingrese un numero de piso"></h:inputText>
+   		  	<br/><br/>
+   		  	
+   		    <h:outputText value="Cantidad Baños" />
+   		  	<h:inputText value="#{propiedadMB.cantBanio}" id="cantBanio" required="true" requiredMessage="Ingrese la cantidad de los baños"></h:inputText>
+   		  	<br/><br/>
+   		  	
+   		  	<h:outputText value="Cantidad Dormitorios" />
+   		  	<h:inputText value="#{propiedadMB.cantDorm}" id="cantDormitorio" required="true" requiredMessage="Ingrese la cantidad de dormitorios"></h:inputText>
+   		  	<br/><br/>
+   		  	
+   		  	<h:outputText value="Metros Cuadrados " />
+   		  	<h:inputText value="#{propiedadMB.metrosCuadrados}" id="metrosCuadrados" required="true" requiredMessage="Ingrese los metros cuadrados"></h:inputText>
+   		  	<br/><br/>
+   		  	
+			<h:outputText value="Parrillero" />
+    		<h:selectBooleanCheckbox value="#{propiedadMB.parrillero}" id="parrillero"/>
+    		<br/><br/>
+   		  
+    		<h:outputText value="Garage" />
+    		<h:selectBooleanCheckbox value="#{propiedadMB.garage}" id="garage"/>
+			<br/><br/>
+						
+			<h:panelGroup layout="block" id="div-usuario" style="display: none">
+				<h:inputText id="usuario" value="#{propiedadMB.usuario}" />	
+			</h:panelGroup>
+						 
+			<h:selectOneMenu id= "tipoEstado" value="#{propiedadMB.tipoEstado}">
+	   			<f:selectItem itemValue="Cerrada" itemLabel="Cerrada" />
+	   			<f:selectItem itemValue="Cancelada" itemLabel="Cancelada" />
+	   			<f:selectItem itemValue="Publica" itemLabel="Publica" />
+	   			<f:selectItem itemValue="Privada" itemLabel="Privada" />
+	   			<f:selectItem itemValue="Reservada" itemLabel="Reservada" />
+			</h:selectOneMenu>
+				<br/><br/>
+				
+			<h:outputText id="fid" value="Feature ID : #{propiedadMB.fid}" />
+			<br />			
+									
+				<h:commandButton type="submit" id="botonBMPropiedad" value="Modificar" action="#{propiedadMB.modificarPropiedad}"  update="growl"/>
+			</h:form>
+   		
+   		
+     </h:panelGroup>
+
+</h:body>
+
+</ui:define>
+</ui:composition>

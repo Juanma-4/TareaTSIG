@@ -3,12 +3,12 @@ package controladores;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import dominio.Propiedad;
 import dominio.Usuario;
 import persistencia.IPropiedadDAO;
-import enumerados.Estado;
-import enumerados.TipoPropiedad;
-import enumerados.Transaccion;
 
 
 @Stateless
@@ -33,6 +33,43 @@ public class ControladorPropiedad implements IControladorPropiedad{
 		
 		return guardo;
 		
+	}
+
+	@Override
+	public boolean modificarPropiedad(String datosPropiedad) {
+		
+	
+		JsonObject jobj = new Gson().fromJson(datosPropiedad, JsonObject.class);
+		String calle = jobj.get("calle").getAsString();
+		double precio = jobj.get("precio").getAsDouble();	
+		Integer cantDorm = jobj.get("cantDorm").getAsInt();
+		Integer cantBanio = jobj.get("cantBanio").getAsInt();
+		double metrosCuadrados = jobj.get("metrosCuadrados").getAsDouble();
+		boolean parrillero = jobj.get("parrillero").getAsBoolean();
+		boolean garage = jobj.get("garage").getAsBoolean();
+		String tipoPropiedad = jobj.get("tipoPropiedad").getAsString();
+		String tipotransaccion = jobj.get("tipotransaccion").getAsString();
+		String tipoEstado = jobj.get("tipoEstado").getAsString();
+		Integer numeroPuerta = jobj.get("numeroPuerta").getAsInt();
+		String fid = jobj.get("fid").getAsString();
+		String tipoMoneda = jobj.get("tipoMoneda").getAsString();
+		String piso = jobj.get("piso").getAsString();
+		String usuario = jobj.get("usuario").getAsString();
+		
+		boolean modifico = false;		
+		
+		try{		
+							
+			modifico = PropiedadDAO.modificarPropiedad(calle,precio,cantDorm,cantBanio,metrosCuadrados,parrillero,garage,
+														tipoPropiedad,tipotransaccion,tipoEstado,numeroPuerta,fid,
+														tipoMoneda,piso,usuario);		
+		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return modifico;
 	}
 
 

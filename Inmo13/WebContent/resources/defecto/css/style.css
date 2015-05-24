@@ -14,13 +14,13 @@ html {
 	padding-top: 0.2em;
 	text-align: right;
 	font-weight: bold;
-	"
 }
 
 .ui-datalist-item {
 	border: outset 5px #052607 !Important;
 }
 
+/* Para links */
 .ui-widget-content a {
 	color: white !Important;
 }
@@ -69,13 +69,13 @@ div.oldMap {
 }
 
 .ui-widget-content {
-	background-color: rgba(9, 40, 12, 0.7) !Important;
+	background-color: rgba(38, 45, 39, 0.7) !Important;
 	color: white !Important;
 }
 
 .ui-menu {
 	background: none !Important;
-	background-color: rgba(9, 40, 12, 0.8) !Important;
+	background-color: rgba(27, 31, 27, 0.8) !Important;
 }
 
 .ui-menuitem-link {
@@ -84,7 +84,7 @@ div.oldMap {
 
 .ui-menuitem-link:hover {
 	background: none !Important;
-	background-color: rgba(0, 24, 0, 0.8) !Important;
+	background-color: rgba(63, 73, 86, 0.9) !Important;
 	font-size: inherit;
 	border: none;
 }
@@ -147,7 +147,7 @@ div.oldMap {
 
 ui-widget-content {
 	background: #cedc98;
-	border: 1px solid #DDDDDD;
+    border: 1px solid #5F7189;
 	color: #333333;
 }
 
@@ -165,4 +165,14 @@ ui-widget-content {
 	text-align: center !Important;
 	width: 100% !Important;
 	height: 20% !Important;
+}
+
+
+/***** */
+
+a.linkMB {
+  color: #4f4f4f !Important;
+}
+#irMBPropiedad {
+	  color: #4f4f4f !Important;
 }

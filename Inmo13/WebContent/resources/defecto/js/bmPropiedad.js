@@ -40,8 +40,6 @@ window.onload = function() {
  		saveStrategy = new OpenLayers.Strategy.Save();	
  		saveStrategy.events.register("success", '', exito);
  		saveStrategy.events.register("failure", '', fallo);	    
- 				
-
 
  		/* 	Estilo de la propiedad que se va a ingresar */
  		var estiloProp = new OpenLayers.StyleMap({
@@ -61,11 +59,25 @@ window.onload = function() {
  				})
  			});
  		
+ 	//	var fid = $("#formBMPropiedad\\:fid").html();
+ 		
+ 	/*	var filtro = new OpenLayers.Filter.Logical({
+ 		    type: OpenLayers.Filter.Logical.AND,
+ 		    filters: [
+	 		        new OpenLayers.Filter.Comparison({
+	 		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	 		            property: "fid",
+	 		            value: fid
+	 		        })
+ 		        	]
+ 		});
+ 	*/	
  		/* "Layer Constructor" : Pide capa de porpiedades via WFS-T  */
  		 propiedades = new OpenLayers.Layer.Vector("Propiedad", {
  			strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
  			styleMap: estiloProp,
  			displayInLayerSwitcher : false,
+ 		//	filter: filtro,
  			protocol : new OpenLayers.Protocol.WFS({
  				version : "1.1.0",
  				url : urlWFS,
@@ -80,11 +92,10 @@ window.onload = function() {
  		map.addLayers([ google_maps, google_fisico, propiedades]);
  		map.zoomToExtent(limites);	
  		
- 		/* PARA CENTRAR EN MONTEVIDEO */
-     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
-             	    WGS84,  map.getProjectionObject()), miZoom + 3);
- 		
-     	
+ 		/// PARA CENTRAR EN MONTEVIDEO
+    	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
+    			new OpenLayers.Projection(miEPSG),  map.getProjectionObject()), miZoom + 3);
+		
      	/**OpenLayers.Handler.Feature
      	 * Handler to respond to mouse events related to a drawn feature. Callbacks with the following keys will be 
      	 * notified of the following events associated with features: click, clickout, over, out, and dblclick.
@@ -110,7 +121,8 @@ window.onload = function() {
      	 			this.capa.events.triggerEvent("afterfeaturemodified", {
      	 				feature : feature
      	 			});
-     	 		propiedades.removeFeatures(feature);
+     	 			feature.renderIntent = "select";
+     				this.capa.drawFeature(feature);
      	 		}
      	 	},
      	 	setMap : function(map) {
@@ -164,7 +176,7 @@ window.onload = function() {
         });
         */
 
-     	panel.addControls([ navegar, del, modificar,save]);
+     	panel.addControls([ navegar, del, modificar, save]); 
      	panel.defaultControl = navegar;
      	map.addControl(panel);
  };

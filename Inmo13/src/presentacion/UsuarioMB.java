@@ -164,17 +164,6 @@ public class UsuarioMB implements Serializable {
 		
 	}
 	
-	public void altaPropiedad(){
-		try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("AltaPropiedad.xhtml");					
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			
-		}
-	}
-	
 	public String irRegistroUsuario(){
 		
 		return "AltaUsuario.xhtml?faces-redirect=true";
@@ -186,26 +175,7 @@ public class UsuarioMB implements Serializable {
 		return "BMUsuario.xhtml?faces-redirect=true";
 		
 	}
-	
-	public String irAltaPropiedad(){
 		
-		return "AltaPropiedad.xhtml?faces-redirect=true";
-		
-	}
-	
-	public String irBajaPropiedad(){
-		
-		return "BajaPropiedad.xhtml?faces-redirect=true";
-		
-	}
-	public String irBMPropiedad(){
-		
-		return "BMPropiedad.xhtml?faces-redirect=true";
-		
-	}
-	
-	
-	
 	public void login(){
 		
 		ClientRequest request;		  

@@ -2,6 +2,7 @@ package presentacion;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -11,10 +12,10 @@ import javax.faces.context.FacesContext;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 
+import wrappers.WrapperPropiedad;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import wrappers.WrapperPropiedad;
 
 @ManagedBean
 @javax.faces.bean.SessionScoped
@@ -89,16 +90,83 @@ public class PropiedadMB implements Serializable {
 		//return null;
 	}
 	
-	public String irReporte(){
+public void modificarPropiedad(){
 		
-		return "Reporte.xhtml?faces-redirect=true";
+		ClientRequest request;
+		ClientResponse<String> response;
+		try {
+			
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/modificar");
+			WrapperPropiedad propiedad = new WrapperPropiedad(this.precio,this.cantDorm,this.cantBanio,this.metrosCuadrados,this.parrillero,this.garage,this.tipoPropiedad,this.tipoEstado,
+																this.tipotransaccion,this.numPuerta,this.calle,this.fid,this.tipoMoneda,this.piso,this.usuario);
+			
+
+			String propiedadJSON = toJSONString(propiedad);
+			request.body("application/json", propiedadJSON);			
+			response = request.post(String.class);
+
+			if (response.getStatus() != 201) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage("Error al ingresar una nueva propiedad"));
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ response.getStatus());
+			}
+			
+			Boolean modifico = Boolean.parseBoolean(response.getEntity(String.class));				
+			
+			if (modifico)	{
+				FacesContext.getCurrentInstance().getExternalContext().redirect("ElegirPropiedad.xhtml");
+			}else{	
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al modificar la propiedad"));
+			}
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
+	public void setearDatos(){
+		
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		this.numPuerta = Integer.valueOf(params.get("numPuerta"));
+		this.precio = Double.valueOf(params.get("precio"));
+		this.cantDorm = Integer.valueOf(params.get("cantDorm"));
+		this.cantBanio = Integer.valueOf(params.get("cantBanio"));
+		this.metrosCuadrados = Double.valueOf(params.get("metrosCuadrados"));
+		this.parrillero = Boolean.valueOf(params.get("parrillero"));
+		this.garage = Boolean.valueOf(params.get("garage"));
+		this.tipoPropiedad = String.valueOf(params.get("tipoPropiedad")); 
+		this.tipotransaccion = String.valueOf(params.get("tipotransaccion"));  
+		this.tipoEstado = String.valueOf(params.get("tipoEstado")); 
+		this.calle = String.valueOf(params.get("calle"));  
+		this.fid = String.valueOf(params.get("fid")); 
+		this.usuario = String.valueOf(params.get("usuario"));   
+		this.tipoMoneda = String.valueOf(params.get("tipoMoneda"));   
+		this.piso = String.valueOf(params.get("piso"));  
+	
+	}
+	public String irElegirPropiedad(){
+		
+		return "ElegirPropiedad.xhtml?faces-redirect=true";
+			
+	}
+	
+	public String irAltaPropiedad(){
+		
+		return "AltaPropiedad.xhtml?faces-redirect=true";
+		
+	}
+	
+	public String irBMPropiedad(){
+		return "BMPropiedad.xhtml?faces-redirect=true";
+	}
+	
+	public String irReporte(){
+		return "Reporte.xhtml?faces-redirect=true";
 	}
 	
 	public String irIndex(){
-			
 		return "IndexAdmin.xhtml?faces-redirect=true";
-		
 	}
 	
 	public String getUsuario() {
@@ -108,8 +176,6 @@ public class PropiedadMB implements Serializable {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-
-	
 	
 	public String getTipoMoneda() {
 		return tipoMoneda;
