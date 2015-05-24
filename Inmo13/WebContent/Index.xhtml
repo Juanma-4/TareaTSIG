@@ -160,13 +160,13 @@
 	<div >
 	<label style="color: white; font-size: 13px;">Rango Precios</label><br></br>
      <h:selectOneMenu id= "moneda" value="1">
-	   			<f:selectItem itemValue="" itemLabel="$" />
-	   			<f:selectItem itemValue="" itemLabel="US$" />
+	   			<f:selectItem itemValue="$" itemLabel="$" />
+	   			<f:selectItem itemValue="US$" itemLabel="US$" />
 	   </h:selectOneMenu>
 	 <label style="color: white; font-size: 13px;">Min</label>
-	 <input type="text" value="" id="minimo" size="5" maxlength="16" />
+	 <h:inputText type="text" value="" id="minimo" size="5" maxlength="16" />
 	 <label style="color: white; font-size: 13px;">Máx</label>
-	 <input type="text" value="" id="maximo" size="5" maxlength="16" />
+	 <h:inputText type="text" value="" id="maximo" size="5" maxlength="16" />
 	 <br></br>
 	</div>
 	
@@ -174,7 +174,7 @@
 	
 	<div>
 	 <label class = "labelClass" style="color: white; font-size: 13px;">Dormitorios</label>
-     <h:selectOneMenu id= "cantBanio" value="1">
+     <h:selectOneMenu id= "cantDormitorio" value="1">
 	   			<f:selectItem itemValue="1" itemLabel="1" />
 	   			<f:selectItem itemValue="2" itemLabel="2" />
 	   			<f:selectItem itemValue="3" itemLabel="3" />
@@ -191,7 +191,7 @@
 	<br></br>
 	<div>
 	<label class = "labelClass" style="color: white; font-size: 13px;">Baños</label>
-     <h:selectOneMenu id= "cantDormitorio" value="1">
+     <h:selectOneMenu id= "cantBanio" value="1">
 	   			<f:selectItem itemValue="1" itemLabel="1" />
 	   			<f:selectItem itemValue="2" itemLabel="2" />
 	   			<f:selectItem itemValue="3" itemLabel="3" />
@@ -203,7 +203,7 @@
     
     <div >
 	<label class = "labelClass"  style="color: white; font-size: 13px;"> m² </label>
-    <input type="text" value="" id="metrosCuadrados" size="1" maxlength="16" />
+    <h:inputText type="text" value="" id="metrosCuadrados" size="1" maxlength="16" />
 	</div>
     
      <br></br>
@@ -211,68 +211,68 @@
 	<label style="color: white; font-size: 13px;">Barrio</label>
      <h:selectOneMenu id= "barrio" value="1">
      			<f:selectItem itemValue="" itemLabel="Todos" />
-	   			<f:selectItem itemValue="" itemLabel="MANGA TOLEDO CHICO" />
-	   			<f:selectItem itemValue="" itemLabel="COLON SURESTE ABAYUBA" />
-	   			<f:selectItem itemValue="" itemLabel="VILLA GARCIA MANGA RURAL" />
-	   			<f:selectItem itemValue="" itemLabel="BAÃADOS DE CARRASCO" />
-	   			<f:selectItem itemValue="" itemLabel="PEÃAROL LAVALLEJA" />
-	   			<f:selectItem itemValue="" itemLabel="MANGA" />
-	   			<f:selectItem itemValue="" itemLabel="PUNTA RIELES BELLA ITALIA" />
-	   			<f:selectItem itemValue="" itemLabel="CASAVALLE" />
-	   			<f:selectItem itemValue="" itemLabel="PIEDRAS BLANCAS" />
-	   			<f:selectItem itemValue="" itemLabel="JARDINES DEL HIPODROMO" />
-	   			<f:selectItem itemValue="" itemLabel="CASABO PAJAS BLANCAS" />
-	   			<f:selectItem itemValue="" itemLabel="LAS ACACIAS" />
-	   			<f:selectItem itemValue="" itemLabel="LA PALOMA TOMKINSON" />
-	   			<f:selectItem itemValue="" itemLabel="BELVEDERE" />
-	   			<f:selectItem itemValue="" itemLabel="PASO DE LAS DURANAS" />
-	   			<f:selectItem itemValue="" itemLabel="ITUZAINGO" />
-	   			<f:selectItem itemValue="" itemLabel="FLOR DE MAROÃAS" />
-	   			<f:selectItem itemValue="" itemLabel="AIRES PUROS" />
-	   			<f:selectItem itemValue="" itemLabel="CASTRO CASTELLANOS" />
-	   			<f:selectItem itemValue="" itemLabel="TRES OMBUES PBLO VICTORIA" />
-	   			<f:selectItem itemValue="" itemLabel="CERRITO" />
-	   			<f:selectItem itemValue="" itemLabel="PRADO NUEVA SAVONA" />
-	   			<f:selectItem itemValue="" itemLabel="VILLA ESPAÃOLA" />
-	   			<f:selectItem itemValue="" itemLabel="MAROÃAS PARQUE GUARANI" />
-	   			<f:selectItem itemValue="" itemLabel="BRAZO ORIENTAL" />
-	   			<f:selectItem itemValue="" itemLabel="LAS CANTERAS" />
-	   			<f:selectItem itemValue="" itemLabel="LA TEJA" />
-	   			<f:selectItem itemValue="" itemLabel="MERCADO MODELO Y BOLIVAR" />
-	   			<f:selectItem itemValue="" itemLabel="ATAHUALPA" />
-	   			<f:selectItem itemValue="" itemLabel="CAPURRO BELLA VISTA" />
-	   			<f:selectItem itemValue="" itemLabel="UNION" />
-	   			<f:selectItem itemValue="" itemLabel="CARRASCO NORTE" />
-	   			<f:selectItem itemValue="" itemLabel="JACINTO VERA" />
-	   			<f:selectItem itemValue="" itemLabel="LARRAÃAGA" />
-	   			<f:selectItem itemValue="" itemLabel="FIGURITA" />
-	   			<f:selectItem itemValue="" itemLabel="MALVIN NORTE" />
-	   			<f:selectItem itemValue="" itemLabel="CARRASCO" />
-	   			<f:selectItem itemValue="" itemLabel="REDUCTO" />
-	   			<f:selectItem itemValue="" itemLabel="CERRO" />
-	   			<f:selectItem itemValue="" itemLabel="PUNTA GORDA" />
-	   			<f:selectItem itemValue="" itemLabel="VILLA MUÃOZ RETIRO" />
-	   			<f:selectItem itemValue="" itemLabel="LA COMERCIAL" />
-	   			<f:selectItem itemValue="" itemLabel="BUCEO" />
-	   			<f:selectItem itemValue="" itemLabel="MALVIN" />
-	   			<f:selectItem itemValue="" itemLabel="AGUADA" />
-	   			<f:selectItem itemValue="" itemLabel="LA BLANQUEADA" />
-	   			<f:selectItem itemValue="" itemLabel="TRES CRUCES" />
-	   			<f:selectItem itemValue="" itemLabel="PQUE BATLLE VILLA DOLORES" />
-	   			<f:selectItem itemValue="" itemLabel="PUERTO" />
-	   			<f:selectItem itemValue="" itemLabel="CORDON" />
-	   			<f:selectItem itemValue="" itemLabel="CENTRO" />
-	   			<f:selectItem itemValue="" itemLabel="CIUDAD VIEJA" />
-	   			<f:selectItem itemValue="" itemLabel="POCITOS" />
-	   			<f:selectItem itemValue="" itemLabel="PALERMO" />
-	   			<f:selectItem itemValue="" itemLabel="PARQUE RODO" />
-	   			<f:selectItem itemValue="" itemLabel="BARRIO SUR" />
-	   			<f:selectItem itemValue="" itemLabel="PUNTA CARRETAS" />
-	   			<f:selectItem itemValue="" itemLabel="COLON CENTRO Y NOROESTE" />
-	   			<f:selectItem itemValue="" itemLabel="CONCILIACION" />
-	   			<f:selectItem itemValue="" itemLabel="NUEVO PARIS" />
-	   			<f:selectItem itemValue="" itemLabel="LEZICA MELILLA" />
-	   			<f:selectItem itemValue="" itemLabel="PASO DE LA ARENA" />
+	   			<f:selectItem itemValue="MANGA TOLEDO CHICO" itemLabel="MANGA TOLEDO CHICO" />
+	   			<f:selectItem itemValue="COLON SURESTE ABAYUBA" itemLabel="COLON SURESTE ABAYUBA" />
+	   			<f:selectItem itemValue="VILLA GARCIA MANGA RURAL" itemLabel="VILLA GARCIA MANGA RURAL" />
+	   			<f:selectItem itemValue="BAÃADOS DE CARRASCO" itemLabel="BAÃADOS DE CARRASCO" />
+	   			<f:selectItem itemValue="PEÃAROL LAVALLEJA" itemLabel="PEÃAROL LAVALLEJA" />
+	   			<f:selectItem itemValue="MANGA" itemLabel="MANGA" />
+	   			<f:selectItem itemValue="PUNTA RIELES BELLA ITALIA" itemLabel="PUNTA RIELES BELLA ITALIA" />
+	   			<f:selectItem itemValue="CASAVALLE" itemLabel="CASAVALLE" />
+	   			<f:selectItem itemValue="PIEDRAS BLANCAS" itemLabel="PIEDRAS BLANCAS" />
+	   			<f:selectItem itemValue="JARDINES DEL HIPODROMO" itemLabel="JARDINES DEL HIPODROMO" />
+	   			<f:selectItem itemValue="CASABO PAJAS BLANCAS" itemLabel="CASABO PAJAS BLANCAS" />
+	   			<f:selectItem itemValue="LAS ACACIAS" itemLabel="LAS ACACIAS" />
+	   			<f:selectItem itemValue="LA PALOMA TOMKINSON" itemLabel="LA PALOMA TOMKINSON" />
+	   			<f:selectItem itemValue="BELVEDERE" itemLabel="BELVEDERE" />
+	   			<f:selectItem itemValue="PASO DE LAS DURANAS" itemLabel="PASO DE LAS DURANAS" />
+	   			<f:selectItem itemValue="ITUZAINGO" itemLabel="ITUZAINGO" />
+	   			<f:selectItem itemValue="FLOR DE MAROÃAS" itemLabel="FLOR DE MAROÃAS" />
+	   			<f:selectItem itemValue="AIRES PUROS" itemLabel="AIRES PUROS" />
+	   			<f:selectItem itemValue="CASTRO CASTELLANOS" itemLabel="CASTRO CASTELLANOS" />
+	   			<f:selectItem itemValue="TRES OMBUES PBLO VICTORIA" itemLabel="TRES OMBUES PBLO VICTORIA" />
+	   			<f:selectItem itemValue="CERRITO" itemLabel="CERRITO" />
+	   			<f:selectItem itemValue="PRADO NUEVA SAVONA" itemLabel="PRADO NUEVA SAVONA" />
+	   			<f:selectItem itemValue="VILLA ESPAÃOLA" itemLabel="VILLA ESPAÃOLA" />
+	   			<f:selectItem itemValue="MAROÃAS PARQUE GUARANI" itemLabel="MAROÃAS PARQUE GUARANI" />
+	   			<f:selectItem itemValue="BRAZO ORIENTAL" itemLabel="BRAZO ORIENTAL" />
+	   			<f:selectItem itemValue="LAS CANTERAS" itemLabel="LAS CANTERAS" />
+	   			<f:selectItem itemValue="LA TEJA" itemLabel="LA TEJA" />
+	   			<f:selectItem itemValue="MERCADO MODELO Y BOLIVAR" itemLabel="MERCADO MODELO Y BOLIVAR" />
+	   			<f:selectItem itemValue="ATAHUALPA" itemLabel="ATAHUALPA" />
+	   			<f:selectItem itemValue="CAPURRO BELLA VISTA" itemLabel="CAPURRO BELLA VISTA" />
+	   			<f:selectItem itemValue="UNION" itemLabel="UNION" />
+	   			<f:selectItem itemValue="CARRASCO NORTE" itemLabel="CARRASCO NORTE" />
+	   			<f:selectItem itemValue="JACINTO VERA" itemLabel="JACINTO VERA" />
+	   			<f:selectItem itemValue="LARRAÃAGA" itemLabel="LARRAÃAGA" />
+	   			<f:selectItem itemValue="FIGURITA" itemLabel="FIGURITA" />
+	   			<f:selectItem itemValue="MALVIN NORTE" itemLabel="MALVIN NORTE" />
+	   			<f:selectItem itemValue="CARRASCO" itemLabel="CARRASCO" />
+	   			<f:selectItem itemValue="REDUCTO" itemLabel="REDUCTO" />
+	   			<f:selectItem itemValue="CERRO" itemLabel="CERRO" />
+	   			<f:selectItem itemValue="PUNTA GORDA" itemLabel="PUNTA GORDA" />
+	   			<f:selectItem itemValue="VILLA MUÃOZ RETIRO" itemLabel="VILLA MUÃOZ RETIRO" />
+	   			<f:selectItem itemValue="LA COMERCIAL" itemLabel="LA COMERCIAL" />
+	   			<f:selectItem itemValue="BUCEO" itemLabel="BUCEO" />
+	   			<f:selectItem itemValue="MALVIN" itemLabel="MALVIN" />
+	   			<f:selectItem itemValue="AGUADA" itemLabel="AGUADA" />
+	   			<f:selectItem itemValue="LA BLANQUEADA" itemLabel="LA BLANQUEADA" />
+	   			<f:selectItem itemValue="TRES CRUCES" itemLabel="TRES CRUCES" />
+	   			<f:selectItem itemValue="PQUE BATLLE VILLA DOLORES" itemLabel="PQUE BATLLE VILLA DOLORES" />
+	   			<f:selectItem itemValue="PUERTO" itemLabel="PUERTO" />
+	   			<f:selectItem itemValue="CORDON" itemLabel="CORDON" />
+	   			<f:selectItem itemValue="CENTRO" itemLabel="CENTRO" />
+	   			<f:selectItem itemValue="CIUDAD VIEJA" itemLabel="CIUDAD VIEJA" />
+	   			<f:selectItem itemValue="POCITOS" itemLabel="POCITOS" />
+	   			<f:selectItem itemValue="PALERMO" itemLabel="PALERMO" />
+	   			<f:selectItem itemValue="PARQUE RODO" itemLabel="PARQUE RODO" />
+	   			<f:selectItem itemValue="BARRIO SUR" itemLabel="BARRIO SUR" />
+	   			<f:selectItem itemValue="PUNTA CARRETAS" itemLabel="PUNTA CARRETAS" />
+	   			<f:selectItem itemValue="COLON CENTRO Y NOROESTE" itemLabel="COLON CENTRO Y NOROESTE" />
+	   			<f:selectItem itemValue="CONCILIACION" itemLabel="CONCILIACION" />
+	   			<f:selectItem itemValue="NUEVO PARIS" itemLabel="NUEVO PARIS" />
+	   			<f:selectItem itemValue="LEZICA MELILLA" itemLabel="LEZICA MELILLA" />
+	   			<f:selectItem itemValue="PASO DE LA ARENA" itemLabel="PASO DE LA ARENA" />
 	   	 			</h:selectOneMenu>
 	</div>
     <br></br>
@@ -282,19 +282,26 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 body-filtros-opciones">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     <div class="checkbox"><div class="icheckbox_square-blue">
-    <input type="checkbox" id="parrillero" name="1" value="1" class="chk-filtro"></input></div>
+    <h:selectBooleanCheckbox value="" id="parrillero"/></div>
     <label for="type-1">Parrillero</label></div></div>
     
-    
-    
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     <div class="checkbox"><div class="icheckbox_square-blue">
-    <input type="checkbox" id="garage" name="2" value="1" class="chk-filtro"></input></div>
-    <label for="type-2">Garage</label></div></div>
- 
+    <h:selectBooleanCheckbox value="" id="garage"/></div>
+    <label for="type-1">Garage</label></div></div>
+    
+  <!--   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="icheckbox_square-blue">
+ <div class="checkbox">
+    <h:outputText value="Garage" />
+    <h:selectBooleanCheckbox value="" id="garage"/>
+     
+   <h:inputText type="checkbox" id="garage" name="2" value="1" class="chk-filtro"></h:inputText></div>
+    <label for="type-2">Garage</label></div></div></div> -->
+   
   
      <div>
-    <input id="sliderMar"  data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="5"></input>
+    <input id="sliderMar" name="mar" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="5"></input>
     <br></br>
     <span style="color: white; font-size: 16px" >Distacia del Mar: <span id="ex6SliderVal" style="color: white; font-size: 16px">5</span> km</span>
     </div>

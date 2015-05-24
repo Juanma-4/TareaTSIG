@@ -7,7 +7,7 @@ var opciones;
 var limites;
 var WGS84_google_mercator;
 var WGS84;
-var propiedadesFiltradas;
+var propiedades
 window.onload = function() {
 	   
 		 WGS84 = new OpenLayers.Projection(miEPSG);
@@ -69,7 +69,7 @@ window.onload = function() {
 		
 		
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
-		var propiedades = new OpenLayers.Layer.Vector("Propiedades", {
+		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
 			strategies : [ new OpenLayers.Strategy.BBOX() ],
 			styleMap: estiloProp,
 			protocol : new OpenLayers.Protocol.WFS({
@@ -100,8 +100,24 @@ window.onload = function() {
 
 function hacerBusqueda(){	
 	
+	
+	
+	 
+	 
 	 var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
 	 
+	 var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
+	 var tipomoneda =  document.getElementById('filtro-centros:moneda').value;
+	 var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
+	 var maximo = parseInt(document.getElementById('filtro-centros:maximo').value);
+     var cantbanio = parseInt(document.getElementById('filtro-centros:cantBanio').value);
+ 	 var cantdorm = parseInt(document.getElementById('filtro-centros:cantDormitorio').value);
+     var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
+ 	 var barrio =  document.getElementById('filtro-centros:barrio').value;
+     var parrillero = document.getElementById('filtro-centros:parrillero').checked;
+     var garage = document.getElementById('filtro-centros:garage').checked; 
+	 
+   //  var distanciaMar = parseInt(document.getElementById('formMar:sliderMar').getAttribute('data-slider-value').value); no funciona !!
 
 	 
 	 var filtro = new OpenLayers.Filter.Logical({
@@ -115,72 +131,59 @@ function hacerBusqueda(){
 		        	]
 		});
 	 
-	 var estiloProp = new OpenLayers.StyleMap({
-			"default" : new OpenLayers.Style(null, {
-				rules : [ new OpenLayers.Rule({
-					symbolizer : {
-						"Point" : {
-							pointRadius : 20,
-							externalGraphic : "resources/defecto/img/localizacion.png",
-							graphicOpacity : 1,
-							graphicWidth : 50,
-							graphicHeight : 36
+		
+	// var search_name = document.getElementById("search_text").value;
+	    var features = propiedades.features;
+	    propiedades.removeAllFeatures();
+	    propiedades.destroyFeatures();
+	 //   propiedades.filter=filtro;
+	    propiedades.refresh({force: true});
+	    
+	 /*  
+	    for(var i=0; i< features.length; i++) {
+	    	
+	    	if(features[i].filters==filtro){
+	    	   propiedades.addFeatures([features[i]]);
+	    	}
+	    	
+	    	
+	    }*/
+	    	
+	//    propiedades.redraw();
+	    	
+	     //features[i].attributes.name. you have the attribute field "name"
+/*
+	      if(features[i].attributes.filters = filters) {
+	        propiedades.addFeatures([features[i]])
+	      }*/
+	    
+
+	    		
+	 
+	 
+	 
 	
-						}
-					}
-				}) ]
-			})
-		});
+	/*	
+	 propiedades.filters = filtro; 
+	 propiedades.refresh({force: true});
+	 
+	// map.addLayers([propiedades]);	    
 		
-				
+	/*	
+	 
 	
+	 var clone = map.getLayersByName( 'propiedades' ).features.clone();
+	 propiedades.addFeatures(clone);
 		
 		
-		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
-		propiedadesFiltradas = new OpenLayers.Layer.Vector("PropiedadesFiltradas", {
-			strategies : [ new OpenLayers.Strategy.BBOX() ],
-			styleMap: estiloProp,
-			filter: filtro,
-			protocol : new OpenLayers.Protocol.WFS({
-				version : "1.1.0",
-				url : urlWFS,
-				featureType : "propiedad",
-				featureNS : urlGeoServer,
-				geometryName : "geom",
-				srsName: gEPSG,
-				
-			}),
-		});				    
 		
-		
-	
-	
-		
-		map.addLayers([propiedadesFiltradas]);
-		
-       map.zoomToExtent(limites);		
-		
-   	
-		
- 	  
-	  	/// PARA CENTRAR EN MONTEVIDEO
-   	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
-           	    WGS84,  map.getProjectionObject()), miZoom + 3);
+       
 
 	
 	 /*
-	propiedad.attributes.tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
-	propiedad.attributes.tipomoneda =  document.getElementById('formPropiedad:moneda').value;
-	propiedad.attributes.minimo = parseInt(document.getElementById('formPropiedad:minimo').value);
-	propiedad.attributes.maximo = parseInt(document.getElementById('formPropiedad:maximo').value);
-    propiedad.attributes.cantbanio = parseInt(document.getElementById('formPropiedad:cantBanio').value);
- 	propiedad.attributes.cantdorm = parseInt(document.getElementById('formPropiedad:cantDormitorio').value);
- 	propiedad.attributes.metroscuadrados = parseFloat(document.getElementById('formPropiedad:metrosCuadrados').value);
- 	propiedad.attributes.barrio =  document.getElementById('formPropiedad:barrio').value;
- 	propiedad.attributes.parrillero = document.getElementById('formPropiedad:parrillero').checked;
- 	propiedad.attributes.garage = document.getElementById('formPropiedad:garage').checked; */
+	
 		
-		
+		*/
  	
 }
 
