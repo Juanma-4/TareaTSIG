@@ -1,3 +1,4 @@
+
 <ui:composition template="IndexAdmin.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -10,8 +11,12 @@
     </ui:define>
 
 	<ui:define name="contenido">
-	
-	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:85px" />
+	 
+ 	 <h:outputScript library="bootstrap" name="js/bootstrap.js" target="head"/>
+	 <h:outputStylesheet library="bootstrap" name="css/bootstrap.css" target="head"/>
+	 <h:outputScript library="defecto" name="js/jquery-1.11.3.min.js" target="head"/>
+ 		    
+	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:30px" />
     
       	<h:form id="form">
 		    <p:dataTable id="listAdmin" var="usu" value="#{usuarioMB.administradores}" 
@@ -23,76 +28,74 @@
 		        </f:facet>
 		        
 		        <p:column headerText="Mail">
+		    
 		            <h:outputText value="#{usu.mail}" />
 		        </p:column>
 		        
 		      	<p:column headerText="Password">
+		     
 		            <h:outputText value="#{usu.password}" />
 		        </p:column>	 
-		        
-		         <p:column>
-            <f:facet name="header">Action</f:facet>
-            <h:link href="#myModal"  role="button" class="btn" data-toggle="modal" value="Edit"></h:link>
-          </p:column>     	
 		        	        
 		        <p:column headerText="Acciones">
-   					<h:commandLink value="Modificar Password" action="#{usuarioMB.ModificarUsuario(usu.mail, usu.password)}" /> -
-   					<h:commandLink value="Eliminar" onclick="return confirm('¿Estas seguro que desea eliminar a #{usu.mail} del sistema?')" action="#{usuarioMB.eliminarUsuario(usu.mail)}" />
-   				</p:column>
-   				
+		        
+		        	<h:button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModaleliminar" onclick="document.getElementById('mail1').value='#{usu.mail}';return false;">Eliminar</h:button>
+		        
+		       		<h:button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModaleditar" onclick="document.getElementById('pass').value='#{usu.password}';document.getElementById('mail2').value='#{usu.mail}';return false;">Editar</h:button>
+		       	</p:column>
+		       	
+		    
 		    </p:dataTable>
 		</h:form>
-		
-		
-		
-		 <!-- Button to trigger modal -->
-     <!--  <a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
- -->
-      <!-- Modal -->
-      	<h:form id="forme">
-      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">Modal header</h3>
-        </div>
-        <div class="modal-body">
-          <p>One fine body…</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-          <button class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-	</h:form>	
-<!-- 		
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-		
-		<!-- Button trigger modal Para llamar sin --> 
-<!-- 		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"> -->
-<!--   		Launch demo modal -->
-<!-- 		</button> -->
-		
-		
-<!-- 		$('#myModal').modal('toggle'); enfocar-->
-<!-- 		$('#myModal').modal('show'); mostrar-->
-<!-- 		$('#myModal').modal('hide'); cerrar-->
-		
-		
+
+		<h:form prependId="false" >
+		  <div class="modal fade" id="myModaleliminar" role="dialog">
+		    <div class="modal-dialog">
+		     <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">X</button>
+		             <h4 class="modal-title">Desea Eliminar?</h4>
+		        </div>
+		        <div class="modal-body">
+		    
+		      		<h:inputText value="#{usuarioMB.mail}" id="mail1"
+		        		  class="form-control" placeholder="Email" readonly="true"/>
+		        
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="#{usuarioMB.eliminarUsuario()}">SI</button>
+		          <button type="button" class="btn btn-default" data-dismiss="modal" >Cancelar</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</h:form>
+		  	 
+		  <div class="modal fade" id="myModaleditar" role="dialog">
+		    <div class="modal-dialog">
+		     <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">X</button>
+		          <h4 class="modal-title">Edicion de Usuario</h4>
+		        </div>
+		        <div class="modal-body">
+		        
+		          	 	<h:inputText value="#{usuarioMB.mail}" id="mail2"
+		        		  class="form-control" placeholder="Email" readonly="true"/>
+		        
+				 		<h:inputText value="#{usuarioMB.password}" id="pass"
+		        		  class="form-control" placeholder="pass" readonly="false"/>
+		        </div>
+		        <div class="modal-footer">
+		           <button type="button" class="btn btn-success" data-dismiss="modal" onclick="#{usuarioMB.ModificarUsuario()}">Guardar</button>
+		           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="return false;">Cancelar</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+  
+ 
 	</ui:define>
 </ui:composition>
