@@ -7,7 +7,11 @@ var opciones;
 var limites;
 var WGS84_google_mercator;
 var WGS84;
-var propiedades
+var propiedades;
+var estiloProp;
+var propiedadesFiltradas;
+var estiloFiltrado;
+var filterStrategy;
 window.onload = function() {
 	   
 		 WGS84 = new OpenLayers.Projection(miEPSG);
@@ -41,15 +45,9 @@ window.onload = function() {
 		var gphy = new OpenLayers.Layer.Google("Google Physical", {
 		type : google.maps.MapTypeId.TERRAIN
 		});						
+
 		
-		var styleMap = new OpenLayers.StyleMap({
-			  pointRadius: 5,
-			  strokeColor: '#ff0000',
-			  fillColor: '#ff0000',
-			  fillOpacity: 0.6
-			});
-		
-		var estiloProp = new OpenLayers.StyleMap({
+		 estiloProp = new OpenLayers.StyleMap({
 			"default" : new OpenLayers.Style(null, {
 				rules : [ new OpenLayers.Rule({
 					symbolizer : {
@@ -65,12 +63,33 @@ window.onload = function() {
 				}) ]
 			})
 		});
-		
-		
+
+		 var filter = new OpenLayers.Filter.Logical({
+		        type: OpenLayers.Filter.Logical.OR,
+		        filters: [
+		        new OpenLayers.Filter.Comparison({
+		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+		            property: "tipopropiedad",
+		            value: "Apartamento"
+		        }),
+		        new OpenLayers.Filter.Comparison({
+		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+		            property: "tipopropiedad",
+		            value: "Casa"
+		        }),
+		        new OpenLayers.Filter.Comparison({
+		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+		            property: "tipopropiedad",
+		            value: "Terreno"
+		        })
+		        ]
+		    });
+			
+		 filterStrategy = new OpenLayers.Strategy.Filter({filter: filter});		
 		
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
-			strategies : [ new OpenLayers.Strategy.BBOX() ],
+			strategies : [ new OpenLayers.Strategy.BBOX(),filterStrategy ],
 			styleMap: estiloProp,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
@@ -81,28 +100,28 @@ window.onload = function() {
 				srsName: gEPSG,
 				
 			}),
-		});				    
-								  
-				
+		});	
+		 	 
+	   
 		map.addLayers([ google_maps, gphy, propiedades]);
 		
 		
 		map.zoomToExtent(limites);		
 	
-	  
-	  	/// PARA CENTRAR EN MONTEVIDEO
+		/// PARA CENTRAR EN MONTEVIDEO
     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
-            	    WGS84,  map.getProjectionObject()), miZoom + 3);
+    			new OpenLayers.Projection(miEPSG),  map.getProjectionObject()), miZoom + 3);
 		
 };					
 
 //////////////////////funcion que hace la busqueda en si misma 
 
-function hacerBusqueda(){	
+//function hacerBusqueda(){	
 	
-	
-	
-	 
+
+$(function() { 
+	$("#botonBusqueda").click(function(){
+		
 	 
 	 var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
 	 
@@ -117,93 +136,39 @@ function hacerBusqueda(){
      var parrillero = document.getElementById('filtro-centros:parrillero').checked;
      var garage = document.getElementById('filtro-centros:garage').checked; 
 	 
-   //  var distanciaMar = parseInt(document.getElementById('formMar:sliderMar').getAttribute('data-slider-value').value); no funciona !!
+     var distanciaMar = parseInt($("#MarSliderVal").text());
+     var distanciaParada = parseInt($("#BusSliderVal").text());
+     var distanciaPuntoInteres = parseInt($("#PInteresSliderVal").text());
 
-	 
-	 var filtro = new OpenLayers.Filter.Logical({
-		    type: OpenLayers.Filter.Logical.AND,
-		    filters: [
-	 		        new OpenLayers.Filter.Comparison({
-	 		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-	 		            property: "tipopropiedad",
-	 		            value: tipopropiedad
-	 		        })
-		        	]
-		});
-	 
+	 var filter = new OpenLayers.Filter.Logical({
+	        type: OpenLayers.Filter.Logical.OR,
+	        filters: [
+	        new OpenLayers.Filter.Comparison({
+	            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	            property: "tipopropiedad",
+	            value: tipopropiedad
+	        })]
+	    });
+	    filterStrategy.setFilter(filter);
 		
-	// var search_name = document.getElementById("search_text").value;
-	    var features = propiedades.features;
-	    propiedades.removeAllFeatures();
-	    propiedades.destroyFeatures();
-	 //   propiedades.filter=filtro;
-	    propiedades.refresh({force: true});
-	    
-	 /*  
-	    for(var i=0; i< features.length; i++) {
-	    	
-	    	if(features[i].filters==filtro){
-	    	   propiedades.addFeatures([features[i]]);
-	    	}
-	    	
-	    	
-	    }*/
-	    	
-	//    propiedades.redraw();
-	    	
-	     //features[i].attributes.name. you have the attribute field "name"
-/*
-	      if(features[i].attributes.filters = filters) {
-	        propiedades.addFeatures([features[i]])
-	      }*/
-	    
-
-	    		
-	 
-	 
-	 
-	
-	/*	
-	 propiedades.filters = filtro; 
-	 propiedades.refresh({force: true});
-	 
-	// map.addLayers([propiedades]);	    
-		
-	/*	
-	 
-	
-	 var clone = map.getLayersByName( 'propiedades' ).features.clone();
-	 propiedades.addFeatures(clone);
-		
-		
-		
-       
-
-	
-	 /*
-	
-		
-		*/
- 	
-}
-
-		
-
-
-
-
-
-
-
-$(function() { 
-	var a = "holaaaaaaaaassssss"; 
-	$("#filtro-centros\\:botonBusqueda").click(function(){ 
-		var a = "hola";
-		hacerBusqueda();
-		var b = "holabbbbb";
-		var c = "holabbbbbccc";
 	});
 });
+
+
+
+
+
+
+//
+//$(function() { 
+//	var a = "holaaaaaaaaassssss"; 
+//	$("#botonBusqueda").click(function(){
+//		var a = "hola";
+//		hacerBusqueda();
+//		var b = "holabbbbb";
+//		var c = "holabbbbbccc";
+//	});
+//});
 
 
 
@@ -217,3 +182,36 @@ $(function() {
  	alert("Error al guardar"); 
  }
  
+ 
+ 
+ 
+
+ $(function(){
+    
+	   $("#sliderMar").slider();
+	   $("#sliderMar").on("slide", function(slideEvt) {
+	   	$("#MarSliderVal").text(slideEvt.value);
+	   });
+	   
+ });
+ 
+ 
+ $(function(){
+	      
+	   $("#sliderBus").slider();
+	   $("#sliderBus").on("slide", function(slideEvt) {
+	   	$("#BusSliderVal").text(slideEvt.value);
+	   });
+	   
+ });
+ 
+ 
+ $(function(){
+	      
+	   $("#sliderPInteres").slider();
+	   $("#sliderPInteres").on("slide", function(slideEvt) {
+	   	$("#PInteresSliderVal").text(slideEvt.value);
+	   });
+	   
+ });
+
