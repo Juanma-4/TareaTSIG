@@ -21,9 +21,6 @@
 	overflow-y: auto;
 }
 
-.logo-modal {
-	margin-top: -5px;
-}
 /* END MAIN PAGE */
 
 /* START NAVBAR */
@@ -262,9 +259,6 @@
 	text-align: center;
 }
 
-#address {
-	font-weight: bold;
-}
 
 .direccion-sm-xs {
 	background-color: rgba(33, 33, 33, 1);
@@ -275,41 +269,7 @@
 }
 /* FIN DIRECCION */
 
-/* START MODAL */
-.modal-content {
-	border-radius: 0px;
-}
 
-.modal-content hr {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-.modal-borde-0 {
-	border-color: #712c91;
-	border-style: solid;
-	border-width: 5px;
-}
-.modal-borde-1 {
-	border-color: #009ade;
-	border-style: solid;
-	border-width: 5px;
-}
-.modal-borde-2 {
-	border-color: #ffb600;
-	border-style: solid;
-	border-width: 5px;
-}
-.modal-borde-3 {
-	border-color: #74c043;
-	border-style: solid;
-	border-width: 5px;
-}
-.modal-borde-4 {
-	border-color: #00ffb6;
-	border-style: solid;
-	border-width: 5px;
-}
-/* END MODAL */
 
 /* START FOOTER */
 .footer {
@@ -368,34 +328,7 @@
 /* END FOOTER */
 
 /* START APARECER EN MAPA */
-#aparecer-en-mapa a {
-	background: #fcd26c;
-	color: #fff;
-	text-decoration: none;
-	text-align: center;
-	padding: 10px 40px;
-	font-size: 1.5 rem;
-	padding-left: 50%;
-	position: relative;
-	transition: 0.5s;
-}
-#aparecer-en-mapa a:hover {
-	background: #f0ad05;
-	color: #fff;
-}
-#aparecer-en-mapa a::before, #forkongithub a::after {
-	content: "";
-	width: 100%;
-	display: block;
-	position: absolute;
-	top: 1px;
-	left: 0;
-	height: 1px;
-}
-#aparecer-en-mapa a::after {
-	bottom: 1px;
-	top: auto;
-}
+
 @media screen and (min-width: 800px) {
 	#aparecer-en-mapa {
 		position: fixed;
@@ -407,21 +340,19 @@
 		height: 220px;
 		z-index: 9999;
 	}
-	#aparecer-en-mapa a {
-		width: 400px;
-		position: absolute;
-		top: 40px;
-		right: -80px;
-		transform: rotate(45deg);
-		-webkit-transform: rotate(45deg);
-		-ms-transform: rotate(45deg);
-		-moz-transform: rotate(45deg);
-		-o-transform: rotate(45deg);
-		box-shadow: 4px 4px 10px rgba(0,0,0,0.8);
-	}
+	
 .labelClass{
     float: left;
     width: 113px;
   }	
+}
+
+
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
+
+#panelBusqueda {
+	padding-left : 1.5%;
 }
     	

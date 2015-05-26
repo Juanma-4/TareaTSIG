@@ -12,7 +12,8 @@ var estiloProp;
 var propiedadesFiltradas;
 var estiloFiltrado;
 var filterStrategy;
-window.onload = function() {
+
+function init() {
 	   
 		 WGS84 = new OpenLayers.Projection(miEPSG);
 		 WGS84_google_mercator = new OpenLayers.Projection(gEPSG);		
@@ -69,18 +70,13 @@ window.onload = function() {
 		        filters: [
 		        new OpenLayers.Filter.Comparison({
 		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-		            property: "tipopropiedad",
-		            value: "Apartamento"
+		            property: "tipoestado",
+		            value: "Publica"
 		        }),
 		        new OpenLayers.Filter.Comparison({
 		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-		            property: "tipopropiedad",
-		            value: "Casa"
-		        }),
-		        new OpenLayers.Filter.Comparison({
-		            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-		            property: "tipopropiedad",
-		            value: "Terreno"
+		            property: "tipoestado",
+		            value: "Reservada"
 		        })
 		        ]
 		    });
@@ -89,7 +85,7 @@ window.onload = function() {
 		
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
-			strategies : [ new OpenLayers.Strategy.BBOX(),filterStrategy ],
+			strategies : [ new OpenLayers.Strategy.Fixed()], //,filterStrategy 
 			styleMap: estiloProp,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
@@ -98,10 +94,24 @@ window.onload = function() {
 				featureNS : urlGeoServer,
 				geometryName : "geom",
 				srsName: gEPSG,
-				
+//				new OpenLayers.Protocol.Script({
+//				url : urlWFS,
+//				callbackKey: 'format_options',
+//				callbackPrefix: 'callback:',
+//				params: {
+//					service: 'WFS',
+//					version: '1.1.0',
+//					srsName: miEPSG,
+//					request: 'GetFeature',
+//					typeName: 'sige:propiedad',
+//					outputFormat: 'json',
+//					CQL_FILTER: "tipoestado='"+"Publica"+"'",
+//				}
 			}),
+			
 		});	
 		 	 
+		
 	   
 		map.addLayers([ google_maps, gphy, propiedades]);
 		
@@ -116,15 +126,11 @@ window.onload = function() {
 
 //////////////////////funcion que hace la busqueda en si misma 
 
-//function hacerBusqueda(){	
-	
-
 $(function() { 
 	$("#botonBusqueda").click(function(){
 		
 	 
 	 var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
-	 
 	 var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
 	 var tipomoneda =  document.getElementById('filtro-centros:moneda').value;
 	 var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
@@ -140,78 +146,70 @@ $(function() {
      var distanciaParada = parseInt($("#BusSliderVal").text());
      var distanciaPuntoInteres = parseInt($("#PInteresSliderVal").text());
 
+     
+     var publica =  new OpenLayers.Filter.Comparison({
+         type: OpenLayers.Filter.Comparison.EQUAL_TO,
+         property: "tipoestado",
+         value: "Publica"
+     });
+     var reservada = new OpenLayers.Filter.Comparison({
+         type: OpenLayers.Filter.Comparison.EQUAL_TO,
+         property: "tipoestado",
+         value: "Reservada"
+     });
+     
 	 var filter = new OpenLayers.Filter.Logical({
 	        type: OpenLayers.Filter.Logical.OR,
 	        filters: [
+                  //publica,reservada,
 	        new OpenLayers.Filter.Comparison({
 	            type: OpenLayers.Filter.Comparison.EQUAL_TO,
 	            property: "tipopropiedad",
 	            value: tipopropiedad
-	        })]
+	        }),
+	        new OpenLayers.Filter.Comparison({
+	            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	            property: "tipotransaccion",
+	            value: tipotransaccion
+	        })
+	        ]
 	    });
+
 	    filterStrategy.setFilter(filter);
 		
 	});
 });
 
 
-
-
-
-
-//
-//$(function() { 
-//	var a = "holaaaaaaaaassssss"; 
-//	$("#botonBusqueda").click(function(){
-//		var a = "hola";
-//		hacerBusqueda();
-//		var b = "holabbbbb";
-//		var c = "holabbbbbccc";
-//	});
-//});
-
-
-
-
-
- function exito(){
- 	alert("Se guardo con éxito");
- }
  
- function fallo(){
- 	alert("Error al guardar"); 
- }
- 
- 
- 
- 
+ $( document ).ready(function() {
 
- $(function(){
-    
-	   $("#sliderMar").slider();
-	   $("#sliderMar").on("slide", function(slideEvt) {
-	   	$("#MarSliderVal").text(slideEvt.value);
-	   });
-	   
+	 $(function(){
+	    
+		   $("#sliderMar").slider();
+		   $("#sliderMar").on("slide", function(slideEvt) {
+		   	$("#MarSliderVal").text(slideEvt.value);
+		   });
+		   
+	 });
+	 
+	 
+	 $(function(){
+		      
+		   $("#sliderBus").slider();
+		   $("#sliderBus").on("slide", function(slideEvt) {
+		   	$("#BusSliderVal").text(slideEvt.value);
+		   });
+		   
+	 });
+	 
+	 
+	 $(function(){
+		      
+		   $("#sliderPInteres").slider();
+		   $("#sliderPInteres").on("slide", function(slideEvt) {
+		   	$("#PInteresSliderVal").text(slideEvt.value);
+		   });
+		   
+	 });
  });
- 
- 
- $(function(){
-	      
-	   $("#sliderBus").slider();
-	   $("#sliderBus").on("slide", function(slideEvt) {
-	   	$("#BusSliderVal").text(slideEvt.value);
-	   });
-	   
- });
- 
- 
- $(function(){
-	      
-	   $("#sliderPInteres").slider();
-	   $("#sliderPInteres").on("slide", function(slideEvt) {
-	   	$("#PInteresSliderVal").text(slideEvt.value);
-	   });
-	   
- });
-

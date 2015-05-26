@@ -176,3 +176,26 @@ a.linkMB {
 #irMBPropiedad {
 	  color: #4f4f4f !Important;
 }
+
+#j_idt15-resizer  {
+	 background-color: rgb(50, 47, 47) !Important;
+}
+
+#j_idt17-resizer  {
+	 background-color: rgb(50, 47, 47) !Important;
+}
+
+#j_idt9-resizer  {
+	 background-color: rgb(50, 47, 47) !Important;
+}
+/*
+.ui-layout-resizer ui-layout-resizer ui-layout-resizer-south {
+	  background-color: rgb(50, 47, 47) !Important;
+}
+*/
+
+.center-row.col-lg-9.col-md-8.col-sm-9.col-xs-12.col-mapa.map {
+  position: relative;
+  min-height: 1px;
+  padding-left: 5px !Important;
+}

@@ -58,7 +58,7 @@ window.onload = function() {
 			});
 		
 		 propiedades = new OpenLayers.Layer.Vector("Propiedad", {
-	 			strategies : [new OpenLayers.Strategy.BBOX()],
+	 			strategies : [new OpenLayers.Strategy.Fixed()],
 	 			styleMap: estiloProp,
 	 			displayInLayerSwitcher : false,
 	 			protocol : new OpenLayers.Protocol.WFS({
@@ -138,12 +138,12 @@ function onPopupFeatureSelect(feature) {
         '</div>' +
         	'</br>' +
 	        '<div style="text-align:center">'+
-	        	'<a class="linkMB" onclick="enviarDatos()" href="http://localhost:8080/Inmo13/faces/ModificarDatosPropiedad.xhtml">Modificar Datos</a>'+
+	        	'<a class="linkMB" onclick="enviarDatos()" href="http://localhost:8080/Inmo13/ModificarDatosPropiedad.xhtml">Modificar Datos</a>'+
 	        	 // 	'<p:commandLink id="irMBPropiedad" onclick="enviarDatos()" immediate="true">Modificar/Borrar</p:commandLink>'+
 	        '</div>'+
-	        
+	        '</br>' +
 	        '<div style="text-align:center">'+
-	        	' <img src="http://hogartotal.imujer.com/sites/default/files/hogartotal/Fotos-de-fachadas-de-casas-modernas-3.jpg">' +
+	        	' <img src="http://hogartotal.imujer.com/sites/default/files/hogartotal/Fotos-de-fachadas-de-casas-modernas-3.jpg" width="400" height="200">' +
 	        '</div>',
 	        null,  
 	        true, 
@@ -167,7 +167,7 @@ function enviarDatos(){
 	var tipoPropiedad = selectedFeature.data.tipopropiedad; 
 	var tipotransaccion = selectedFeature.data.tipotransaccion; 
 	var tipoMoneda = selectedFeature.data.tipomoneda; 
-	var tipoEstado = selectedFeature.data.tipoEstado; 
+	var tipoEstado = selectedFeature.data.tipoestado; 
 	var piso = selectedFeature.data.piso; 
 	var cantDorm = selectedFeature.data.cantdorm; 
 	var cantBanio = selectedFeature.data.cantbanio; 
@@ -180,4 +180,5 @@ function enviarDatos(){
 					   {name:'tipotransaccion', value:tipotransaccion},{name:'tipoMoneda', value:tipoMoneda},{name:'tipoEstado', value:tipoEstado},
 					   {name:'piso', value:piso},{name:'cantDorm', value:cantDorm},{name:'cantBanio', value:cantBanio},{name:'metrosCuadrados', value:metrosCuadrados},
 					   {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'usuario', value:usuario},{name:'fid', value:fid}]);
+
 }
