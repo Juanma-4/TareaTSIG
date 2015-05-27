@@ -82,39 +82,86 @@ function init() {
 		    });
 			
 		 filterStrategy = new OpenLayers.Strategy.Filter({filter: filter});		
-		
+
+		 var in_options = {
+	                'internalProjection': map.projection,
+	                'externalProjection': map.projection
+	                 };
+	    var geojson_format = new OpenLayers.Format.GeoJSON(in_options);
+		 
+		 
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
 			strategies : [ new OpenLayers.Strategy.Fixed()], //,filterStrategy 
 			styleMap: estiloProp,
 			protocol : 
-//			 new OpenLayers.Protocol.WFS({
-//				version : "1.1.0",
+//				new OpenLayers.Protocol.Script({
 //				url : urlWFS,
-//				featureType : "propiedad",
-//				featureNS : urlGeoServer,
-//				geometryName : "geom",
-//				srsName: gEPSG,
-				new OpenLayers.Protocol.Script({
+//				callbackKey: 'format_options',
+//				callbackPrefix: 'callback:',
+//				params: {
+//					service: 'WFS',
+//					version: '1.1.0',
+//					srsName: miEPSG,
+//					request: 'GetFeature',
+//					typeName: 'sige:propiedad',
+//					outputFormat: 'json',
+//				    CQL_FILTER: "tipoestado='"+"Publica"+"'",
+//				    format: geojson_format,
+//				    
+//
+//				}
+//				
+//			})
+
+			 new OpenLayers.Protocol.WFS({
+				version : "1.1.0",
 				url : urlWFS,
-				callbackKey: 'format_options',
-				callbackPrefix: 'callback:',
-				params: {
-					service: 'WFS',
-					version: '1.1.0',
-					srsName: miEPSG,
-					request: 'GetFeature',
-					typeName: 'sige:propiedad',
-					outputFormat: 'json',
-				    CQL_FILTER: "tipoestado='"+"Publica"+"'",
-				}
+				featureType : "propiedad",
+				featureNS : urlGeoServer,
+				geometryName : "geom",
+				srsName: gEPSG,
+							 
 			})
 			
 		});	
 		 	 
-		
+
+		var miScript = new OpenLayers.Protocol.Script({
+			url : urlWFS,
+			callback: miFuncion,
+			callbackKey: 'format_options',
+//			callbackPrefix: 'callback:',
+			format: geojson_format,
+			parseFeatures:function(data) {
+				alert(data);
+				return this.format.read(data.results[0]);
+              },
+			params: {
+				service: 'WFS',
+				version: '1.1.0',
+				srsName: miEPSG,
+				request: 'GetFeature',
+				typeName: 'sige:propiedad',
+				outputFormat: 'text/javascript',
+			    CQL_FILTER: "tipoestado='"+"Publica"+"'",
+//			    format: geojson_format,
+//			    parseFeatures: function(data) {
+//                    return this.format.read(data.results[0]);
+//                }
+//			    
+			}
+		});
 	   
-		map.addLayers([ google_maps, gphy, propiedades]);
+		var prueba = new OpenLayers.Layer.Vector("Prueba", {
+				strategies : [ new OpenLayers.Strategy.Fixed()], 
+				styleMap: estiloProp,
+				protocol : miScript 
+				
+			});	
+		
+		
+		map.addLayers([ google_maps, gphy, propiedades,prueba]);
 		
 		
 		map.zoomToExtent(limites);		
@@ -123,6 +170,10 @@ function init() {
     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
     			new OpenLayers.Projection(miEPSG),  map.getProjectionObject()), miZoom + 3);
 		
+    	
+    	function miFuncion(data){
+			alert(data);
+		}
 };					
 
 //////////////////////funcion que hace la busqueda en si misma 
