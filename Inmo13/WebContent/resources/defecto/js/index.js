@@ -87,27 +87,28 @@ function init() {
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
 			strategies : [ new OpenLayers.Strategy.Fixed()], //,filterStrategy 
 			styleMap: estiloProp,
-			protocol : new OpenLayers.Protocol.WFS({
-				version : "1.1.0",
-				url : urlWFS,
-				featureType : "propiedad",
-				featureNS : urlGeoServer,
-				geometryName : "geom",
-				srsName: gEPSG,
-//				new OpenLayers.Protocol.Script({
+			protocol : 
+//			 new OpenLayers.Protocol.WFS({
+//				version : "1.1.0",
 //				url : urlWFS,
-//				callbackKey: 'format_options',
-//				callbackPrefix: 'callback:',
-//				params: {
-//					service: 'WFS',
-//					version: '1.1.0',
-//					srsName: miEPSG,
-//					request: 'GetFeature',
-//					typeName: 'sige:propiedad',
-//					outputFormat: 'json',
-//					CQL_FILTER: "tipoestado='"+"Publica"+"'",
-//				}
-			}),
+//				featureType : "propiedad",
+//				featureNS : urlGeoServer,
+//				geometryName : "geom",
+//				srsName: gEPSG,
+				new OpenLayers.Protocol.Script({
+				url : urlWFS,
+				callbackKey: 'format_options',
+				callbackPrefix: 'callback:',
+				params: {
+					service: 'WFS',
+					version: '1.1.0',
+					srsName: miEPSG,
+					request: 'GetFeature',
+					typeName: 'sige:propiedad',
+					outputFormat: 'json',
+				    CQL_FILTER: "tipoestado='"+"Publica"+"'",
+				}
+			})
 			
 		});	
 		 	 
