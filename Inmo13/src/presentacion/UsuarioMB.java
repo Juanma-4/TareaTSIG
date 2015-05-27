@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import controladores.IControladorUsuario;
+import wrappers.WrapperCorreo;
 import wrappers.WrapperUsuario;
 
 @ManagedBean
@@ -34,12 +35,19 @@ public class UsuarioMB implements Serializable {
 
 	private String mail;
 	private String password;
-
+	
+	private String mailregistro;
+	private String passwordregistro;
+	
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
 
 	@PostConstruct
 	public void iniciar(){
 		System.out.println("post constructor");
+		this.passwordregistro="";
+		this.mailregistro="";
+		this.mail="";
+		this.password="";
 		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
 		this.administradores = this.getUsuarios();
 	}
@@ -51,7 +59,7 @@ public class UsuarioMB implements Serializable {
 			try {
 			
 				request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/registro");
-				WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
+				WrapperUsuario usuario = new WrapperUsuario(this.mailregistro,this.passwordregistro);
 
 				// transformo el usuario a ingresar en Json string
 				String usuarioJSON = toJSONString(usuario);
@@ -252,6 +260,47 @@ public class UsuarioMB implements Serializable {
 		
 		// return "Index.xhtml?faces-redirect=true";
 	}
+	
+	
+	public void EnviarCorreo(String correo, String asunto, String pass, String cuerpo) {
+		System.out.println("estoy en Enviar correo");
+		
+		ClientRequest request = null;
+		try {
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
+		
+			//public WrapperCorreo(String correo, String asunto, String pass, String cuerpo)
+			WrapperCorreo wc = new WrapperCorreo(correo, asunto, pass, cuerpo);
+
+			String wcJSON = toJSONString(wc);
+
+			request.body("application/json", wcJSON);
+
+			ClientResponse<String> respuesta = request.post(String.class);
+
+			if (respuesta.getStatus() != 201) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage("Error al Modificar Usuario"));
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ respuesta.getStatus());
+			}
+			
+			/*Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+			
+			if (creado)	{
+				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
+			}else{		*/	
+					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
+			//};
+			
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				request.clear();
+			}
+	
+	}
 
 	public String getMail() {
 		return mail;
@@ -272,7 +321,7 @@ public class UsuarioMB implements Serializable {
 	public String toJSONString(Object object) { // Funcion que convierte de
 		// objeto java a JSON
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		// gsonBuilder.setDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'"); // ISO8601
+		gsonBuilder.setDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'"); // ISO8601
 		Gson gson = gsonBuilder.create();
 		return gson.toJson(object);
 }
@@ -283,6 +332,22 @@ public class UsuarioMB implements Serializable {
 
 	public void setAdministradores(List<WrapperUsuario> administradores) {
 		this.administradores = administradores;
+	}
+
+	public String getMailregistro() {
+		return mailregistro;
+	}
+
+	public void setMailregistro(String mailregistro) {
+		this.mailregistro = mailregistro;
+	}
+
+	public String getPasswordregistro() {
+		return passwordregistro;
+	}
+
+	public void setPasswordregistro(String passwordregistro) {
+		this.passwordregistro = passwordregistro;
 	}
 	
 	

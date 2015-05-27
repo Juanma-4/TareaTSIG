@@ -36,7 +36,7 @@ public class Correo
         t.close();
     }
     
-    public void enviarMensajeSinAuth(String host, Integer puerto, String origen, String destino, 
+   /* public void enviarMensajeSinAuth(String host, Integer puerto, String origen, String destino, 
     		String asunto, String mensaje) throws AddressException, MessagingException
     {
     	Properties props = new Properties();
@@ -56,5 +56,5 @@ public class Correo
         t.connect(origen,null);
         t.sendMessage(message,message.getAllRecipients());       
         t.close();
-    }
+    }*/
 }
