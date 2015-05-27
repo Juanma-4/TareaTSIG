@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.jboss.resteasy.client.ClientRequest;
@@ -21,7 +21,7 @@ import com.google.gson.JsonParser;
 
 import controladores.IControladorUsuario;
 import wrappers.WrapperUsuario;
-	
+
 @ManagedBean
 @javax.faces.bean.SessionScoped
 public class UsuarioMB implements Serializable {
@@ -36,6 +36,13 @@ public class UsuarioMB implements Serializable {
 	private String password;
 
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
+
+	@PostConstruct
+	public void iniciar(){
+		System.out.println("post constructor");
+		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
+		this.administradores = this.getUsuarios();
+	}
 	
 	public void registroUsuario() {
 
@@ -62,7 +69,7 @@ public class UsuarioMB implements Serializable {
 							+ respuesta.getStatus());
 				}
 				
-				Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));				
+				//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));				
 		
 				//if (creado)	{
 				//	FacesContext.getCurrentInstance().getExternalContext().redirect("Vista.xhtml");
@@ -82,7 +89,7 @@ public class UsuarioMB implements Serializable {
 	}
 
 	public void ModificarUsuario(String mail, String pass) {
-		System.out.println("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		System.out.println("estoy en modificar usuario");
 		
 		ClientRequest request = null;
 		try {
@@ -104,13 +111,13 @@ public class UsuarioMB implements Serializable {
 						+ respuesta.getStatus());
 			}
 			
-			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+			/*Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 			
 			if (creado)	{
 				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
-			}else{			
-					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
-			};
+			}else{		*/	
+					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
+			//};
 			
 			}
 			catch(Exception e){
@@ -122,10 +129,10 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	public List<WrapperUsuario> getUsuarios(){		
-		//System.out.println("entro get administradores");
+		System.out.println("entro get Usuarios");
 				
 		ClientRequest request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/administradores");
-		
+																									
 		ArrayList<WrapperUsuario> lwu = new ArrayList<WrapperUsuario>();
 		
 		try {
@@ -159,6 +166,7 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	public String eliminarUsuario(String mail) {
+		System.out.println("eliminar Usuarios");
 		icu.eliminarUsuario(mail);
 		return "IndexAdmin.xhtml?faces-redirect=true";
 		
@@ -269,8 +277,7 @@ public class UsuarioMB implements Serializable {
 		return gson.toJson(object);
 }
 
-	public List<WrapperUsuario> getAdministradores() {//esto esta mal ver como cambiarlo
-		administradores = this.getUsuarios();
+	public List<WrapperUsuario> getAdministradores() {
 		return administradores;
 	}
 

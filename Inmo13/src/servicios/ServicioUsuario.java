@@ -81,6 +81,7 @@ public class ServicioUsuario extends Application {
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Path("/modificar")
 		public Response modificarUsuario(String datos) {
+			System.out.println("estoy en modificar usuario servicio");
 			boolean creado = false;
 			String booleanJSON = null;
 			
@@ -111,6 +112,7 @@ public class ServicioUsuario extends Application {
 		@Produces(MediaType.APPLICATION_JSON)
 		@Path("/administradores")	
 		public Response getAdministradores(){
+			System.out.println("estoy en listar administradores servicio");
 			String response = null;
 			try {
 				List<Usuario> usuarios = iuc.listarUsuarios();
@@ -175,7 +177,7 @@ public class ServicioUsuario extends Application {
     	String asunto, String mensaje) throws AddressException, MessagingException
     	{*/
 		Correo c = new Correo();
-		c.enviarMensajeConAuth("smtp.gmail.com", 587,mail, "gayoso.javier@gmail.com","gestioncatastrofes", asunto, cuerpo);
+		c.enviarMensajeConAuth("smtp.gmail.com", 587,mail, "inmogrupo13@gmail.com","inmobiliaria13", asunto, cuerpo);
 			
 			
 		}

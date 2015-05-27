@@ -1,9 +1,11 @@
 package persistencia;
 
 import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import dominio.Usuario;
 
 @Stateless
@@ -87,6 +89,7 @@ public class UsuarioDAO implements IUsuarioDAO{
     
     public void delete(Usuario u)
     {
+    	System.out.println("eliminar Usuarios DAO");
     	em.remove(u);
     }
 	
