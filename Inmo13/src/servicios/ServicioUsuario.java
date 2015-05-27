@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import utilidades.Correo;
+import wrappers.WrapperCorreo;
 import controladores.IControladorUsuario;
 import dominio.Usuario;
 
@@ -81,6 +82,7 @@ public class ServicioUsuario extends Application {
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Path("/modificar")
 		public Response modificarUsuario(String datos) {
+			System.out.println("estoy en modificar usuario servicio");
 			boolean creado = false;
 			String booleanJSON = null;
 			
@@ -111,6 +113,7 @@ public class ServicioUsuario extends Application {
 		@Produces(MediaType.APPLICATION_JSON)
 		@Path("/administradores")	
 		public Response getAdministradores(){
+			System.out.println("estoy en listar administradores servicio");
 			String response = null;
 			try {
 				List<Usuario> usuarios = iuc.listarUsuarios();
@@ -164,26 +167,26 @@ public class ServicioUsuario extends Application {
 		}
 		
 		@PUT
-		@Path("/contacto/{propiedad}/{mail}/{correo}/{asunto}")
-		public void enviarCorreo(@PathParam("mail") String mail, @PathParam("correo") String correo,@PathParam("asunto") String asunto, @PathParam("cuerpo") String cuerpo) throws AddressException, MessagingException
+		@Path("/contacto")
+		public void enviarCorreo(String datos) throws AddressException, MessagingException
 		{
-			//buscar el administrador con el nick, dependiendo de la propiedad que el usuario esta mirando
-			
+			// Create a new Gson object that could parse all passed in elements
+						GsonBuilder gsonBuilder = new GsonBuilder();
+						Gson gson = gsonBuilder.create();
+				
+						// Get book Object parsed from JSON string
+						WrapperCorreo wc = gson.fromJson(datos, WrapperCorreo.class);	
 		
-		/*
-	 *  public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
-    	String asunto, String mensaje) throws AddressException, MessagingException
-    	{*/
 		Correo c = new Correo();
-		c.enviarMensajeConAuth("smtp.gmail.com", 587,mail, "gayoso.javier@gmail.com","gestioncatastrofes", asunto, cuerpo);
+		//public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
+    	//String asunto, String mensaje) throws AddressException, MessagingException
+		c.enviarMensajeConAuth("smtp.gmail.com", 587,wc.getCorreo(), "inmogrupo13@gmail.com","inmobiliaria13", wc.getAsunto(), wc.getCuerpo());
 			
 			
 		}
 
-		public String toJSONString(Object object) { // Funcion que convierte de
-													// objeto java a JSON
+		public String toJSONString(Object object) { 
 			GsonBuilder gsonBuilder = new GsonBuilder();
-
 			Gson gson = gsonBuilder.create();
 			return gson.toJson(object);
 		}

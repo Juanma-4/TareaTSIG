@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
 import dominio.Usuario;
 import persistencia.IUsuarioDAO;
 
@@ -81,8 +82,7 @@ public class ControladorUsuario implements IControladorUsuario {
 */
 	@Override
 	public void eliminarUsuario(String mail) {
-	///// TODO Auto-generated method stub
-
+		System.out.println("eliminar Usuarios controlador");
 		Usuario usu = UsuarioDAO.getUsuario(mail);
 		UsuarioDAO.delete(usu);
 	}
