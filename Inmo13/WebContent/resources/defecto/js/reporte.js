@@ -108,7 +108,7 @@ window.onload = function() {
 		
 		
 		var PropiedadesPublicas = new OpenLayers.Layer.Vector("Propiedades Publicas", {
-			strategies : [ new OpenLayers.Strategy.BBOX() ],
+			strategies : [ new OpenLayers.Strategy.Fixed() ],
 			styleMap: estiloPropPublica,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
@@ -122,7 +122,7 @@ window.onload = function() {
 		});	
 	
 		var PropiedadesPrivadas = new OpenLayers.Layer.Vector("Propiedades Privadas", {
-			strategies : [ new OpenLayers.Strategy.BBOX() ],
+			strategies : [new OpenLayers.Strategy.Fixed() ],
 			styleMap: estiloPropPrivada,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
@@ -136,7 +136,7 @@ window.onload = function() {
 		});	
 			
 		var PropiedadesReservadas = new OpenLayers.Layer.Vector("Propiedades Reservadas", {
-			strategies : [ new OpenLayers.Strategy.BBOX() ],
+			strategies : [new OpenLayers.Strategy.Fixed() ],
 			styleMap: estiloPropReservadas,
 			protocol : new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
@@ -173,9 +173,9 @@ window.onload = function() {
 		
 	
 		
-	  	/// PARA CENTRAR EN MONTEVIDEO
+		/// PARA CENTRAR EN MONTEVIDEO
     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
-            	    WGS84,  map.getProjectionObject()), miZoom + 3);
+    			new OpenLayers.Projection(miEPSG),  map.getProjectionObject()), miZoom + 3);
 		
   		
 };

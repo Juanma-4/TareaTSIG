@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -18,6 +22,8 @@ import utilidades.UsuarioAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import utilidades.Correo;
+import wrappers.WrapperCorreo;
 import controladores.IControladorUsuario;
 import dominio.Usuario;
 
@@ -76,6 +82,7 @@ public class ServicioUsuario extends Application {
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Path("/modificar")
 		public Response modificarUsuario(String datos) {
+			System.out.println("estoy en modificar usuario servicio");
 			boolean creado = false;
 			String booleanJSON = null;
 			
@@ -106,6 +113,7 @@ public class ServicioUsuario extends Application {
 		@Produces(MediaType.APPLICATION_JSON)
 		@Path("/administradores")	
 		public Response getAdministradores(){
+			System.out.println("estoy en listar administradores servicio");
 			String response = null;
 			try {
 				List<Usuario> usuarios = iuc.listarUsuarios();
@@ -157,11 +165,28 @@ public class ServicioUsuario extends Application {
 				return Response.status(404).entity(respuesta).build();
 			}
 		}
+		
+		@PUT
+		@Path("/contacto")
+		public void enviarCorreo(String datos) throws AddressException, MessagingException
+		{
+			// Create a new Gson object that could parse all passed in elements
+						GsonBuilder gsonBuilder = new GsonBuilder();
+						Gson gson = gsonBuilder.create();
+				
+						// Get book Object parsed from JSON string
+						WrapperCorreo wc = gson.fromJson(datos, WrapperCorreo.class);	
+		
+		Correo c = new Correo();
+		//public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
+    	//String asunto, String mensaje) throws AddressException, MessagingException
+		c.enviarMensajeConAuth("smtp.gmail.com", 587,wc.getCorreo(), "inmogrupo13@gmail.com","inmobiliaria13", wc.getAsunto(), wc.getCuerpo());
+			
+			
+		}
 
-		public String toJSONString(Object object) { // Funcion que convierte de
-													// objeto java a JSON
+		public String toJSONString(Object object) { 
 			GsonBuilder gsonBuilder = new GsonBuilder();
-
 			Gson gson = gsonBuilder.create();
 			return gson.toJson(object);
 		}
@@ -171,5 +196,6 @@ public class ServicioUsuario extends Application {
 		    Gson gson = gsonBuilder.registerTypeAdapter(Usuario.class, new UsuarioAdapter()).create();
 		    return gson.toJson(usuarios);
 		} 
+		
 		
 }

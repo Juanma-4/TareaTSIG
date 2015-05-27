@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.jboss.resteasy.client.ClientRequest;
@@ -20,8 +20,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import controladores.IControladorUsuario;
+import wrappers.WrapperCorreo;
 import wrappers.WrapperUsuario;
-	
+
 @ManagedBean
 @javax.faces.bean.SessionScoped
 public class UsuarioMB implements Serializable {
@@ -34,8 +35,22 @@ public class UsuarioMB implements Serializable {
 
 	private String mail;
 	private String password;
-
+	
+	private String mailregistro;
+	private String passwordregistro;
+	
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
+
+	@PostConstruct
+	public void iniciar(){
+		System.out.println("post constructor");
+		this.passwordregistro="";
+		this.mailregistro="";
+		this.mail="";
+		this.password="";
+		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
+		this.administradores = this.getUsuarios();
+	}
 	
 	public void registroUsuario() {
 
@@ -44,7 +59,7 @@ public class UsuarioMB implements Serializable {
 			try {
 			
 				request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/registro");
-				WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
+				WrapperUsuario usuario = new WrapperUsuario(this.mailregistro,this.passwordregistro);
 
 				// transformo el usuario a ingresar en Json string
 				String usuarioJSON = toJSONString(usuario);
@@ -62,7 +77,7 @@ public class UsuarioMB implements Serializable {
 							+ respuesta.getStatus());
 				}
 				
-				Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));				
+				//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));				
 		
 				//if (creado)	{
 				//	FacesContext.getCurrentInstance().getExternalContext().redirect("Vista.xhtml");
@@ -82,11 +97,11 @@ public class UsuarioMB implements Serializable {
 	}
 
 	public void ModificarUsuario(String mail, String pass) {
-		System.out.println("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		System.out.println("estoy en modificar usuario");
 		
 		ClientRequest request = null;
 		try {
-			request = new ClientRequest("http://localhost:8082/Inmo13/rest/ServicioUsuario/modificar");
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/modificar");
 		
 			//WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
 			WrapperUsuario usuario = new WrapperUsuario(mail,pass);
@@ -104,13 +119,13 @@ public class UsuarioMB implements Serializable {
 						+ respuesta.getStatus());
 			}
 			
-			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+			/*Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 			
 			if (creado)	{
 				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
-			}else{			
-					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
-			};
+			}else{		*/	
+					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
+			//};
 			
 			}
 			catch(Exception e){
@@ -122,10 +137,10 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	public List<WrapperUsuario> getUsuarios(){		
-		//System.out.println("entro get administradores");
+		System.out.println("entro get Usuarios");
 				
-		ClientRequest request = new ClientRequest("http://localhost:8082/Inmo13/rest/ServicioUsuario/administradores");
-		
+		ClientRequest request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/administradores");
+																									
 		ArrayList<WrapperUsuario> lwu = new ArrayList<WrapperUsuario>();
 		
 		try {
@@ -159,20 +174,10 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	public String eliminarUsuario(String mail) {
+		System.out.println("eliminar Usuarios");
 		icu.eliminarUsuario(mail);
 		return "IndexAdmin.xhtml?faces-redirect=true";
 		
-	}
-	
-	public void altaPropiedad(){
-		try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("AltaPropiedad.xhtml");					
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			
-		}
 	}
 	
 	public String irRegistroUsuario(){
@@ -186,26 +191,7 @@ public class UsuarioMB implements Serializable {
 		return "BMUsuario.xhtml?faces-redirect=true";
 		
 	}
-	
-	public String irAltaPropiedad(){
 		
-		return "AltaPropiedad.xhtml?faces-redirect=true";
-		
-	}
-	
-	public String irBajaPropiedad(){
-		
-		return "BajaPropiedad.xhtml?faces-redirect=true";
-		
-	}
-	public String irBMPropiedad(){
-		
-		return "BMPropiedad.xhtml?faces-redirect=true";
-		
-	}
-	
-	
-	
 	public void login(){
 		
 		ClientRequest request;		  
@@ -240,7 +226,7 @@ public class UsuarioMB implements Serializable {
 			if (lista.get(0) == false) {				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Credenciales incorrectas"));
 				FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-				throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
+			//throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
 			}
 			
 			else {				
@@ -274,6 +260,47 @@ public class UsuarioMB implements Serializable {
 		
 		// return "Index.xhtml?faces-redirect=true";
 	}
+	
+	
+	public void EnviarCorreo(String correo, String asunto, String pass, String cuerpo) {
+		System.out.println("estoy en Enviar correo");
+		
+		ClientRequest request = null;
+		try {
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
+		
+			//public WrapperCorreo(String correo, String asunto, String pass, String cuerpo)
+			WrapperCorreo wc = new WrapperCorreo(correo, asunto, pass, cuerpo);
+
+			String wcJSON = toJSONString(wc);
+
+			request.body("application/json", wcJSON);
+
+			ClientResponse<String> respuesta = request.post(String.class);
+
+			if (respuesta.getStatus() != 201) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage("Error al Modificar Usuario"));
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ respuesta.getStatus());
+			}
+			
+			/*Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+			
+			if (creado)	{
+				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
+			}else{		*/	
+					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
+			//};
+			
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				request.clear();
+			}
+	
+	}
 
 	public String getMail() {
 		return mail;
@@ -294,18 +321,33 @@ public class UsuarioMB implements Serializable {
 	public String toJSONString(Object object) { // Funcion que convierte de
 		// objeto java a JSON
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		// gsonBuilder.setDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'"); // ISO8601
+		gsonBuilder.setDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'"); // ISO8601
 		Gson gson = gsonBuilder.create();
 		return gson.toJson(object);
 }
 
-	public List<WrapperUsuario> getAdministradores() {//esto esta mal ver como cambiarlo
-		administradores = this.getUsuarios();
+	public List<WrapperUsuario> getAdministradores() {
 		return administradores;
 	}
 
 	public void setAdministradores(List<WrapperUsuario> administradores) {
 		this.administradores = administradores;
+	}
+
+	public String getMailregistro() {
+		return mailregistro;
+	}
+
+	public void setMailregistro(String mailregistro) {
+		this.mailregistro = mailregistro;
+	}
+
+	public String getPasswordregistro() {
+		return passwordregistro;
+	}
+
+	public void setPasswordregistro(String passwordregistro) {
+		this.passwordregistro = passwordregistro;
 	}
 	
 	

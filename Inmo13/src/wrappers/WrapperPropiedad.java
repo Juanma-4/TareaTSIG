@@ -2,11 +2,6 @@ package wrappers;
 
 import com.google.gson.annotations.SerializedName;
 
-import dominio.Usuario;
-import enumerados.Estado;
-import enumerados.TipoPropiedad;
-import enumerados.Transaccion;
-
 public class WrapperPropiedad {
 
 	@SerializedName("precio")
@@ -51,6 +46,8 @@ public class WrapperPropiedad {
 	@SerializedName("piso")
 	private String piso;
 
+	@SerializedName("usuario")
+	private String usuario;
 	
 	public WrapperPropiedad() {
 	}
@@ -58,7 +55,7 @@ public class WrapperPropiedad {
 	public WrapperPropiedad(Double precio, Integer cantDorm, Integer cantBanio,
 			Double metrosCuadrados, Boolean parrillero, Boolean garage,
 			String tipoPropiedad, String tipoEstado, String tipotransaccion,
-			Integer numeroPuerta, String calle, String fid,String tipoMoneda, String piso) {
+			Integer numeroPuerta, String calle, String fid,String tipoMoneda, String piso,String usuario) {
 
 		this.precio = precio;
 		this.cantDorm = cantDorm;
@@ -74,7 +71,16 @@ public class WrapperPropiedad {
 		this.numeroPuerta = numeroPuerta;
 		this.tipoMoneda = tipoMoneda;
 		this.piso = piso;
+		this.usuario = usuario;
+	}
 
+	
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getFid() {

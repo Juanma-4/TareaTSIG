@@ -14,8 +14,8 @@ public class UsuarioAdapter implements JsonSerializer<Usuario> {
 	public JsonElement serialize(Usuario usuario, Type type, JsonSerializationContext usc) {
 
 		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("mail", usuario.getMail());
-		jsonObject.addProperty("pass", usuario.getPassword());
+		jsonObject.addProperty("mail", usuario.getMail().trim());
+		jsonObject.addProperty("password", usuario.getPassword().trim());
 		return jsonObject;
 	}
 }

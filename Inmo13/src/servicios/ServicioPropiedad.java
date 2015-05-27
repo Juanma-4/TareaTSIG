@@ -68,6 +68,35 @@ public class ServicioPropiedad extends Application {
 				return Response.status(201).entity(booleanJSON).build();
 			
 			}
+			
+			@POST
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Consumes(MediaType.APPLICATION_JSON)
+			@Path("/modificar")
+			public Response modificarPropiedad(String datosPropiedad) {
+		
+				boolean modificado = false;
+				String booleanJSON = null;
+			
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+
+				try {
+
+					modificado = this.ipc.modificarPropiedad(datosPropiedad);
+					booleanJSON = gson.toJson(modificado);
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					//					codigoRetorno = "{\"status\":\"500\","
+					//							+ "\"message\":\"Resource not created.\""
+					//							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
+					return Response.status(500).entity(booleanJSON).build();
+
+				}
+				return Response.status(201).entity(booleanJSON).build();
+			
+			}
 		
 	
 	
