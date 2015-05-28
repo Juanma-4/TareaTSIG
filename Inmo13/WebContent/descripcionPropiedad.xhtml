@@ -100,7 +100,7 @@
 			<div id="coordenadas"></div>		
 			
    		  	<br/>
-   		  	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModaleditar" onclick="return false;">Hacer una consulta al administrador de esta propiedad</button>
+   		  	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModaleditar" onclick="document.getElementById('numeroPuerta').value='#{propiedadMB.numPuerta}';return false;">Hacer una consulta al administrador de esta propiedad</button>
    		  	
    		  </h:form>
    		  
@@ -114,25 +114,46 @@
 			        
 		        <div class="modal-body">
 	          	 
-		        	<div class="input-group">
+					<form id="contactForm" method="post" class="form-horizontal">
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Nombre:</label>
+					        <div class="col-xs-6">
+					            <input type="text" class="form-control" name="nombre" />
+					        </div>
+					    </div>
 					
-					  
-					</div>	  
-					<BR />
-					<div class="input-group">
-					  
-					  
-					</div>
-          		  
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Email:</label>
+					        <div class="col-xs-6">
+					            <input type="text" class="form-control" name="mail" />
+					        </div>
+					    </div>
+					
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Asunto:</label>
+					        <div class="col-xs-6">
+					            <input type="text" class="form-control" name="asunto" />
+					        </div>
+					    </div>
+					
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Cuerpo:</label>
+					        <div class="col-xs-6">
+					            <textarea class="form-control" name="cuerpo" rows="5"></textarea>
+					        </div>
+					    </div>
+					     <button type="button" class="btn btn-success" data-dismiss="modal" onclick="#{usuarioMB.EnviarCorreo('nombre','mail','asunto','cuerpo',1)};return false;">Enviar</button>
+		           		<button type="button" class="btn btn-default" data-dismiss="modal" onclick="return false;">Cancelar</button>
+					</form>
 		        </div>
 		        <div class="modal-footer">
-		           <button type="button" class="btn btn-success" data-dismiss="modal" onclick="return false;">Enviar</button>
-		           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="return false;">Cancelar</button>
+		       <!--  public void EnviarCorreo(String correo, String asunto, String pass, String cuerpo)-->
+		          
 		        </div>
 		      </div>
 		    </div>
 		  </div>
+		  
      </h:panelGroup>
-
 </h:body>
 </html>

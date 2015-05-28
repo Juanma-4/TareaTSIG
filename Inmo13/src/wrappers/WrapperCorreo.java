@@ -2,48 +2,51 @@ package wrappers;
 import com.google.gson.annotations.SerializedName;
 
 public class WrapperCorreo {
-//c.enviarMensajeConAuth("smtp.gmail.com", 587,mail, 
-	//"gayoso.javier@gmail.com","gestioncatastrofes",
-	// asunto, cuerpo);
 	
-	@SerializedName("correo")
-	private String correo;
-	
-	@SerializedName("pass")
-	private String pass;
+	@SerializedName("nombre")
+	private String nombre;
+		
+	@SerializedName("origen")
+	private String origen;
 	
 	@SerializedName("asunto")
 	private String asunto;
 	
 	@SerializedName("cuerpo")
 	private String cuerpo;
+	
+	@SerializedName("propid")
+	private Integer propid;
+
+	
 
 	public WrapperCorreo() {
 		
 	}
 
-	public WrapperCorreo(String correo, String asunto, String pass, String cuerpo) {
+	public WrapperCorreo(String nombre, String correo, String asunto, String cuerpo, Integer id) {
 
-		this.correo = correo;
+		this.nombre = nombre;
+		this.origen = correo;
 		this.asunto = asunto;
-		this.pass = pass;
 		this.cuerpo = cuerpo;
+		this.propid = id;
 	}
 
-	public String getCorreo() {
-		return correo;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setCorreo(String correo) {
-		this.correo = correo;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public String getPass() {
-		return pass;
+	public String getOrigen() {
+		return origen;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setOrigen(String origen) {
+		this.origen = origen;
 	}
 
 	public String getAsunto() {
@@ -60,6 +63,14 @@ public class WrapperCorreo {
 
 	public void setCuerpo(String cuerpo) {
 		this.cuerpo = cuerpo;
+	}
+	
+	public Integer getPropid() {
+		return propid;
+	}
+
+	public void setPropid(Integer propid) {
+		this.propid = propid;
 	}
 }
 
