@@ -1,5 +1,7 @@
 package servicios;
 
+import java.util.ArrayList;
+
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
@@ -12,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import controladores.IControladorPropiedad;
 import controladores.IControladorUsuario;
@@ -98,6 +101,34 @@ public class ServicioPropiedad extends Application {
 			
 			}
 		
-	
+			@POST
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Consumes(MediaType.APPLICATION_JSON)
+			@Path("/listarPropiedades")
+			public Response listarPropiedades(String datosFiltro) {
+		
+				System.out.println("ESTOY EN SERVICIOOOOO PROPIEDAD Entro!"+datosFiltro);
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+
+				String propiedadesFiltradas = "HOLA";
+				
+				try {
+					ArrayList<String> filtros = gson.fromJson(datosFiltro, new TypeToken<ArrayList<String>>() {}.getType());
+					propiedadesFiltradas = ipc.listarPropiedades(filtros);
+					propiedadesFiltradas = gson.toJson(propiedadesFiltradas);
+					
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					//					codigoRetorno = "{\"status\":\"500\","
+					//							+ "\"message\":\"Resource not created.\""
+					//							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
+					return Response.status(500).entity(propiedadesFiltradas).build();
+
+				}
+				return Response.status(201).entity(propiedadesFiltradas).build();
+			
+			}
 	
 }

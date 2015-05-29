@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 
 	<link rel="stylesheet" type="text/css"
@@ -14,11 +15,8 @@
 
 	<h:outputScript library="defecto" name="js/jquery-1.11.3.min.js"
 		target="head" />
-	<!--  <h:outputScript library="defecto" name="js/jquery.nstSilder.min.js" target="head"/> 
- 	  <script type="text/javascript"  src="../WebContent/resources/defecto/js/jquery.nstSlider.min.js" ></script>-->
 
 	<script src="http://openlayers.org/api/OpenLayers.js"></script>
-	<!--  	     <script src="#{facesContext.externalContext.requestContextPath}/WebContent/resources/OpenLayers-2.13.1/OpenLayers.js" type="text/javascript"></script> -->
 	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"
 		target="head" />
 
@@ -79,7 +77,7 @@
 				</div>
 				<div class="body-filtros">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<h:form method="get" id="filtro-centros">
+						<h:form  id="filtro-centros">
 							<div
 								class="col-lg-12 col-md-12 col-sm-12 col-xs-12 body-filtros-title">
 								<h4>
@@ -126,10 +124,10 @@
 										<f:selectItem itemValue="US$" itemLabel="US$" />
 									</h:selectOneMenu>
 									<label style="color: white; font-size: 13px;">Min</label>
-									<h:inputText type="text" value="" id="minimo" size="5"
-										maxlength="16" />
+									<h:inputText type="text" id="minimo" size="5"
+						           maxlength="16" />
 									<label style="color: white; font-size: 13px;">Máx</label>
-									<h:inputText type="text" value="" id="maximo" size="5"
+									<h:inputText type="text" id="maximo" size="5"
 										maxlength="16" />
 									<br></br>
 								</div>
@@ -170,7 +168,7 @@
 								<div>
 									<label class="labelClass"
 										style="color: white; font-size: 13px;"> m² </label>
-									<h:inputText type="text" value="" id="metrosCuadrados" size="1"
+									<h:inputText type="text" id="metrosCuadrados" size="1"
 										maxlength="16" />
 								</div>
 
@@ -178,7 +176,7 @@
 								<div>
 									<label style="color: white; font-size: 13px;">Barrio</label>
 									<h:selectOneMenu id="barrio" value="1">
-										<f:selectItem itemValue="" itemLabel="Todos" />
+										<f:selectItem itemLabel="Todos" />
 										<f:selectItem itemValue="MANGA TOLEDO CHICO"
 											itemLabel="MANGA TOLEDO CHICO" />
 										<f:selectItem itemValue="COLON SURESTE ABAYUBA"
@@ -286,7 +284,7 @@
 									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 										<div class="checkbox">
 											<div class="icheckbox_square-blue">
-												<h:selectBooleanCheckbox value="" id="parrillero" />
+												<h:selectBooleanCheckbox id="parrillero" />
 											</div>
 											<label for="type-1">Parrillero</label>
 										</div>
@@ -295,60 +293,52 @@
 									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 										<div class="checkbox">
 											<div class="icheckbox_square-blue">
-												<h:selectBooleanCheckbox value="" id="garage" />
+												<h:selectBooleanCheckbox id="garage" />
 											</div>
 											<label for="type-1">Garage</label>
 										</div>
 									</div>
 
 
+		
 									<div>
-										<input id="sliderMar" name="mar" data-slider-id='ex1Slider'
-											type="text" data-slider-min="0" data-slider-max="20"
-											data-slider-step="1" data-slider-value="5"></input> <br></br>
-										<span style="color: white; font-size: 16px">Distacia
-											del Mar: <span id="MarSliderVal"
-											style="color: white; font-size: 16px">5</span> km
-										</span>
-									</div>
+									 <h:panelGrid columns="1" style="margin-bottom: 10px">
+								        <h:outputText id="output" value="Distancia al mar: 0 km" />
+								        <h:inputHidden id="txt1" value="#{propiedadMB.distanciaMar}" />
+								        <p:slider id="sliderMar" for="txt2" display="output" style="width: 200px" displayTemplate="Distancia al mar: {value} km"  maxValue="20"/>
+								    </h:panelGrid>
+								
+								    <br></br>
+								    
+							    	 <h:panelGrid columns="1" style="margin-bottom: 10px">
+								        <h:outputText id="output2" value="Distancia a la parada mas cercana: 0 m" />
+								        <h:inputHidden id="txt2" value="#{propiedadMB.distanciaParada}" />
+								        <p:slider id="sliderBus" for="txt2" display="output2" style="width: 200px" displayTemplate="Distancia a la parada mas cercana: {value} m"  maxValue="2000"/>
+								    </h:panelGrid>
+								    
+								    <br></br>
+							    	 <h:panelGrid columns="1" style="margin-bottom: 10px">
+								        <h:outputText id="output3" value="Distancia a puntos de interés: 0 km" />
+								        <h:inputHidden id="txt3" value="#{propiedadMB.distanciaPInteres}" />
+								        <p:slider id="sliderPInteres" for="txt3" display="output3" style="width: 200px" displayTemplate="Distancia a puntos de interés: {value} km"  maxValue="30"/>
+								    </h:panelGrid>
+								
+								  </div>
 
-									<br></br>
-
-									<div>
-										<input id="sliderBus" data-slider-id='ex1Slider' type="text"
-											data-slider-min="0" data-slider-max="2000"
-											data-slider-step="1" data-slider-value="500"></input> <br></br>
-										<span style="color: white; font-size: 16px">Distacia a
-											parada más cercana: <span id="BusSliderVal"
-											style="color: white; font-size: 16px">500</span> m
-										</span>
-									</div>
-
-									<br></br>
-
-									<div>
-										<input id="sliderPInteres" data-slider-id='ex1Slider'
-											type="text" data-slider-min="0" data-slider-max="30"
-											data-slider-step="1" data-slider-value="10"></input> <br></br>
-										<span style="color: white; font-size: 16px">Distacia a
-											puntos de interés: <span id="PInteresSliderVal"
-											style="color: white; font-size: 16px">10</span> Km
-										</span>
-									</div>
-
-
-
-
-
-
-									<input type="button" value="Buscar" id="botonBusqueda"
-										class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar" />
+											<h:commandButton value="Buscar" id="botonBusqueda" 
+											styleClass="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar"
+											onclick="buscarPropiedades(); return false;" />	
+									<p:remoteCommand name="remoteListar" action="#{propiedadMB.listarProp}" oncomplete="handleConfirm(xhr,status,args)"></p:remoteCommand>
 									<!-- Fin filtros -->
 								</div>
 							</div>
+
+						
 						</h:form>
-
-
+						
+<!-- 							onsuccess="handleConfirm(data)" -->
+<!-- 	<input type="button" value="Buscar" id="botonBusqueda" -->
+<!-- 										class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar" onclick="buscarPropiedades()"/> -->
 					</div>
 				</div>
 			</div>

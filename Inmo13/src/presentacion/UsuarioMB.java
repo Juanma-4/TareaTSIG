@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import org.jboss.resteasy.client.ClientRequest;
@@ -31,6 +32,9 @@ public class UsuarioMB implements Serializable {
 	@EJB
 	private IControladorUsuario icu;
 	
+	@ManagedProperty(value="#{propiedadMB}")
+	private PropiedadMB propiedadMB;
+	
 	private static final long serialVersionUID = 1L;
 
 	private String mail;
@@ -40,6 +44,15 @@ public class UsuarioMB implements Serializable {
 	private String passwordregistro;
 	
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
+	
+
+	public PropiedadMB getPropiedadMB() {
+		return propiedadMB;
+	}
+
+	public void setPropiedadMB(PropiedadMB propiedadMB) {
+		this.propiedadMB = propiedadMB;
+	}
 
 	@PostConstruct
 	public void iniciar(){
@@ -226,13 +239,12 @@ public class UsuarioMB implements Serializable {
 			if (lista.get(0) == false) {				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Credenciales incorrectas"));
 				FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-			//throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
 			}
 			
 			else {				
-				request.clear();
-								
-				response = request.get(String.class);						
+
+				this.propiedadMB.setUsuario(this.mail);
+				
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mail", this.mail);					
 				FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");			
 				

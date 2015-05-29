@@ -1,5 +1,8 @@
 package controladores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -70,6 +73,31 @@ public class ControladorPropiedad implements IControladorPropiedad{
 		}
 		
 		return modifico;
+	}
+
+
+	public String listarPropiedades(ArrayList<String> filtros) {
+		String propiedadesFiltradasJSON = null;
+		try{		
+			List<Object[]> propiedadesFiltradas = PropiedadDAO.listarPropiedades(filtros);
+			
+			List<String> propiedadesFiltradasString = new ArrayList<String>();
+		for (Object[] propiedad: propiedadesFiltradas) {
+//			Datatalcosa = new datatalcosa(propiedad[0],propiedad[1].....)
+//			propiedadesFiltradasString.add(propiedad[0],)
+//			propiedad[0]);
+//			propiedad[1]);
+//			propiedad[2]);
+//			propiedad[3]);
+		 }
+		 
+		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return propiedadesFiltradasJSON;
 	}
 
 

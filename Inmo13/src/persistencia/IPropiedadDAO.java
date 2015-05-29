@@ -1,5 +1,8 @@
 package persistencia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Local;
 
 import dominio.Propiedad;
@@ -14,4 +17,5 @@ public interface IPropiedadDAO  {
 			boolean parrillero, boolean garage, String tipoPropiedad,
 			String tipotransaccion, String tipoEstado, Integer numeroPuerta,
 			String fid, String tipoMoneda, String piso, String usuario);
+	public List<Object[]> listarPropiedades(ArrayList<String> filtros);
 }

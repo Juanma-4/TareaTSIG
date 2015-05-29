@@ -1,9 +1,13 @@
 package persistencia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import wrappers.WrapperPropiedadFiltrada;
 import dominio.Propiedad;
 
 @Stateless
@@ -64,5 +68,45 @@ public class PropiedadDAO implements IPropiedadDAO{
 
 		}
 		return modifico;
+	}
+	
+/*
+0,tipopropiedad);
+	(1,tipotransaccion);
+2, tipomoneda);
+(3, minimo);
+			datos.add(4, maximo);
+			datos.add(5, cantbanio);
+			datos.add(6, cantdorm);
+			datos.add(7, metroscuadrados);
+			datos.add(8, barrio);
+			datos.add(9, parrillero);
+			datos.add(10, garage);
+			datos.add(11, distanciaMar);
+			datos.add(12, distanciaParada);
+			datos.add(13, distanciaPuntoInteres);
+ */
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listarPropiedades(ArrayList<String> filtros) {
+		String sql = null;
+		List<Object[]> propiedadesFiltradas = null;
+		try {			
+			
+//			sql = "SELECT ";
+//			if(!filtros.get(4).equals("")){
+//				sql += "propiedad.id";
+//			}
+//			propiedadesFiltradas = em.createNativeQuery(sql);
+			propiedadesFiltradas = em.createNativeQuery("SELECT propiedad.id,propiedad.calle, ST_X(propiedad.geom) AS latitud , ST_Y(propiedad.geom) AS longitud "
+															+ "FROM propiedad,barrios " 
+															+ "WHERE ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio = '"+"CIUDAD VIEJA"+"'").getResultList();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return propiedadesFiltradas;
 	}
 }

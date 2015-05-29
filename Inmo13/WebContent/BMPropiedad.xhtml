@@ -83,7 +83,7 @@
 </h:head>
 
 <h:body>      
-      
+      <h:form>
      <p:growl id="growl" widgetVar="growl" showDetail="false" />
      
      
@@ -93,7 +93,8 @@
 		<div id="coordenadas"></div>		
 			
      </h:panelGroup>
-
+	<p:remoteCommand name="remoteBMPropiedad" action="#{propiedadMB.setearDatos}"></p:remoteCommand>
+	</h:form>
 </h:body>
 
 </ui:define>

@@ -1,7 +1,3 @@
-var apreto = false;
-var punto;
-var gid;
-var saveStrategy;
 var map;
 var opciones;
 var limites;
@@ -9,9 +5,14 @@ var WGS84_google_mercator;
 var WGS84;
 var propiedades;
 var estiloProp;
-var propiedadesFiltradas;
-var estiloFiltrado;
-var filterStrategy;
+var vectorLocalizador;
+
+//////////// style para geolocalizacion
+var style = {
+	    fillColor: '#000',
+	    fillOpacity: 0,
+	    strokeWidth: 0
+};
 
 function init() {
 	   
@@ -81,40 +82,68 @@ function init() {
 		        ]
 		    });
 			
-		 filterStrategy = new OpenLayers.Strategy.Filter({filter: filter});		
 
-		 var in_options = {
-	                'internalProjection': map.projection,
-	                'externalProjection': map.projection
-	                 };
-	    var geojson_format = new OpenLayers.Format.GeoJSON(in_options);
-		 
-		 
+	    /////////////// GEOLOCALIZACION !!! //////////////////
+	    vectorLocalizador = new OpenLayers.Layer.Vector('Localizado',{
+	    	 displayInLayerSwitcher : false,
+	    });
+	    
+	    var geolocate = new OpenLayers.Control.Geolocate({
+	        bind: false,
+	        geolocationOptions: {
+	            enableHighAccuracy: false,
+	            maximumAge: 0,
+	            timeout: 7000
+	        }
+	    });
+	    
+	    geolocate.watch = true;
+        var  firstGeolocation = true;
+        geolocate.activate();
+        
+	    map.addControl(geolocate);
+	    
+	    geolocate.events.register("locationupdated",geolocate,function(e) {
+	    	vectorLocalizador.removeAllFeatures();
+	        var circle = new OpenLayers.Feature.Vector(
+	            OpenLayers.Geometry.Polygon.createRegularPolygon(
+	                new OpenLayers.Geometry.Point(e.point.x, e.point.y),
+	                e.position.coords.accuracy/2,
+	                40,
+	                0
+	            ),
+	            {},
+	            style
+	        )
+	        vectorLocalizador.addFeatures([
+	            new OpenLayers.Feature.Vector(
+	                e.point,
+	                {},
+	                {
+	                	
+	                	
+						externalGraphic : "resources/defecto/img/ubicacion.png",
+						
+						graphicWidth : 33,
+						graphicHeight : 33
+	                	
+	                }
+	            ),
+	            circle
+	        ]);
+	    });
+	    
+	    geolocate.events.register("locationfailed",this,function() {
+		    OpenLayers.Console.log('Location detection failed');
+		});
+	    /////////////////////////Fin GeoLocalizacion //////////////////////////////
+	    
+	    
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
 			strategies : [ new OpenLayers.Strategy.Fixed()], //,filterStrategy 
 			styleMap: estiloProp,
-			protocol : 
-//				new OpenLayers.Protocol.Script({
-//				url : urlWFS,
-//				callbackKey: 'format_options',
-//				callbackPrefix: 'callback:',
-//				params: {
-//					service: 'WFS',
-//					version: '1.1.0',
-//					srsName: miEPSG,
-//					request: 'GetFeature',
-//					typeName: 'sige:propiedad',
-//					outputFormat: 'json',
-//				    CQL_FILTER: "tipoestado='"+"Publica"+"'",
-//				    format: geojson_format,
-//				    
-//
-//				}
-//				
-//			})
-
-			 new OpenLayers.Protocol.WFS({
+			protocol :  new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
 				featureType : "propiedad",
@@ -127,141 +156,69 @@ function init() {
 		});	
 		 	 
 
-		var miScript = new OpenLayers.Protocol.Script({
-			url : urlWFS,
-			callback: miFuncion,
-			callbackKey: 'format_options',
-//			callbackPrefix: 'callback:',
-			format: geojson_format,
-			parseFeatures:function(data) {
-				alert(data);
-				return this.format.read(data.results[0]);
-              },
-			params: {
-				service: 'WFS',
-				version: '1.1.0',
-				srsName: miEPSG,
-				request: 'GetFeature',
-				typeName: 'sige:propiedad',
-				outputFormat: 'text/javascript',
-			    CQL_FILTER: "tipoestado='"+"Publica"+"'",
-//			    format: geojson_format,
-//			    parseFeatures: function(data) {
-//                    return this.format.read(data.results[0]);
-//                }
-//			    
-			}
-		});
-	   
-		var prueba = new OpenLayers.Layer.Vector("Prueba", {
-				strategies : [ new OpenLayers.Strategy.Fixed()], 
-				styleMap: estiloProp,
-				protocol : miScript 
-				
-			});	
-		
-		
-		map.addLayers([ google_maps, gphy, propiedades,prueba]);
-		
-		
-		map.zoomToExtent(limites);		
+		map.addLayers([ google_maps, gphy, propiedades,vectorLocalizador]);
+    	map.zoomToExtent(limites);		
 	
 		/// PARA CENTRAR EN MONTEVIDEO
     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
     			new OpenLayers.Projection(miEPSG),  map.getProjectionObject()), miZoom + 3);
-		
-    	
-    	function miFuncion(data){
-			alert(data);
-		}
+	
 };					
 
 //////////////////////funcion que hace la busqueda en si misma 
+function buscarPropiedades(){
 
-$(function() { 
-	$("#botonBusqueda").click(function(){
-		
-	 
-	 var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
-	 var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
-	 var tipomoneda =  document.getElementById('filtro-centros:moneda').value;
-	 var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
-	 var maximo = parseInt(document.getElementById('filtro-centros:maximo').value);
-     var cantbanio = parseInt(document.getElementById('filtro-centros:cantBanio').value);
- 	 var cantdorm = parseInt(document.getElementById('filtro-centros:cantDormitorio').value);
-     var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
- 	 var barrio =  document.getElementById('filtro-centros:barrio').value;
-     var parrillero = document.getElementById('filtro-centros:parrillero').checked;
-     var garage = document.getElementById('filtro-centros:garage').checked; 
-	 
-     var distanciaMar = parseInt($("#MarSliderVal").text());
-     var distanciaParada = parseInt($("#BusSliderVal").text());
-     var distanciaPuntoInteres = parseInt($("#PInteresSliderVal").text());
+var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
+var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
+var tipomoneda =  document.getElementById('filtro-centros:moneda').value;
+var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
+var maximo = parseInt(document.getElementById('filtro-centros:maximo').value);
+var cantbanio = parseInt(document.getElementById('filtro-centros:cantBanio').value);
+var cantdorm = parseInt(document.getElementById('filtro-centros:cantDormitorio').value);
+var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
+var barrio =  document.getElementById('filtro-centros:barrio').value;
+var parrillero = document.getElementById('filtro-centros:parrillero').checked;
+var garage = document.getElementById('filtro-centros:garage').checked; 
 
-     
-     var publica =  new OpenLayers.Filter.Comparison({
-         type: OpenLayers.Filter.Comparison.EQUAL_TO,
-         property: "tipoestado",
-         value: "Publica"
-     });
-     var reservada = new OpenLayers.Filter.Comparison({
-         type: OpenLayers.Filter.Comparison.EQUAL_TO,
-         property: "tipoestado",
-         value: "Reservada"
-     });
-     
-	 var filter = new OpenLayers.Filter.Logical({
-	        type: OpenLayers.Filter.Logical.OR,
-	        filters: [
-                  //publica,reservada,
-	        new OpenLayers.Filter.Comparison({
-	            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-	            property: "tipopropiedad",
-	            value: tipopropiedad
-	        }),
-	        new OpenLayers.Filter.Comparison({
-	            type: OpenLayers.Filter.Comparison.EQUAL_TO,
-	            property: "tipotransaccion",
-	            value: tipotransaccion
-	        })
-	        ]
-	    });
-
-	    filterStrategy.setFilter(filter);
-		
-	});
-});
+//var distanciaMar = parseInt($("#MarSliderVal").text());
+//var distanciaParada = parseInt($("#BusSliderVal").text());
+//var distanciaPuntoInteres = parseInt($("#PInteresSliderVal").text());
 
 
- 
- $( document ).ready(function() {
+//remoteListarPropiedades([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},{name:'tipomoneda', value:tipomoneda},
+//       {name:'minimo', value:minimo},{name:'maximo', value:maximo},{name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
+//		  {name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},{name:'parrillero', value:parrillero},{name:'garage', value:garage},
+//		  {name:'distanciaMar', value:distanciaMar},{name:'distanciaParada', value:distanciaParada},{name:'distanciaPuntoInteres', value:distanciaPuntoInteres}]);
 
-	 $(function(){
-	    
-		   $("#sliderMar").slider();
-		   $("#sliderMar").on("slide", function(slideEvt) {
-		   	$("#MarSliderVal").text(slideEvt.value);
-		   });
-		   
-	 });
-	 
-	 
-	 $(function(){
-		      
-		   $("#sliderBus").slider();
-		   $("#sliderBus").on("slide", function(slideEvt) {
-		   	$("#BusSliderVal").text(slideEvt.value);
-		   });
-		   
-	 });
-	 
-	 
-	 $(function(){
-		      
-		   $("#sliderPInteres").slider();
-		   $("#sliderPInteres").on("slide", function(slideEvt) {
-		   	$("#PInteresSliderVal").text(slideEvt.value);
-		   });
-		   
-	 });
- });
+
+
+
+remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},{name:'tipomoneda', value:tipomoneda},
+    {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},{name:'barrio', value:barrio},{name:'parrillero', value:parrillero},{name:'garage', value:garage}]);
+//	  {name:'distanciaMar', value:distanciaMar},{name:'distanciaParada', value:distanciaParada},{name:'distanciaPuntoInteres', value:distanciaPuntoInteres}]);
+
+}
+
+function handleConfirm(xhr,status,args)
+{
+  alert(args);
+  alert(args.PropiedaesFiltradas);
+}
+
+function procesarData(data){
+	alert(data);
+}
+//  //propiedades.removeAllFeatures(); destroyFeatures()
+// // var propiedades = JSON.parse( data);
+//  //for propiedad : propiedades
+//  //propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point((propiedad.longitud), (propiedad.latitud) ));			
+//  //		
+//  //	Seteas los datos para poder mostrarlos luego:
+//  //propiedadFiltrada.data.fid=propiedad.fid (si no anda con data, fijate con attributes)
+//  //.
+//  //.
+//  //.
+//  //propiedades.addFeatures([propiedadFiltrada]);
+//}
+
+   
