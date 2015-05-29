@@ -262,25 +262,24 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	
-	public void EnviarCorreo(String correo, String asunto, String pass, String cuerpo) {
-		System.out.println("estoy en Enviar correo");
+	public void EnviarCorreo(String nombre, String correo, String asunto, String cuerpo, Integer id) {
+		System.out.println("estoy en Enviar correo web");
 		
 		ClientRequest request = null;
 		try {
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
 		
-			//public WrapperCorreo(String correo, String asunto, String pass, String cuerpo)
-			WrapperCorreo wc = new WrapperCorreo(correo, asunto, pass, cuerpo);
+			WrapperCorreo wc = new WrapperCorreo(nombre, correo, asunto, cuerpo, id);
 
 			String wcJSON = toJSONString(wc);
 
 			request.body("application/json", wcJSON);
 
-			ClientResponse<String> respuesta = request.post(String.class);
+			ClientResponse<String> respuesta = request.put(String.class);
 
 			if (respuesta.getStatus() != 201) {
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage("Error al Modificar Usuario"));
+						new FacesMessage("Error al Enviar correo"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ respuesta.getStatus());
 			}

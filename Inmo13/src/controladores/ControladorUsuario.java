@@ -65,8 +65,14 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 	
 	public List<Usuario> listarUsuarios() {
-		List<Usuario> equipos = UsuarioDAO.listarUsuarios();
-		return equipos;
+		List<Usuario> usus = UsuarioDAO.listarUsuarios();
+		return usus;
+		  
+	}
+	
+	public List<Usuario> listarUsuariosporPropiedad(Integer id){
+		List<Usuario> ususp = UsuarioDAO.listarUsuariosporProp(id);
+		return ususp;
 		  
 	}
 	

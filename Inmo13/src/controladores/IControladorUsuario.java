@@ -13,4 +13,5 @@ public interface IControladorUsuario {
 	public boolean modificarUsuario(Usuario u);
 	public List<Usuario> listarUsuarios();
 	public void eliminarUsuario(String mail);
+	public List<Usuario> listarUsuariosporPropiedad(Integer id);
 }
