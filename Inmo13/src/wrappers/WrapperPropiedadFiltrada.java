@@ -35,16 +35,16 @@ public class WrapperPropiedadFiltrada {
 	@SerializedName("usuario")
 	private String usuario;
 	@SerializedName("latitud")
-	private String latitud;
+	private Double latitud;
 	@SerializedName("longitud")
-	private String longitud;
+	private Double longitud;
 
 	public WrapperPropiedadFiltrada(Double precio, Integer cantDorm,
 			Integer cantBanio, Double metrosCuadrados, Boolean parrillero,
 			Boolean garage, String tipoPropiedad, String tipoEstado,
 			String tipotransaccion, Integer numeroPuerta, String calle,
-			String fid, String tipoMoneda, String piso, String latitud,
-			String longitud, String usuario) {
+			String fid, String tipoMoneda, String piso, Double latitud,
+			Double longitud, String usuario) {
 
 		this.precio = precio;
 		this.cantDorm = cantDorm;
@@ -66,19 +66,19 @@ public class WrapperPropiedadFiltrada {
 
 	}
 
-	public String getLatitud() {
+	public Double getLatitud() {
 		return latitud;
 	}
 
-	public void setLatitud(String latitud) {
+	public void setLatitud(Double latitud) {
 		this.latitud = latitud;
 	}
 
-	public String getLongitud() {
+	public Double getLongitud() {
 		return longitud;
 	}
 
-	public void setLongitud(String longitud) {
+	public void setLongitud(Double longitud) {
 		this.longitud = longitud;
 	}
 

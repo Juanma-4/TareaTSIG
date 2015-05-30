@@ -7,11 +7,13 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import dominio.Propiedad;
 import dominio.Usuario;
 import persistencia.IPropiedadDAO;
+import wrappers.WrapperPropiedadFiltrada;
 
 
 @Stateless
@@ -76,30 +78,34 @@ public class ControladorPropiedad implements IControladorPropiedad{
 	}
 
 
-	public String listarPropiedades(ArrayList<String> filtros) {
-		String propiedadesFiltradasJSON = null;
+	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros) {
+		
+		List<WrapperPropiedadFiltrada> props = new ArrayList<WrapperPropiedadFiltrada>();;
+		
 		try{		
 			List<Object[]> propiedadesFiltradas = PropiedadDAO.listarPropiedades(filtros);
 			
-			List<String> propiedadesFiltradasString = new ArrayList<String>();
-		for (Object[] propiedad: propiedadesFiltradas) {
-//			Datatalcosa = new datatalcosa(propiedad[0],propiedad[1].....)
-//			propiedadesFiltradasString.add(propiedad[0],)
-//			propiedad[0]);
-//			propiedad[1]);
-//			propiedad[2]);
-//			propiedad[3]);
-		 }
-		 
-		
+			for (Object[] propiedad: propiedadesFiltradas) {
+				WrapperPropiedadFiltrada pf = new WrapperPropiedadFiltrada((Double)propiedad[8], (Integer)propiedad[3], (Integer)propiedad[2], (Double)propiedad[5],
+						(Boolean)propiedad[7], (Boolean)propiedad[4], (String)propiedad[10], (String)propiedad[9], (String)propiedad[11],(Integer)propiedad[6],
+						(String) propiedad[1],(String) propiedad[13],(String)propiedad[15], (String)propiedad[14], (Double)propiedad[16], ((Double)propiedad[17]),
+						(String)propiedad[12]);
+				System.out.println("Estoy en listar Propiedad: "+ pf.getCalle()+pf.getPrecio()+pf.getParrillero()+pf.getUsuario());
+				props.add(pf);
+	//			Datatalcosa = new datatalcosa(propiedad[0],propiedad[1].....)
+	//			propiedadesFiltradasString.add(propiedad[0],)
+	//			propiedad[0]);
+	//			propiedad[1]);
+	//			propiedad[2]);
+	//			propiedad[3]);
+			 }
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		return propiedadesFiltradasJSON;
+		return props;
 	}
-
 
 }
 

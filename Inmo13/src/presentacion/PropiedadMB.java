@@ -26,8 +26,8 @@ import com.google.gson.JsonParser;
 @ManagedBean(name="propiedadMB")
 @javax.faces.bean.SessionScoped
 public class PropiedadMB implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = -5064414056493502033L;
 	
 	private Integer numPuerta;
 	private Double precio;
@@ -55,30 +55,7 @@ public class PropiedadMB implements Serializable {
 //		this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
 //	}
 	
-	public Integer getDistanciaParada() {
-		return distanciaParada;
-	}
-
-	public void setDistanciaParada(Integer distanciaParada) {
-		this.distanciaParada = distanciaParada;
-	}
-
-	public Integer getDistanciaMar() {
-		return distanciaMar;
-	}
-
-	public void setDistanciaMar(Integer distanciaMar) {
-		this.distanciaMar = distanciaMar;
-	}
-
-	public Integer getDistanciaPInteres() {
-		return distanciaPInteres;
-	}
-
-	public void setDistanciaPInteres(Integer distanciaPInteres) {
-		this.distanciaPInteres = distanciaPInteres;
-	}
-
+	
 	public void altaPropiedad() {
 		/*
 		
@@ -206,6 +183,9 @@ public void modificarPropiedad(){
 		System.out.println("ESTOY EN PROPIEDAD MB "+ tipopropiedad);
 		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+tipotransaccion);
 		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+parrillero);
+		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+minimo);
+		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+maximo);
+		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+metroscuadrados);
 		
 		
 		ClientRequest request;
@@ -237,20 +217,15 @@ public void modificarPropiedad(){
 			ClientResponse<String> response = request.post(String.class);
 			propiedadesJson = response.getEntity(String.class);
 			
-		
-			
 		 }catch (Exception e) {
-
-				e.printStackTrace();
+			 e.printStackTrace();
 		 }
-		 System.out.println("ESTOY EN Propiedad MB, antes RETURN");
+		 System.out.println("ESTOY EN Propiedad MB, antes addCallbackParam");
 		 
 	//	 RequestContext.getCurrentInstance().execute("procesarData("+"HOLA"+");");
 		 
-		 RequestContext.getCurrentInstance().addCallbackParam("PropiedaesFiltradas", "JSONNNN");
+		 RequestContext.getCurrentInstance().addCallbackParam("PropiedaesFiltradas", propiedadesJson);
 		 
-		 
-//		return "HOLA";
 	}
 	//RequestContext.getCurrentInstance().execute("js");
 
@@ -414,8 +389,31 @@ public void modificarPropiedad(){
 	public void setCalle(String calle) {
 		this.calle = calle;
 	}
+		
+	public Integer getDistanciaParada() {
+		return distanciaParada;
+	}
 
-	
+	public void setDistanciaParada(Integer distanciaParada) {
+		this.distanciaParada = distanciaParada;
+	}
+
+	public Integer getDistanciaMar() {
+		return distanciaMar;
+	}
+
+	public void setDistanciaMar(Integer distanciaMar) {
+		this.distanciaMar = distanciaMar;
+	}
+
+	public Integer getDistanciaPInteres() {
+		return distanciaPInteres;
+	}
+
+	public void setDistanciaPInteres(Integer distanciaPInteres) {
+		this.distanciaPInteres = distanciaPInteres;
+	}
+
 	public String toJSONString(Object object) {
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		Gson gson = gsonBuilder.create();

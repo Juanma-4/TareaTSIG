@@ -6,7 +6,7 @@ var WGS84;
 var propiedades;
 var estiloProp;
 var vectorLocalizador;
-
+var propId;
 //////////// style para geolocalizacion
 var style = {
 	    fillColor: '#000',
@@ -105,6 +105,7 @@ function init() {
 	    
 	    geolocate.events.register("locationupdated",geolocate,function(e) {
 	    	vectorLocalizador.removeAllFeatures();
+	    	
 	        var circle = new OpenLayers.Feature.Vector(
 	            OpenLayers.Geometry.Polygon.createRegularPolygon(
 	                new OpenLayers.Geometry.Point(e.point.x, e.point.y),
@@ -114,20 +115,16 @@ function init() {
 	            ),
 	            {},
 	            style
-	        )
+	        );
+	        
 	        vectorLocalizador.addFeatures([
 	            new OpenLayers.Feature.Vector(
 	                e.point,
 	                {},
-	                {
-	                	
-	                	
-						externalGraphic : "resources/defecto/img/ubicacion.png",
-						
+	                {  	externalGraphic : "resources/defecto/img/ubicacion.png",
 						graphicWidth : 33,
 						graphicHeight : 33
-	                	
-	                }
+					}
 	            ),
 	            circle
 	        ]);
@@ -141,7 +138,7 @@ function init() {
 	    
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
-			strategies : [ new OpenLayers.Strategy.Fixed()], //,filterStrategy 
+			strategies : [ new OpenLayers.Strategy.Fixed()], //,filterStrategy BBOX Fixed()
 			styleMap: estiloProp,
 			protocol :  new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
@@ -154,7 +151,8 @@ function init() {
 			})
 			
 		});	
-		 	 
+ 	    
+		propId = propiedades.id;
 
 		map.addLayers([ google_maps, gphy, propiedades,vectorLocalizador]);
     	map.zoomToExtent(limites);		
@@ -163,9 +161,16 @@ function init() {
     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
     			new OpenLayers.Projection(miEPSG),  map.getProjectionObject()), miZoom + 3);
 	
+    	
+//    	map.events.register("click", map, function(e) {	
+// 			var posicion = map.getLonLatFromPixel(e.xy);
+// 			alert("LATITUD : "+posicion.lat + "LONGITUD : " + posicion.lon  );
+// 			
+//    	});
+    	
 };					
 
-//////////////////////funcion que hace la busqueda en si misma 
+// Se envian los datos para filtrar las propiedades.
 function buscarPropiedades(){
 
 var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
@@ -191,34 +196,37 @@ var garage = document.getElementById('filtro-centros:garage').checked;
 //		  {name:'distanciaMar', value:distanciaMar},{name:'distanciaParada', value:distanciaParada},{name:'distanciaPuntoInteres', value:distanciaPuntoInteres}]);
 
 
+remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},{name:'tipomoneda', value:tipomoneda},{name:'minimo', value:minimo},
+              {name:'maximo', value:maximo}, {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},{name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},{name:'parrillero', value:parrillero},{name:'garage', value:garage}]);
 
-
-remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},{name:'tipomoneda', value:tipomoneda},
-    {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},{name:'barrio', value:barrio},{name:'parrillero', value:parrillero},{name:'garage', value:garage}]);
-//	  {name:'distanciaMar', value:distanciaMar},{name:'distanciaParada', value:distanciaParada},{name:'distanciaPuntoInteres', value:distanciaPuntoInteres}]);
 
 }
-
+// Funcion onComplete
 function handleConfirm(xhr,status,args)
 {
-  alert(args);
-  alert(args.PropiedaesFiltradas);
-}
+//  alert(propId);
+//  alert(args.PropiedaesFiltradas);
+  var propiedades = map.getLayer(propId);
+  //Borro las propiedades que se ven
+  propiedades.removeAllFeatures();  
+  //propiedades.destroyFeatures();
+  // Manipulo el json del callback
+  var propiedadesJSON = JSON.parse(args.PropiedaesFiltradas);
+ 
 
-function procesarData(data){
-	alert(data);
+  for(var i=0; i<propiedadesJSON.length;i++){
+	  
+	  var prop = propiedadesJSON[i];
+	  
+	  var propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(prop.latitud, prop.longitud));
+	  propiedadFiltrada.data.calle = prop.calle;
+      propiedadFiltrada.attributes.calle = prop.calle;
+      propiedadFiltrada.renderIntent = "default";
+	  propiedades.addFeatures([propiedadFiltrada]);
+  }
+  
+//  propiedades.refresh({force:true});
+  
 }
-//  //propiedades.removeAllFeatures(); destroyFeatures()
-// // var propiedades = JSON.parse( data);
-//  //for propiedad : propiedades
-//  //propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point((propiedad.longitud), (propiedad.latitud) ));			
-//  //		
-//  //	Seteas los datos para poder mostrarlos luego:
-//  //propiedadFiltrada.data.fid=propiedad.fid (si no anda con data, fijate con attributes)
-//  //.
-//  //.
-//  //.
-//  //propiedades.addFeatures([propiedadFiltrada]);
-//}
 
    

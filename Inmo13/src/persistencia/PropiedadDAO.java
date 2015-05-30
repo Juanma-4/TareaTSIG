@@ -89,18 +89,45 @@ public class PropiedadDAO implements IPropiedadDAO{
 
 	@SuppressWarnings("unchecked")
 	public List<Object[]> listarPropiedades(ArrayList<String> filtros) {
+		
+		// Filtros 
+		String tipoPropiedad = filtros.get(0);
+		String tipoTransaccion = filtros.get(1);
+		String tipoMoneda = filtros.get(2); // VER BIEN
+		//VER LO DE LOS MINIMOS Y MAXIMOS!
+		
+		Integer cantBanio = Integer.parseInt(filtros.get(5));
+		Integer cantDorm = Integer.parseInt(filtros.get(6));
+		String barrio = filtros.get(8);
+		
+		Boolean parrillero = Boolean.parseBoolean(filtros.get(9));
+		Boolean garage = Boolean.parseBoolean(filtros.get(10));
+		
+		
+		Integer distanciaMar = Integer.parseInt(filtros.get(11));
+		Integer distanciaParada = Integer.parseInt(filtros.get(12));
+		Integer distanciaPuntoInteres = Integer.parseInt(filtros.get(13));
+		
 		String sql = null;
 		List<Object[]> propiedadesFiltradas = null;
 		try {			
+			sql = "SELECT propiedad.id,propiedad.calle,propiedad.cantbanio,propiedad.cantdorm,propiedad.garage,propiedad.metroscuadrados, "
+					+ "propiedad.numeropuerta,propiedad.parrillero,propiedad.precio,propiedad.tipoestado,propiedad.tipopropiedad, "
+					+ "propiedad.tipotransaccion,propiedad.usuario,propiedad.fid,propiedad.piso,propiedad.tipomoneda, "
+					+ "ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud "
+					+ "FROM propiedad,barrios " 
+					+ "WHERE propiedad.tipopropiedad = '"+tipoPropiedad+"' AND propiedad.tipotransaccion = '"+tipoTransaccion+"'"
+					+ " AND propiedad.cantbanio = "+cantBanio+" AND propiedad.cantdorm = "+cantDorm+" AND propiedad.parrillero = "+parrillero 
+					+ " AND propiedad.garage = "+garage+" AND propiedad.tipoestado IN ('Publica','Reservada')"
+					+ " AND ST_CONTAINS(barrios.geom,propiedad.geom)";
 			
-//			sql = "SELECT ";
-//			if(!filtros.get(4).equals("")){
-//				sql += "propiedad.id";
-//			}
-//			propiedadesFiltradas = em.createNativeQuery(sql);
-			propiedadesFiltradas = em.createNativeQuery("SELECT propiedad.id,propiedad.calle, ST_X(propiedad.geom) AS latitud , ST_Y(propiedad.geom) AS longitud "
-															+ "FROM propiedad,barrios " 
-															+ "WHERE ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio = '"+"CIUDAD VIEJA"+"'").getResultList();
+			if(!barrio.equalsIgnoreCase("Todos")){
+				sql += " AND barrios.barrio = '"+barrio+"')";
+			}
+	
+			//+ " AND ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio IN ('CIUDAD VIEJA','POCITOS')").getResultList();
+
+			propiedadesFiltradas = em.createNativeQuery(sql).getResultList();
 
 		} catch (Exception e) {
 
