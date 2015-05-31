@@ -42,20 +42,13 @@ public class PropiedadMB implements Serializable {
 	private String calle;
 	private String fid;
 	private String usuario;
-	private String tipoMoneda;
 	private String piso;
+	private String imagen;
 	
-	private Integer distanciaParada;
 	private Integer distanciaMar;
+	private Integer distanciaParada;
 	private Integer distanciaPInteres;
-	
-	
-//	@PostConstruct
-//	public void iniciar(){
-//		this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
-//	}
-	
-	
+		
 	public void altaPropiedad() {
 		/*
 		
@@ -109,7 +102,7 @@ public void modificarPropiedad(){
 			
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/modificar");
 			WrapperPropiedad propiedad = new WrapperPropiedad(this.precio,this.cantDorm,this.cantBanio,this.metrosCuadrados,this.parrillero,this.garage,this.tipoPropiedad,this.tipoEstado,
-																this.tipotransaccion,this.numPuerta,this.calle,this.fid,this.tipoMoneda,this.piso,this.usuario);
+																this.tipotransaccion,this.numPuerta,this.calle,this.fid,this.imagen,this.piso,this.usuario);
 			
 
 			String propiedadJSON = toJSONString(propiedad);
@@ -152,22 +145,18 @@ public void modificarPropiedad(){
 		this.calle = String.valueOf(params.get("calle"));  
 		this.fid = String.valueOf(params.get("fid")); 
 		this.usuario = String.valueOf(params.get("usuario"));   
-		this.tipoMoneda = String.valueOf(params.get("tipoMoneda"));   
+		this.imagen = String.valueOf(params.get("imagen"));   
 		this.piso = String.valueOf(params.get("piso"));  
 	
 	}
 	
 	public void listarProp(){
 		
-		System.out.println("ESTOY EN PROPIEDAD MB Entro!");
-
-		String propiedadesJson = "asdasd";
-		
+		String propiedadesJson = null;		
 		
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String tipopropiedad = String.valueOf(params.get("tipopropiedad"));
 		String tipotransaccion = String.valueOf(params.get("tipotransaccion"));
-		String tipomoneda = String.valueOf(params.get("tipomoneda"));
 		String minimo = String.valueOf(params.get("minimo"));
 		String maximo = String.valueOf(params.get("maximo"));
 		String cantbanio = String.valueOf(params.get("cantbanio"));
@@ -176,20 +165,8 @@ public void modificarPropiedad(){
 		String barrio = String.valueOf(params.get("barrio"));
 		String parrillero = String.valueOf(params.get("parrillero"));
 		String garage = String.valueOf(params.get("garage"));
-//		String distanciaMar = String.valueOf(params.get("distanciaMar"));
-//		String distanciaParada = String.valueOf(params.get("distanciaParada"));
-//		String distanciaPuntoInteres = String.valueOf(params.get("distanciaPuntoInteres"));
-		
-		System.out.println("ESTOY EN PROPIEDAD MB "+ tipopropiedad);
-		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+tipotransaccion);
-		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+parrillero);
-		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+minimo);
-		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+maximo);
-		System.out.println("ESTOY EN PROPIEDAD MB Entro!"+metroscuadrados);
-		
 		
 		ClientRequest request;
-		
 		 try{	
 		
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/listarPropiedades");		
@@ -197,18 +174,17 @@ public void modificarPropiedad(){
 		 	List<String> datos = new ArrayList<String>();
 			datos.add(0,tipopropiedad);
 			datos.add(1,tipotransaccion);
-			datos.add(2, tipomoneda);
-			datos.add(3, minimo);
-			datos.add(4, maximo);
-			datos.add(5, cantbanio);
-			datos.add(6, cantdorm);
-			datos.add(7, metroscuadrados);
-			datos.add(8, barrio);
-			datos.add(9, parrillero);
-			datos.add(10, garage);
-			datos.add(11, this.distanciaMar.toString());
-			datos.add(12, this.distanciaParada.toString());
-			datos.add(13, this.distanciaPInteres.toString());
+			datos.add(2, minimo);
+			datos.add(3, maximo);
+			datos.add(4, cantbanio);
+			datos.add(5, cantdorm);
+			datos.add(6, metroscuadrados);
+			datos.add(7, barrio);
+			datos.add(8, parrillero);
+			datos.add(9, garage);
+			datos.add(10, this.distanciaMar.toString());
+			datos.add(11, this.distanciaParada.toString());
+			datos.add(12, this.distanciaPInteres.toString());
 			
 			String filtrosJSON = toJSONString(datos);
 			
@@ -220,26 +196,15 @@ public void modificarPropiedad(){
 		 }catch (Exception e) {
 			 e.printStackTrace();
 		 }
-		 System.out.println("ESTOY EN Propiedad MB, antes addCallbackParam");
-		 
-	//	 RequestContext.getCurrentInstance().execute("procesarData("+"HOLA"+");");
-		 
+		 		 
 		 RequestContext.getCurrentInstance().addCallbackParam("PropiedaesFiltradas", propiedadesJson);
 		 
 	}
 	//RequestContext.getCurrentInstance().execute("js");
 
-	
-	public String irElegirPropiedad(){
-		
-		return "ElegirPropiedad.xhtml?faces-redirect=true";
-			
-	}
-	
 	public String irAltaPropiedad(){
-		
-		return "AltaPropiedad.xhtml?faces-redirect=true";
-		
+		this.limpiarDatos();
+		return "AltaPropiedad.xhtml?faces-redirect=true";		
 	}
 	
 	public String irBMPropiedad(){
@@ -254,20 +219,29 @@ public void modificarPropiedad(){
 		return "IndexAdmin.xhtml?faces-redirect=true";
 	}
 	
+	public void limpiarDatos(){
+		this.calle = "";
+		this.numPuerta = 0;
+		this.tipoPropiedad = "";
+		this.tipotransaccion = "";
+		this.precio = 0.0;
+		this.piso = "";
+		this.cantBanio = 1;
+		this.cantDorm = 1;
+		this.metrosCuadrados = 0.0;
+		this.fid = "";
+		this.parrillero = false;
+		this.garage = false;
+		this.tipoEstado = "";
+		this.imagen = "";
+	}
+	
 	public String getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
-	}
-	
-	public String getTipoMoneda() {
-		return tipoMoneda;
-	}
-
-	public void setTipoMoneda(String tipoMoneda) {
-		this.tipoMoneda = tipoMoneda;
 	}
 
 	public String getPiso() {
@@ -412,6 +386,14 @@ public void modificarPropiedad(){
 
 	public void setDistanciaPInteres(Integer distanciaPInteres) {
 		this.distanciaPInteres = distanciaPInteres;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	public String toJSONString(Object object) {

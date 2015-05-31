@@ -12,9 +12,8 @@
 	<link rel="stylesheet" type="text/css"
 		href="resources/defecto/css/slider.css"></link>
 	<h:outputStylesheet library="defecto" name="css/mapaStyle.css" />
-
-	<h:outputScript library="defecto" name="js/jquery-1.11.3.min.js"
-		target="head" />
+	
+	<h:outputScript library="defecto" name="js/jquery-1.11.3.min.js"	target="head" />
 
 	<script src="http://openlayers.org/api/OpenLayers.js"></script>
 	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"
@@ -119,10 +118,7 @@
 								<div>
 									<label style="color: white; font-size: 13px;">Rango
 										Precios</label><br></br>
-									<h:selectOneMenu id="moneda" value="1">
-										<f:selectItem itemValue="$" itemLabel="$" />
-										<f:selectItem itemValue="US$" itemLabel="US$" />
-									</h:selectOneMenu>
+									<h:outputText value="$ " />
 									<label style="color: white; font-size: 13px;">Min</label>
 									<h:inputText type="text" id="minimo" size="5"
 						           maxlength="16" />
@@ -176,7 +172,7 @@
 								<div>
 									<label style="color: white; font-size: 13px;">Barrio</label>
 									<h:selectOneMenu id="barrio" value="1">
-										<f:selectItem itemLabel="Todos" />
+										<f:selectItem itemLabel="Todos" itemValue="TODOS" />
 										<f:selectItem itemValue="MANGA TOLEDO CHICO"
 											itemLabel="MANGA TOLEDO CHICO" />
 										<f:selectItem itemValue="COLON SURESTE ABAYUBA"
@@ -305,7 +301,7 @@
 									 <h:panelGrid columns="1" style="margin-bottom: 10px">
 								        <h:outputText id="output" value="Distancia al mar: 0 km" />
 								        <h:inputHidden id="txt1" value="#{propiedadMB.distanciaMar}" />
-								        <p:slider id="sliderMar" for="txt2" display="output" style="width: 200px" displayTemplate="Distancia al mar: {value} km"  maxValue="20"/>
+								        <p:slider for="txt1" display="output" style="width: 200px" displayTemplate="Distancia al mar: {value} km"  maxValue="15"/>
 								    </h:panelGrid>
 								
 								    <br></br>
@@ -313,14 +309,14 @@
 							    	 <h:panelGrid columns="1" style="margin-bottom: 10px">
 								        <h:outputText id="output2" value="Distancia a la parada mas cercana: 0 m" />
 								        <h:inputHidden id="txt2" value="#{propiedadMB.distanciaParada}" />
-								        <p:slider id="sliderBus" for="txt2" display="output2" style="width: 200px" displayTemplate="Distancia a la parada mas cercana: {value} m"  maxValue="2000"/>
+								        <p:slider for="txt2" display="output2" style="width: 200px" displayTemplate="Distancia a la parada mas cercana: {value} m"  maxValue="500"/>
 								    </h:panelGrid>
 								    
 								    <br></br>
 							    	 <h:panelGrid columns="1" style="margin-bottom: 10px">
-								        <h:outputText id="output3" value="Distancia a puntos de interés: 0 km" />
+								        <h:outputText id="output3" value="Distancia a puntos de interés: 0 m" />
 								        <h:inputHidden id="txt3" value="#{propiedadMB.distanciaPInteres}" />
-								        <p:slider id="sliderPInteres" for="txt3" display="output3" style="width: 200px" displayTemplate="Distancia a puntos de interés: {value} km"  maxValue="30"/>
+								        <p:slider for="txt3" display="output3" style="width: 200px" displayTemplate="Distancia a puntos de interés: {value} m"  maxValue="500"/>
 								    </h:panelGrid>
 								
 								  </div>
@@ -328,17 +324,14 @@
 											<h:commandButton value="Buscar" id="botonBusqueda" 
 											styleClass="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar"
 											onclick="buscarPropiedades(); return false;" />	
-									<p:remoteCommand name="remoteListar" action="#{propiedadMB.listarProp}" oncomplete="handleConfirm(xhr,status,args)"></p:remoteCommand>
+									<p:remoteCommand name="remoteListar" action="#{propiedadMB.listarProp}" onstart="load();" oncomplete="handleConfirm(xhr,status,args)"></p:remoteCommand>
+									<p:remoteCommand name="remoteVerInfoProp" action="#{propiedadMB.setearDatos}"></p:remoteCommand>
 									<!-- Fin filtros -->
 								</div>
 							</div>
 
 						
 						</h:form>
-						
-<!-- 							onsuccess="handleConfirm(data)" -->
-<!-- 	<input type="button" value="Buscar" id="botonBusqueda" -->
-<!-- 										class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar" onclick="buscarPropiedades()"/> -->
 					</div>
 				</div>
 			</div>
@@ -356,7 +349,7 @@
 		</div>
 	</div>
 
-
+<div class="modal"><!-- Place at bottom of page --></div>
 </h:body>
 
 

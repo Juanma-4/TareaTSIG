@@ -55,15 +55,9 @@
    		  	</h:selectOneMenu>
    		 	<br/><br/>
 
-   		  	<h:outputText value="Precio" />
+   			<h:outputText value="Precio $" />
    		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Ingrese un precio"></h:inputText>
-   		  
-   		  	<h:selectOneMenu id="moneda" value="#{propiedadMB.tipoMoneda}">
-	   			<f:selectItem itemValue="$" itemLabel="$" />
-	   			<f:selectItem itemValue="US$" itemLabel="US$" />
-   		  	</h:selectOneMenu>
-   		  	
-   		  	<br/><br/>
+ 		    <br/><br/>
    		  	
    		  	<h:outputText value="Numero Piso" />
    		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Ingrese un numero de piso"></h:inputText>
@@ -109,8 +103,11 @@
 			</h:selectOneMenu>
 				<br/><br/>
 			 
+			<h:outputText value="URL Imagen" />
+   		  	<h:inputText value="#{propiedadMB.imagen}" id="imagen" required="true" requiredMessage="Ingrese la imagen"></h:inputText>
+   		  	<br/><br/> 
+			 
 			<div style="width:100%; height:100%" id="map"></div>
-			<div id="coordenadas"></div>		
 			
    		  	<br/>
    		  	<h:commandButton type="submit" id="botonFormPropiedad" value="Aceptar" action="#{propiedadMB.irIndex()}"  update="growl"/>

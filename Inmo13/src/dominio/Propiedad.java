@@ -1,11 +1,6 @@
 package dominio;
 
-import enumerados.Estado;
-import enumerados.TipoPropiedad;
-import enumerados.Transaccion;
-
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.*;
 
@@ -38,19 +33,8 @@ public class Propiedad implements Serializable {
 	@Column(name = "garage", nullable = false)
 	private Boolean garage;
 	
-	@Column(name = "tipoMoneda", nullable = false)
-	private String tipoMoneda;
-	
 	@Column(name = "piso", nullable = false)
 	private String piso;
-	
-	/*
-	 * @Enumerated(EnumType.STRING) private TipoPropiedad tipoPropiedad;
-	 * 
-	 * @Enumerated(EnumType.STRING) private Estado tipoEstado;
-	 * 
-	 * @Enumerated(EnumType.STRING) private Transaccion tipotransaccion;
-	 */
 
 	@Column
 	private String tipoPropiedad;
@@ -75,13 +59,17 @@ public class Propiedad implements Serializable {
 	@Column(name = "fid", nullable = false)
 	private String fid;
 
+	@Column(name = "imagen", nullable = false)
+	private String imagen;
+	
+	
 	public Propiedad() {
 	}
 
 	public Propiedad(double precio, Integer cantDorm, Integer cantBanio,
 			double metrosCuadrados, boolean parrillero, boolean garage,
 			String tipoPropiedad, String estado, String tipotransaccion,
-			Integer numeroPuerta, String calle, String fid,String tipoMoneda,String piso,Usuario usuario) {
+			Integer numeroPuerta, String calle, String fid,String piso,Usuario usuario, String imagen) {
 
 		this.precio = precio;
 		this.cantDorm = cantDorm;
@@ -96,8 +84,8 @@ public class Propiedad implements Serializable {
 		this.calle = calle;
 		this.usuario = usuario;
 		this.fid = fid;
-        this.tipoMoneda = tipoMoneda;
         this.piso = piso;
+        this.imagen = imagen;
 	}
 
 	public Integer getId() {
@@ -212,14 +200,6 @@ public class Propiedad implements Serializable {
 		this.calle = calle;
 	}
 
-	public String getTipoMoneda() {
-		return tipoMoneda;
-	}
-
-	public void setTipoMoneda(String tipoMoneda) {
-		this.tipoMoneda = tipoMoneda;
-	}
-
 	public String getPiso() {
 		return piso;
 	}
@@ -227,6 +207,15 @@ public class Propiedad implements Serializable {
 	public void setPiso(String piso) {
 		this.piso = piso;
 	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+	
 	
 	
 

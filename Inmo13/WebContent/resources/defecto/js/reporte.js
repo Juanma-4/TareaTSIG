@@ -206,7 +206,7 @@ function onPopupFeatureSelect(feature) {
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
 	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label>' + feature.data.tipomoneda +'<label>  </label>'+ feature.data.precio +
+	        '<label for="usr"style="color:#000000" >Precio: </label><label>$ </label>'+ feature.data.precio +
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
 	        '</br>'+

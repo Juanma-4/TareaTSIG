@@ -59,15 +59,12 @@ public class ServicioPropiedad extends Application {
 													   propiedad.getParrillero(),propiedad.getGarage(),propiedad.getTipoPropiedad(),
 													   propiedad.getTipoEstado(),propiedad.getTipotransaccion(), 
 													   propiedad.getNumeroPuerta(),propiedad.getCalle() ,propiedad.getFid(),
-													   propiedad.getTipoMoneda(),propiedad.getPiso(),usuario);
+													   propiedad.getImagen(),propiedad.getPiso(),usuario);
 
 					booleanJSON = gson.toJson(creado);
 					
 				} catch (Exception err) {
 					err.printStackTrace();
-					//					codigoRetorno = "{\"status\":\"500\","
-					//							+ "\"message\":\"Resource not created.\""
-					//							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
 					return Response.status(500).entity(booleanJSON).build();
 
 				}
@@ -94,9 +91,6 @@ public class ServicioPropiedad extends Application {
 					
 				} catch (Exception err) {
 					err.printStackTrace();
-					//					codigoRetorno = "{\"status\":\"500\","
-					//							+ "\"message\":\"Resource not created.\""
-					//							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
 					return Response.status(500).entity(booleanJSON).build();
 
 				}
@@ -110,7 +104,7 @@ public class ServicioPropiedad extends Application {
 			@Path("/listarPropiedades")
 			public Response listarPropiedades(String datosFiltro) {
 		
-				System.out.println("ESTOY EN SERVICIOOOOO PROPIEDAD Entro!"+datosFiltro);
+//				System.out.println("ESTOY EN SERVICIOOOOO PROPIEDAD Entro!"+datosFiltro);
 				GsonBuilder gsonBuilder = new GsonBuilder();
 				Gson gson = gsonBuilder.create();
 				

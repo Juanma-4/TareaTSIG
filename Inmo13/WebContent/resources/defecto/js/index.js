@@ -1,5 +1,4 @@
 var map;
-var opciones;
 var limites;
 var WGS84_google_mercator;
 var WGS84;
@@ -24,7 +23,7 @@ function init() {
 			858252.0151745,6671738.21181725
 		).transform(WGS84, WGS84_google_mercator);
 		
-		opciones = {
+		var opciones = {
 			controls : [ new OpenLayers.Control.Navigation(),
 				new OpenLayers.Control.PanZoom(),
 				new OpenLayers.Control.LayerSwitcher(),
@@ -81,7 +80,7 @@ function init() {
 		        })
 		        ]
 		    });
-			
+		 filterStrategy = new OpenLayers.Strategy.Filter({filter: filter});
 
 	    /////////////// GEOLOCALIZACION !!! //////////////////
 	    vectorLocalizador = new OpenLayers.Layer.Vector('Localizado',{
@@ -135,10 +134,13 @@ function init() {
 		});
 	    /////////////////////////Fin GeoLocalizacion //////////////////////////////
 	    
+	    // Para la escala
+	    var scaleline = new OpenLayers.Control.ScaleLine();
+	    map.addControl(scaleline);
 	    
 		/* "Layer Constructor" : Pide capa de porpiedades via WFS  */
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
-			strategies : [ new OpenLayers.Strategy.Fixed()], //,filterStrategy BBOX Fixed()
+			strategies : [ new OpenLayers.Strategy.Fixed(),filterStrategy], //,filterStrategy BBOX Fixed()
 			styleMap: estiloProp,
 			protocol :  new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
@@ -154,13 +156,25 @@ function init() {
  	    
 		propId = propiedades.id;
 
-		map.addLayers([ google_maps, gphy, propiedades,vectorLocalizador]);
-    	map.zoomToExtent(limites);		
+		map.addLayers([ google_maps, gphy,propiedades,vectorLocalizador]);
+    	//map.zoomToExtent(limites);		
 	
+		 /*	SelectControl, para popups */
+		selectControl = new OpenLayers.Control.SelectFeature([propiedades],
+				    {
+				        onSelect: onPopupFeatureSelect,
+				        onUnselect: onPopupFeatureUnselect,
+				    }
+				    );
+		
+	    map.addControl(selectControl);
+	    selectControl.activate();
+		
 		/// PARA CENTRAR EN MONTEVIDEO
     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
     			new OpenLayers.Projection(miEPSG),  map.getProjectionObject()), miZoom + 3);
 	
+    	
     	
 //    	map.events.register("click", map, function(e) {	
 // 			var posicion = map.getLonLatFromPixel(e.xy);
@@ -173,60 +187,208 @@ function init() {
 // Se envian los datos para filtrar las propiedades.
 function buscarPropiedades(){
 
-var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
-var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
-var tipomoneda =  document.getElementById('filtro-centros:moneda').value;
-var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
-var maximo = parseInt(document.getElementById('filtro-centros:maximo').value);
-var cantbanio = parseInt(document.getElementById('filtro-centros:cantBanio').value);
-var cantdorm = parseInt(document.getElementById('filtro-centros:cantDormitorio').value);
-var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
-var barrio =  document.getElementById('filtro-centros:barrio').value;
-var parrillero = document.getElementById('filtro-centros:parrillero').checked;
-var garage = document.getElementById('filtro-centros:garage').checked; 
-
-//var distanciaMar = parseInt($("#MarSliderVal").text());
-//var distanciaParada = parseInt($("#BusSliderVal").text());
-//var distanciaPuntoInteres = parseInt($("#PInteresSliderVal").text());
-
-
-//remoteListarPropiedades([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},{name:'tipomoneda', value:tipomoneda},
-//       {name:'minimo', value:minimo},{name:'maximo', value:maximo},{name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
-//		  {name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},{name:'parrillero', value:parrillero},{name:'garage', value:garage},
-//		  {name:'distanciaMar', value:distanciaMar},{name:'distanciaParada', value:distanciaParada},{name:'distanciaPuntoInteres', value:distanciaPuntoInteres}]);
-
-
-remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},{name:'tipomoneda', value:tipomoneda},{name:'minimo', value:minimo},
-              {name:'maximo', value:maximo}, {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},{name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},{name:'parrillero', value:parrillero},{name:'garage', value:garage}]);
-
+	var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
+	var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
+	var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
+	var maximo = parseInt(document.getElementById('filtro-centros:maximo').value);
+	var cantbanio = parseInt(document.getElementById('filtro-centros:cantBanio').value);
+	var cantdorm = parseInt(document.getElementById('filtro-centros:cantDormitorio').value);
+	var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
+	var barrio =  document.getElementById('filtro-centros:barrio').value;
+	var parrillero = document.getElementById('filtro-centros:parrillero').checked;
+	var garage = document.getElementById('filtro-centros:garage').checked; 
+	
+	remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},
+	              {name:'minimo', value:minimo},{name:'maximo', value:maximo},
+	              {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
+	              {name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},
+	              {name:'parrillero', value:parrillero},{name:'garage', value:garage}]);
+	
 
 }
-// Funcion onComplete
+//Funcion onstart
+function load(){
+	$body = $("body");
+	$body.addClass("loading");   	  
+}
+// Funcion oncomplete
 function handleConfirm(xhr,status,args)
 {
-//  alert(propId);
-//  alert(args.PropiedaesFiltradas);
   var propiedades = map.getLayer(propId);
-  //Borro las propiedades que se ven
-  propiedades.removeAllFeatures();  
-  //propiedades.destroyFeatures();
+  
   // Manipulo el json del callback
   var propiedadesJSON = JSON.parse(args.PropiedaesFiltradas);
  
-
+  var propArr = [];
   for(var i=0; i<propiedadesJSON.length;i++){
 	  
 	  var prop = propiedadesJSON[i];
 	  
 	  var propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(prop.latitud, prop.longitud));
 	  propiedadFiltrada.data.calle = prop.calle;
+	  propiedadFiltrada.data.cantbanio = prop.cantBanio;
+	  propiedadFiltrada.data.cantdorm = prop.cantDorm;
+	  propiedadFiltrada.data.fid = prop.fid;
+	  propiedadFiltrada.data.garage = prop.garage;
+	  propiedadFiltrada.data.metroscuadrados = prop.metrosCuadrados;
+	  propiedadFiltrada.data.numeropuerta = prop.numeroPuerta;
+	  propiedadFiltrada.data.parrillero = prop.parrillero;
+	  propiedadFiltrada.data.precio = prop.precio;
+	  propiedadFiltrada.data.tipoestado = prop.tipoEstado;
+	  propiedadFiltrada.data.tipopropiedad = prop.tipoPropiedad;
+	  propiedadFiltrada.data.tipotransaccion = prop.tipotransaccion;
+	  propiedadFiltrada.data.usuario = prop.usuario;
+	  propiedadFiltrada.data.imagen = prop.imagen;
+	  
       propiedadFiltrada.attributes.calle = prop.calle;
+      propiedadFiltrada.attributes.cantbanio = prop.cantBanio;
+	  propiedadFiltrada.attributes.cantdorm = prop.cantDorm;
+	  propiedadFiltrada.attributes.fid = prop.fid;
+	  propiedadFiltrada.attributes.garage = prop.garage;
+	  propiedadFiltrada.attributes.metroscuadrados = prop.metrosCuadrados;
+	  propiedadFiltrada.attributes.numeropuerta = prop.numeroPuerta;
+	  propiedadFiltrada.attributes.parrillero = prop.parrillero;
+	  propiedadFiltrada.attributes.precio = prop.precio;
+	  propiedadFiltrada.attributes.tipoestado = prop.tipoEstado;
+	  propiedadFiltrada.attributes.tipopropiedad = prop.tipoPropiedad;
+	  propiedadFiltrada.attributes.tipotransaccion = prop.tipotransaccion;
+	  propiedadFiltrada.attributes.usuario = prop.usuario;
+	  propiedadFiltrada.attributes.imagen = prop.imagen;
+	  
       propiedadFiltrada.renderIntent = "default";
-	  propiedades.addFeatures([propiedadFiltrada]);
-  }
+      
+      propArr.push(propiedadFiltrada);
+	 
+ }
   
-//  propiedades.refresh({force:true});
-  
+	  setTimeout(function finalizarBusqueda(){
+		  		  //Borro las propiedades que se ven
+				  propiedades.removeAllFeatures();
+				  //Agrego las nuevas si es que hay.
+				  for(var j=0; j<propArr.length;j++){
+					  propiedades.addFeatures([propArr[j]]);
+				  }
+				  $body = $("body");
+				  $body.removeClass("loading");
+  			}, 0) //500) // Duerme por medio segundo y luego ejecuta la función.
+ 
 }
 
+
+
+//////////////////// Para Pop Ups //////////////////////////
+
+
+function onPopupClose(evt) {
+    selectControl.unselect(selectedFeature);
+}
+
+function onPopupFeatureSelect(feature) {
+	    selectedFeature = feature;
+	    
+	    var popUpHtml = 
+	        '<div>'+
+	        '<div style="color:#FF0000;text-align:center">'+
+	        feature.data.calle +
+	        '</br>' + 
+	        feature.data.numeropuerta +
+	        '</div>'+
+	      
    
+	        '</br>'+ '</br>'+
+	  '<div style="color:#000000">'+
+	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
+	        '</br>'+
+	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
+	        '</br>';
+	    if(feature.data.parrillero == "true"){
+	    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>Si</label>' +
+				        '</br>';
+				        
+	    }else{
+	    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>No</label>' +
+	        '</br>';
+	    }
+	    if(feature.data.garage == "true"){
+	    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>Si</label> '+
+				         '</br>'+
+				         '</div>' +
+				        	'</br>' +
+				            '<div style="text-align:center">'+
+				            	'<a class="linkMB" onclick="enviarDatos()" href="http://localhost:8080/Inmo13/descripcionPropiedad.xhtml">Ver Información</a>'+
+				            '</div>'+
+				            '</br>' +
+				            '<div style="text-align:center">'+
+				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+				            '</div>';
+				        
+	    }else{
+	    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>No</label> '+
+				         '</br>'+
+				         '</div>' +
+				        	'</br>' +
+				            '<div style="text-align:center">'+
+				            	'<a class="linkMB" onclick="enviarDatos()" href="http://localhost:8080/Inmo13/descripcionPropiedad.xhtml">Ver Información</a>'+
+				            '</div>'+
+				            '</br>' +
+				            '<div style="text-align:center">'+
+				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+				            '</div>';
+	    }
+	    
+	    
+	    
+	    popup = new OpenLayers.Popup.FramedCloud(
+
+	    		"",
+	        feature.geometry.getBounds().getCenterLonLat(),
+	        null,//new OpenLayers.Size(150,200), 
+	        popUpHtml,
+	        null, 
+	        true, 
+	        onPopupClose
+	);
+    popup.panMapIfOutOfView = true;
+    popup.autoSize = true;
+    feature.popup = popup;
+    map.addPopup(popup);
+}
+
+function onPopupFeatureUnselect(feature) {
+    map.removePopup(feature.popup);
+    feature.popup.destroy();
+    feature.popup = null;
+}	
+
+function enviarDatos(){
+	var calle = selectedFeature.data.calle;
+	var precio = selectedFeature.data.precio;
+	var numPuerta = selectedFeature.data.numeropuerta; 
+	var tipoPropiedad = selectedFeature.data.tipopropiedad; 
+	var tipotransaccion = selectedFeature.data.tipotransaccion; 
+	var imagen = selectedFeature.data.imagen; 
+	var tipoEstado = selectedFeature.data.tipoestado; 
+	var piso = selectedFeature.data.piso; 
+	var cantDorm = selectedFeature.data.cantdorm; 
+	var cantBanio = selectedFeature.data.cantbanio; 
+	var metrosCuadrados = selectedFeature.data.metroscuadrados; 
+	var parrillero = selectedFeature.data.parrillero;
+	var garage = selectedFeature.data.garage;
+	var usuario = selectedFeature.data.usuario;
+	var fid = selectedFeature.data.fid;	
+	remoteVerInfoProp([{name:'calle', value:calle},{name:'precio', value:precio},{name:'numPuerta', value:numPuerta},{name:'tipoPropiedad', value:tipoPropiedad},
+					   {name:'tipotransaccion', value:tipotransaccion},{name:'imagen', value:imagen},{name:'tipoEstado', value:tipoEstado},
+					   {name:'piso', value:piso},{name:'cantDorm', value:cantDorm},{name:'cantBanio', value:cantBanio},{name:'metrosCuadrados', value:metrosCuadrados},
+					   {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'usuario', value:usuario},{name:'fid', value:fid}]);
+
+}

@@ -54,16 +54,16 @@ public class UsuarioMB implements Serializable {
 		this.propiedadMB = propiedadMB;
 	}
 
-	@PostConstruct
-	public void iniciar(){
-		System.out.println("post constructor");
-		this.passwordregistro="";
-		this.mailregistro="";
-		this.mail="";
-		this.password="";
-		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
-		this.administradores = this.getUsuarios();
-	}
+//	@PostConstruct
+//	public void iniciar(){
+//		System.out.println("post constructor");
+//		this.passwordregistro="";
+//		this.mailregistro="";
+//		this.mail="";
+//		this.password="";
+//		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
+//		this.administradores = this.getUsuarios();
+//	}
 	
 	public void registroUsuario() {
 

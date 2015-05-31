@@ -16,6 +16,6 @@ public interface IPropiedadDAO  {
 			Integer cantDorm, Integer cantBanio, double metrosCuadrados,
 			boolean parrillero, boolean garage, String tipoPropiedad,
 			String tipotransaccion, String tipoEstado, Integer numeroPuerta,
-			String fid, String tipoMoneda, String piso, String usuario);
+			String fid, String imagen, String piso, String usuario);
 	public List<Object[]> listarPropiedades(ArrayList<String> filtros);
 }

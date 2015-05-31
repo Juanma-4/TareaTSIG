@@ -148,7 +148,7 @@ function darAltaGeom(){
  	 propiedad.attributes.usuario = document.getElementById('formPropiedad:usuario').value; // "admin@gmail.com" para probar
  	 propiedad.attributes.fid =  propiedad.id;//document.getElementById('formPropiedad:fid').value;
  	 propiedad.attributes.piso =  document.getElementById('formPropiedad:piso').value;
- 	 propiedad.attributes.tipomoneda =  document.getElementById('formPropiedad:moneda').value;
+ 	 propiedad.attributes.imagen =  document.getElementById('formPropiedad:imagen').value;
 
  	// propiedad.state = OpenLayers.State.INSERT; //No es necesario porque el dibujar ya le cambia el estado.
  	 saveStrategy.save();	
@@ -193,6 +193,9 @@ function controlarInputs(){
 		return false;
 	}else if(!$.trim($("#formPropiedad\\:metrosCuadrados").val()).length) {
 		growl.show([{summary:'Error', detail: 'Debe ingresar una cantidad de metros cuadrados!'}]); 
+		return false;
+	}else if(!$.trim($("#formPropiedad\\:imagen").val()).length) {
+		growl.show([{summary:'Error', detail: 'Debe ingresar una imagen!'}]); 
 		return false;
 	}else{
 		return true;

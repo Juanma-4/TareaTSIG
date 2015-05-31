@@ -5,6 +5,7 @@ var propiedades;
 var growl;
 var map;
 var modifico = false;
+var selectedFeature;
 //////////********** CREACIÓN DE MAPA, CAPAS Y CONTROLES **********//////////
 window.onload = function() {		
 		growl = PF('growl');
@@ -233,7 +234,7 @@ function onPopupFeatureSelect(feature) {
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
 	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label>' + feature.data.tipomoneda +'<label>  </label>'+ feature.data.precio +
+	        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
 	        '</br>'+
 	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
 	        '</br>'+
@@ -256,7 +257,8 @@ function onPopupFeatureSelect(feature) {
 	        '</div>'+
 	        '</br>' +
 	        '<div style="text-align:center">'+
-	        	' <img src="http://hogartotal.imujer.com/sites/default/files/hogartotal/Fotos-de-fachadas-de-casas-modernas-3.jpg" width="400" height="200">' +
+	        	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+//	        	' <img src="http://hogartotal.imujer.com/sites/default/files/hogartotal/Fotos-de-fachadas-de-casas-modernas-3.jpg" width="400" height="200">' +
 	        '</div>',
 	        null, 
 	        true, 
@@ -280,7 +282,7 @@ function enviarDatos(){
 	var numPuerta = selectedFeature.data.numeropuerta; 
 	var tipoPropiedad = selectedFeature.data.tipopropiedad; 
 	var tipotransaccion = selectedFeature.data.tipotransaccion; 
-	var tipoMoneda = selectedFeature.data.tipomoneda; 
+	var imagen = selectedFeature.data.imagen; 
 	var tipoEstado = selectedFeature.data.tipoestado; 
 	var piso = selectedFeature.data.piso; 
 	var cantDorm = selectedFeature.data.cantdorm; 
@@ -291,7 +293,7 @@ function enviarDatos(){
 	var usuario = selectedFeature.data.usuario;
 	var fid = selectedFeature.data.fid;	
 	remoteBMPropiedad([{name:'calle', value:calle},{name:'precio', value:precio},{name:'numPuerta', value:numPuerta},{name:'tipoPropiedad', value:tipoPropiedad},
-					   {name:'tipotransaccion', value:tipotransaccion},{name:'tipoMoneda', value:tipoMoneda},{name:'tipoEstado', value:tipoEstado},
+					   {name:'tipotransaccion', value:tipotransaccion},{name:'imagen', value:imagen},{name:'tipoEstado', value:tipoEstado},
 					   {name:'piso', value:piso},{name:'cantDorm', value:cantDorm},{name:'cantBanio', value:cantBanio},{name:'metrosCuadrados', value:metrosCuadrados},
 					   {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'usuario', value:usuario},{name:'fid', value:fid}]);
 
