@@ -7,10 +7,12 @@ import javax.ejb.EJB;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -93,7 +95,7 @@ public class ServicioUsuario extends Application {
 			String codigoRetorno = "200";			
 			
 			try {
-				creado = this.iuc.modificarUsuario(usuario);
+				creado = iuc.modificarUsuario(usuario);
 				booleanJSON = gson.toJson(creado);
 				
 			} catch (Exception err) {
@@ -187,16 +189,16 @@ public class ServicioUsuario extends Application {
 			//public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
 	    	//String asunto, String mensaje) throws AddressException, MessagingException
 			
-			
 			//SE NOTIFICA AL QUE CONSULTA QUE SU CONSULTA FUE HECHA
 			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", "inmogrupo13@gmail.com","inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la vedrevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias...");
 			booleanJSON = gson.toJson(creado);
 			
+			//NO BORRAR
+			//SE NOTIFICA A TODOS LOS ADMINISTRAORES DE ESA PROPIEDAD
 		/*	List<Usuario> usus = iuc.listarUsuariosporPropiedad(wc.getPropid());
 			for(Usuario u: usus){
 				creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", u.getMail(),"inmobiliaria13", "Consulta realizada sobre la propiedad "+ wc.getPropid(), "El visitante: "+wc.getNombre()+"</br>"+"Se encuentra interesado en la propiedad: "+wc.getPropid()+"</br> Su consulta es: "+wc.getCuerpo());
 			}*/
-			
 			
 		} catch (Exception err) {
 			err.printStackTrace();
@@ -207,7 +209,36 @@ public class ServicioUsuario extends Application {
 		}
 		return Response.status(201).entity(booleanJSON).build();
 		}
+	
+		
+		
+		@DELETE
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.APPLICATION_JSON)
+		@Path("/eliminar/{mail}")
+		public Response eliminarUsu(@PathParam("mail") String mail) {
+			
+			System.out.println("Estoy en eliminar servicio usuario"+ mail);
+			String returnCode = "";
 
+			try {
+				
+				iuc.eliminarUsuario(mail);
+					
+				returnCode = "{"
+						+ "\"message\":\"Usuario succesfully deleted\""
+						+ "}";
+			} catch (Exception err) {
+				err.printStackTrace();
+				returnCode = "{\"status\":\"500\","+
+						"\"message\":\"Resource not deleted.\""+
+						"\"developerMessage\":\""+err.getMessage()+"\""+
+						"}";
+				return  Response.status(500).entity(returnCode).build(); 
+			}
+			return Response.ok(returnCode).build();
+		}
+	
 		public String toJSONString(Object object) { 
 			GsonBuilder gsonBuilder = new GsonBuilder();
 			Gson gson = gsonBuilder.create();

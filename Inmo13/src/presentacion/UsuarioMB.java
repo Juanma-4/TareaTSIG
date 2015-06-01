@@ -28,9 +28,8 @@ import wrappers.WrapperUsuario;
 @javax.faces.bean.SessionScoped
 public class UsuarioMB implements Serializable {
 
-	
-	@EJB
-	private IControladorUsuario icu;
+	//@EJB
+	//private IControladorUsuario icu;
 	
 	@ManagedProperty(value="#{propiedadMB}")
 	private PropiedadMB propiedadMB;
@@ -42,6 +41,9 @@ public class UsuarioMB implements Serializable {
 	
 	private String mailregistro;
 	private String passwordregistro;
+	
+	private String usuarioSelecmail;
+	private String usuarioSelecpass;
 	
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
 	
@@ -98,9 +100,6 @@ public class UsuarioMB implements Serializable {
 				
 				
 					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");					
-			
-				
-			
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally{
@@ -186,12 +185,12 @@ public class UsuarioMB implements Serializable {
 		return null;
 	}
 	
-	public String eliminarUsuario(String mail) {
+	/*public String eliminarUsuario(String mail) {
 		System.out.println("eliminar Usuarios");
 		icu.eliminarUsuario(mail);
 		return "IndexAdmin.xhtml?faces-redirect=true";
 		
-	}
+	}*/
 	
 	public String irRegistroUsuario(){
 		
@@ -312,6 +311,38 @@ public class UsuarioMB implements Serializable {
 			}
 	
 	}
+	
+public void eliminarUsuario(String mail) {
+		
+		System.out.println("eliminar UsuarioMB:::::::"+mail);
+		
+			ClientRequest request = null;
+
+				try {
+					/*							
+					request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/eliminar");
+					request.header("mail", "mail2");
+					//request.pathParameter("mail", "mail2");
+					
+					ClientResponse<String> respuesta = request.get(String.class);
+					
+					if (respuesta.getStatus() != 201) {
+						FacesContext.getCurrentInstance().addMessage(null,
+								new FacesMessage("Error No se pudo borrar el usuario"));
+						throw new RuntimeException("Failed : HTTP error code : "
+								+ respuesta.getStatus());
+					}
+								*/
+					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+					
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}finally{
+					//request.clear();
+				}
+				
+	}
 
 	public String getMail() {
 		return mail;
@@ -359,6 +390,22 @@ public class UsuarioMB implements Serializable {
 
 	public void setPasswordregistro(String passwordregistro) {
 		this.passwordregistro = passwordregistro;
+	}
+
+	public String getUsuarioSelecpass() {
+		return usuarioSelecpass;
+	}
+
+	public void setUsuarioSelecpass(String usuarioSelecpass) {
+		this.usuarioSelecpass = usuarioSelecpass;
+	}
+
+	public String getUsuarioSelecmail() {
+		return usuarioSelecmail;
+	}
+
+	public void setUsuarioSelecmail(String usuarioSelecmail) {
+		this.usuarioSelecmail = usuarioSelecmail;
 	}
 	
 	

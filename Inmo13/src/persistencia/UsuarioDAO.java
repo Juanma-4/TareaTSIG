@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import dominio.Usuario;
 
 @Stateless
@@ -32,9 +33,11 @@ public class UsuarioDAO implements IUsuarioDAO{
 	
 	public boolean modificarUsuario(Usuario usuario) {
 		
+		
 		boolean modifico = false;
 		
 		try {
+			System.out.println("estoy en modificar usuario DAO");
 			em.merge(usuario);			
 			modifico = true;
 		} catch (Exception e) {
@@ -105,8 +108,8 @@ public class UsuarioDAO implements IUsuarioDAO{
     
     public void delete(Usuario u)
     {
-    	System.out.println("eliminar Usuarios DAO");
+    	System.out.println("eliminar Usuarios en dato DAO"+ u.getMail());
     	em.remove(u);
-    }
+    } 
 	
 }

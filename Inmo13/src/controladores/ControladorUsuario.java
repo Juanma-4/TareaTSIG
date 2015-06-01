@@ -55,8 +55,10 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 
 	public boolean modificarUsuario(Usuario usuario) {
+		
 		boolean modifico = false;
 		try{
+			System.out.println("estoy en modificar usuario Controlador usuario:"+ usuario.getMail());
 			modifico = UsuarioDAO.modificarUsuario(usuario);
 		}catch(Exception e){
 			e.printStackTrace();			
@@ -86,9 +88,9 @@ public class ControladorUsuario implements IControladorUsuario {
 		}
 	}
 */
-	@Override
+	
 	public void eliminarUsuario(String mail) {
-		System.out.println("eliminar Usuarios controlador");
+		System.out.println("eliminar Usuarios controlador :"+ mail);
 		Usuario usu = UsuarioDAO.getUsuario(mail);
 		UsuarioDAO.delete(usu);
 	}
