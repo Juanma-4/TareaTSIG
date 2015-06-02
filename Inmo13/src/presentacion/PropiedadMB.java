@@ -130,7 +130,7 @@ public void modificarPropiedad(){
 	}
 	
 	public void setearDatos(){
-		
+		try{
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		this.numPuerta = Integer.valueOf(params.get("numPuerta"));
 		this.precio = Double.valueOf(params.get("precio"));
@@ -148,6 +148,11 @@ public void modificarPropiedad(){
 		this.imagen = String.valueOf(params.get("imagen"));   
 		this.piso = String.valueOf(params.get("piso"));  
 	
+		FacesContext.getCurrentInstance().getExternalContext().redirect("descripcionPropiedad.xhtml");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void listarProp(){

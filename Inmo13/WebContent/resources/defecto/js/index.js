@@ -326,7 +326,8 @@ function onPopupFeatureSelect(feature) {
 				         '</div>' +
 				        	'</br>' +
 				            '<div style="text-align:center">'+
-				            	'<a class="linkMB" onclick="enviarDatos()" href="http://localhost:8080/Inmo13/descripcionPropiedad.xhtml">Ver Información</a>'+
+				            
+				           	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
 				            '</div>'+
 				            '</br>' +
 				            '<div style="text-align:center">'+
@@ -339,7 +340,7 @@ function onPopupFeatureSelect(feature) {
 				         '</div>' +
 				        	'</br>' +
 				            '<div style="text-align:center">'+
-				            	'<a class="linkMB" onclick="enviarDatos()" href="http://localhost:8080/Inmo13/descripcionPropiedad.xhtml">Ver Información</a>'+
+				            	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
 				            '</div>'+
 				            '</br>' +
 				            '<div style="text-align:center">'+

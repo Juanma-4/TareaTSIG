@@ -252,7 +252,7 @@ function onPopupFeatureSelect(feature) {
         '</div>' +
         	'</br>' +
 	        '<div style="text-align:center">'+
-	        	'<a class="linkMB" onclick="enviarDatos()" href="http://localhost:8080/Inmo13/ModificarDatosPropiedad.xhtml">Modificar Datos</a>'+
+	        	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Modificar Datos</a>'+
 	        	 // 	'<p:commandLink id="irMBPropiedad" onclick="enviarDatos()" immediate="true">Modificar/Borrar</p:commandLink>'+
 	        '</div>'+
 	        '</br>' +
