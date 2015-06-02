@@ -16,11 +16,14 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.primefaces.context.RequestContext;
 
 import wrappers.WrapperPropiedad;
+import wrappers.WrapperPuntoInteres;
+import wrappers.WrapperUsuario;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @ManagedBean(name="propiedadMB")
@@ -49,6 +52,8 @@ public class PropiedadMB implements Serializable {
 	private Integer distanciaParada;
 	private Integer distanciaPInteres;
 		
+	private List<WrapperPuntoInteres> lpuntosInteres;
+	
 	public void altaPropiedad() {
 		/*
 		
@@ -128,7 +133,59 @@ public void modificarPropiedad(){
 			e.printStackTrace();
 		}
 	}
+
+public void listarProp(){
 	
+	String propiedadesJson = null;		
+	
+	Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+	String tipopropiedad = String.valueOf(params.get("tipopropiedad"));
+	String tipotransaccion = String.valueOf(params.get("tipotransaccion"));
+	String minimo = String.valueOf(params.get("minimo"));
+	String maximo = String.valueOf(params.get("maximo"));
+	String cantbanio = String.valueOf(params.get("cantbanio"));
+	String cantdorm = String.valueOf(params.get("cantdorm"));
+	String metroscuadrados  = String.valueOf(params.get("metroscuadrados"));
+	String barrio = String.valueOf(params.get("barrio"));
+	String parrillero = String.valueOf(params.get("parrillero"));
+	String garage = String.valueOf(params.get("garage"));
+	
+	ClientRequest request;
+	 try{	
+	
+		request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/listarPropiedades");		
+			
+	 	List<String> datos = new ArrayList<String>();
+		datos.add(0,tipopropiedad);
+		datos.add(1,tipotransaccion);
+		datos.add(2, minimo);
+		datos.add(3, maximo);
+		datos.add(4, cantbanio);
+		datos.add(5, cantdorm);
+		datos.add(6, metroscuadrados);
+		datos.add(7, barrio);
+		datos.add(8, parrillero);
+		datos.add(9, garage);
+		datos.add(10, this.distanciaMar.toString());
+		datos.add(11, this.distanciaParada.toString());
+		datos.add(12, this.distanciaPInteres.toString());
+		
+		String filtrosJSON = toJSONString(datos);
+		
+		request.body("application/json", filtrosJSON);
+
+		ClientResponse<String> response = request.post(String.class);
+		propiedadesJson = response.getEntity(String.class);
+		
+	 }catch (Exception e) {
+		 e.printStackTrace();
+	 }
+	 		 
+	 RequestContext.getCurrentInstance().addCallbackParam("PropiedaesFiltradas", propiedadesJson);
+	 
+}
+//RequestContext.getCurrentInstance().execute("js");
+
 	public void setearDatos(){
 		try{
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -148,6 +205,9 @@ public void modificarPropiedad(){
 		this.imagen = String.valueOf(params.get("imagen"));   
 		this.piso = String.valueOf(params.get("piso"));  
 	
+		//Cargo lista de puntos de interes para esa propiedad
+		this.listarPuntosInteres();
+		
 		FacesContext.getCurrentInstance().getExternalContext().redirect("descripcionPropiedad.xhtml");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -155,57 +215,72 @@ public void modificarPropiedad(){
 		
 	}
 	
-	public void listarProp(){
-		
-		String propiedadesJson = null;		
-		
-		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		String tipopropiedad = String.valueOf(params.get("tipopropiedad"));
-		String tipotransaccion = String.valueOf(params.get("tipotransaccion"));
-		String minimo = String.valueOf(params.get("minimo"));
-		String maximo = String.valueOf(params.get("maximo"));
-		String cantbanio = String.valueOf(params.get("cantbanio"));
-		String cantdorm = String.valueOf(params.get("cantdorm"));
-		String metroscuadrados  = String.valueOf(params.get("metroscuadrados"));
-		String barrio = String.valueOf(params.get("barrio"));
-		String parrillero = String.valueOf(params.get("parrillero"));
-		String garage = String.valueOf(params.get("garage"));
-		
+	private void listarPuntosInteres() {
 		ClientRequest request;
-		 try{	
-		
-			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/listarPropiedades");		
-				
-		 	List<String> datos = new ArrayList<String>();
-			datos.add(0,tipopropiedad);
-			datos.add(1,tipotransaccion);
-			datos.add(2, minimo);
-			datos.add(3, maximo);
-			datos.add(4, cantbanio);
-			datos.add(5, cantdorm);
-			datos.add(6, metroscuadrados);
-			datos.add(7, barrio);
-			datos.add(8, parrillero);
-			datos.add(9, garage);
-			datos.add(10, this.distanciaMar.toString());
-			datos.add(11, this.distanciaParada.toString());
-			datos.add(12, this.distanciaPInteres.toString());
+		ClientResponse<String> respuesta;
+		try{			
+			System.out.println("ESTOY EN PROPIEDAD mb, ANTES REQUEST"+this.fid);
 			
-			String filtrosJSON = toJSONString(datos);
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/listarPuntosInteres");	
+			request.header("fid", this.fid);
 			
-			request.body("application/json", filtrosJSON);
-	
-			ClientResponse<String> response = request.post(String.class);
-			propiedadesJson = response.getEntity(String.class);
+			respuesta = request.get(String.class);
 			
-		 }catch (Exception e) {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+			
+			JsonParser parser = new JsonParser();
+			JsonArray jArray = parser.parse(respuesta.getEntity()).getAsJsonArray();
+			System.out.println("ESTOY EN PROPIEDAD mb, LISTA JSON:"+respuesta.getEntity());
+			
+			
+			this.lpuntosInteres = new ArrayList<WrapperPuntoInteres>();
+			
+			for (JsonElement puntoInteres : jArray) {				
+				WrapperPuntoInteres pInteres = new WrapperPuntoInteres();
+				pInteres = gson.fromJson(puntoInteres, WrapperPuntoInteres.class);
+				System.out.println("ESTOY EN PROPIEDAD mb, Punto interes:"+ pInteres.getNombre()+pInteres.getTipo());
+				this.lpuntosInteres.add(pInteres);
+			}
+			
+			System.out.println("ESTOY EN PROPIEDAD mb, LISTA wrapper :"+this.lpuntosInteres);
+			
+		 }catch(Exception e){
 			 e.printStackTrace();
 		 }
-		 		 
-		 RequestContext.getCurrentInstance().addCallbackParam("PropiedaesFiltradas", propiedadesJson);
 		 
 	}
-	//RequestContext.getCurrentInstance().execute("js");
+	
+	public void getPuntosInteres(){
+				
+		 RequestContext.getCurrentInstance().addCallbackParam("PuntosInteres", toJSONString(this.lpuntosInteres));
+	}
+
+	public void setearDatosBM(){
+		try{
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		this.numPuerta = Integer.valueOf(params.get("numPuerta"));
+		this.precio = Double.valueOf(params.get("precio"));
+		this.cantDorm = Integer.valueOf(params.get("cantDorm"));
+		this.cantBanio = Integer.valueOf(params.get("cantBanio"));
+		this.metrosCuadrados = Double.valueOf(params.get("metrosCuadrados"));
+		this.parrillero = Boolean.valueOf(params.get("parrillero"));
+		this.garage = Boolean.valueOf(params.get("garage"));
+		this.tipoPropiedad = String.valueOf(params.get("tipoPropiedad")); 
+		this.tipotransaccion = String.valueOf(params.get("tipotransaccion"));  
+		this.tipoEstado = String.valueOf(params.get("tipoEstado")); 
+		this.calle = String.valueOf(params.get("calle"));  
+		this.fid = String.valueOf(params.get("fid")); 
+		this.usuario = String.valueOf(params.get("usuario"));   
+		this.imagen = String.valueOf(params.get("imagen"));   
+		this.piso = String.valueOf(params.get("piso"));  
+	
+		FacesContext.getCurrentInstance().getExternalContext().redirect("ModificarDatosPropiedad.xhtml");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
 
 	public String irAltaPropiedad(){
 		this.limpiarDatos();
@@ -399,6 +474,14 @@ public void modificarPropiedad(){
 
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
+	}
+
+	public List<WrapperPuntoInteres> getLpuntoInteres() {
+		return lpuntosInteres;
+	}
+
+	public void setLpuntoInteres(List<WrapperPuntoInteres> lpuntosInteres) {
+		this.lpuntosInteres = lpuntosInteres;
 	}
 
 	public String toJSONString(Object object) {

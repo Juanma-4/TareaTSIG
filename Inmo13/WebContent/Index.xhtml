@@ -4,7 +4,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-
+<link rel="shortcut icon" type="image/x-icon" href="#{resource['defecto/img/logo.jpg']}"/>
+<title>Inmo 13 - Tu Inmobiliaria</title>
 	<link rel="stylesheet" type="text/css"
 		href="resources/bootstrap/css/bootstrap.min.css"></link>
 	<link rel="stylesheet" type="text/css"
@@ -297,7 +298,7 @@
 
 									<br></br>
 		
-									<div>
+									<div style="margin-left: 5%;">
 									 <h:panelGrid columns="1" style="margin-bottom: 10px">
 								        <h:outputText id="output" value="Distancia al mar: 0 km" />
 								        <h:inputHidden id="txt1" value="#{propiedadMB.distanciaMar}" />

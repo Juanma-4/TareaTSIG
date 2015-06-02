@@ -5,7 +5,11 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 <h:head>
-	
+	<link rel="shortcut icon" type="image/x-icon" href="#{resource['defecto/img/logo.jpg']}"/>
+
+ <title>
+Inmo 13 - Descripción Propiedad
+ </title>
 	<link rel="stylesheet" type="text/css"
 		href="resources/bootstrap/css/bootstrap.min.css"></link>
 	<link rel="stylesheet" type="text/css"
@@ -74,7 +78,7 @@
 				
 				<div class="body-filtros">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<h:form style="margin-top:12px" id="formBMPropiedad">
+						<h:form style="margin-top:12px" id="formDescripcion">
 						
 						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Calle </label>
 						<h:outputText  style="color: white; font-size: 13px " value="#{propiedadMB.calle} " />
@@ -116,10 +120,10 @@
 						
 						<img src="#{propiedadMB.imagen} " width="300" height="150"></img>
 						
-						
+						<h:inputHidden value="#{propiedadMB.fid}" id="fid"/>
 					
    		 				
-   		 
+   					 <p:remoteCommand name="remoteListarPuntosInteres" action="#{propiedadMB.getPuntosInteres}" oncomplete="handleConfirm(xhr,status,args)"></p:remoteCommand>
 						</h:form>
 						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModaleditar" onclick="document.getElementById('numeroPuerta').value='#{propiedadMB.numPuerta}';return false;">Consultar  propiedad</button>
 						

@@ -14,6 +14,7 @@ import dominio.Propiedad;
 import dominio.Usuario;
 import persistencia.IPropiedadDAO;
 import wrappers.WrapperPropiedadFiltrada;
+import wrappers.WrapperPuntoInteres;
 
 
 @Stateless
@@ -99,6 +100,21 @@ public class ControladorPropiedad implements IControladorPropiedad{
 		}
 		
 		return props;
+	}
+
+	@Override
+	public List<WrapperPuntoInteres> listarPuntosInteres(String fid) {
+		
+		List<WrapperPuntoInteres> puntosInteres = null;
+		try{		
+			puntosInteres = PropiedadDAO.listarPuntosInteres(fid);
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return puntosInteres;
 	}
 
 }

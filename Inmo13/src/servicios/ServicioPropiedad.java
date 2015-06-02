@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import wrappers.WrapperPropiedadFiltrada;
+import wrappers.WrapperPuntoInteres;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -115,6 +117,30 @@ public class ServicioPropiedad extends Application {
 					ArrayList<String> filtros = gson.fromJson(datosFiltro, new TypeToken<ArrayList<String>>() {}.getType());
 					propiedadesFiltradas = ipc.listarPropiedades(filtros);
 					respuesta = gson.toJson(propiedadesFiltradas);
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					return Response.status(500).entity(respuesta).build();
+
+				}
+				return Response.status(201).entity(respuesta).build();
+			
+			}
+			
+			@GET
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Path("/listarPuntosInteres")
+			public Response listarPuntosInteres(@HeaderParam("fid") String fid) {
+		
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+				
+				String respuesta = null;
+				List<WrapperPuntoInteres> puntosInteres = null;
+				
+				try {					
+					puntosInteres = ipc.listarPuntosInteres(fid);
+					respuesta = gson.toJson(puntosInteres);
 					
 				} catch (Exception err) {
 					err.printStackTrace();

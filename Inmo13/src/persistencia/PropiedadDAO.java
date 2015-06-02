@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import wrappers.WrapperPropiedadFiltrada;
+import wrappers.WrapperPuntoInteres;
 import dominio.Propiedad;
 
 @Stateless
@@ -132,11 +133,6 @@ public class PropiedadDAO implements IPropiedadDAO{
 					+ "WHERE propiedad.tipopropiedad = '"+tipoPropiedad+"' AND propiedad.tipotransaccion = '"+tipoTransaccion+"'"
 					+ " AND propiedad.cantbanio = "+cantBanio+" AND propiedad.cantdorm = "+cantDorm+" AND propiedad.parrillero = "+parrillero 
 					+ " AND propiedad.garage = "+garage+" AND propiedad.tipoestado IN ('Publica','Reservada')";
-//					+ " AND ST_CONTAINS(barrios.geom,propiedad.geom)";
-			
-			if(!barrio.equalsIgnoreCase("TODOS")){
-				sql += " AND ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio = '"+barrio+"'";
-			}
 			
 			if(!filtros.get(2).equalsIgnoreCase("NaN")){
 				Double precioMinimo = Double.parseDouble(filtros.get(2));
@@ -152,6 +148,11 @@ public class PropiedadDAO implements IPropiedadDAO{
 				Double metrosCuadrados = Double.parseDouble(filtros.get(6));
 				sql += " AND propiedad.metroscuadrados = "+metrosCuadrados;
 			}
+			
+			if(!barrio.equalsIgnoreCase("TODOS")){
+				sql += " AND ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio = '"+barrio+"'";
+			}
+			
 			
 			if(distanciaMar!= 0){
 				distanciaMar = (distanciaMar*1000); // para expresarlo en km.
@@ -176,5 +177,72 @@ public class PropiedadDAO implements IPropiedadDAO{
 
 		}
 		return propiedadesFiltradas;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WrapperPuntoInteres> listarPuntosInteres(String fid) {
+		String sql = null;
+		
+		List<WrapperPuntoInteres> comerciales = null;
+		List<WrapperPuntoInteres> plazas = null;
+		List<WrapperPuntoInteres> escuelas = null;
+		List<WrapperPuntoInteres> liceos = null;
+		List<WrapperPuntoInteres> puntosInteres = new ArrayList<WrapperPuntoInteres>();
+		try{
+			
+			System.out.println("ESTOY EN PROPIEDAD DAO, ANTES CONSULTA, FID ="+fid);
+			
+			sql = "SELECT serv_comerciales.nbre AS nombre, ST_X(ST_Transform(serv_comerciales.geom, 900913)) AS x , "
+						+ "ST_Y(ST_Transform(serv_comerciales.geom, 900913)) AS y ,"  
+						+ "ST_DISTANCE(propiedad.geom,serv_comerciales.geom) AS distancia, 'comercial'::character varying(20) AS tipo"
+						+ " FROM propiedad, serv_comerciales"
+						+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),"
+						+ " serv_comerciales.geom)";
+			comerciales = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+	
+			sql= "SELECT deportes.nombre , ST_X(ST_Transform(deportes.geom, 900913)) AS x , ST_Y(ST_Transform(deportes.geom, 900913)) AS y ," 
+				+ "ST_DISTANCE(propiedad.geom,deportes.geom) AS distancia, 'plaza'::character varying(20) AS tipo"
+				+ " FROM propiedad, deportes"
+				+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),deportes.geom)";
+			
+			plazas = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+			
+			sql= "SELECT edu_primaria.nombre , ST_X(ST_Transform(edu_primaria.geom, 900913)) AS x , "
+					+ "ST_Y(ST_Transform(edu_primaria.geom, 900913)) AS y ," 
+					+ "ST_DISTANCE(propiedad.geom,edu_primaria.geom) AS distancia, 'escuela'::character varying(20) AS tipo"
+					+ " FROM propiedad, edu_primaria"
+					+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),edu_primaria.geom)";
+			
+			escuelas = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+			
+			sql= "SELECT edu_secundaria.nombre , ST_X(ST_Transform(edu_secundaria.geom, 900913)) AS x , "
+					+ "ST_Y(ST_Transform(edu_secundaria.geom, 900913)) AS y ," 
+					+ "ST_DISTANCE(propiedad.geom,edu_secundaria.geom) AS distancia, 'liceo'::character varying(20) AS tipo"
+					+ " FROM propiedad, edu_secundaria"
+					+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),edu_secundaria.geom)";
+			
+			liceos = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+			
+			
+			for(WrapperPuntoInteres pi : comerciales){
+				puntosInteres.add(pi);
+			}
+			for(WrapperPuntoInteres pi : plazas){
+				puntosInteres.add(pi);
+			}
+			for(WrapperPuntoInteres pi : escuelas){
+				puntosInteres.add(pi);
+			}
+			for(WrapperPuntoInteres pi : liceos){
+				puntosInteres.add(pi);
+			}
+										
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return puntosInteres;
 	}
 }
