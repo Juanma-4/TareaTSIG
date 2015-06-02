@@ -159,7 +159,7 @@ public class PropiedadDAO implements IPropiedadDAO{
 			}
 			
 			if(distanciaParada!= 0){
-				sql+= " AND ST_Intersects(ST_Buffer(borde_rambla.geom,"+distanciaParada+"),paradas.geom)";
+				sql+= " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaParada+"),paradas.geom)";
 			}
 			
 			if(distanciaPuntoInteres!= 0){				
