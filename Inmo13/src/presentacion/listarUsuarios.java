@@ -25,7 +25,8 @@ public class listarUsuarios implements Serializable {
 	
 	private List<WrapperUsuario> listusus= new ArrayList<WrapperUsuario>(); ;
 	
-	
+	private String usuarioSelecmail;
+	private String usuarioSelecpass;
 	//private UsuarioMB umb=new UsuarioMB();
 	//private UsuarioMB umb = new UsuarioMB();
 			
@@ -35,6 +36,8 @@ public class listarUsuarios implements Serializable {
 		System.out.println("post constructor listarUsuariosMB");
 		
 			this.listusus = this.getUsuarios();
+			
+			
 	}
 	
 	public List<WrapperUsuario> getListusus() {
@@ -86,5 +89,21 @@ public class listarUsuarios implements Serializable {
 		return null;
 	}
 	
+	public String getUsuarioSelecmail() {
+		return usuarioSelecmail;
+	}
+
+	public void setUsuarioSelecmail(String usuarioSelecmail) {
+		this.usuarioSelecmail = usuarioSelecmail;
+	}
+
+	public String getUsuarioSelecpass() {
+		return usuarioSelecpass;
+	}
+
+	public void setUsuarioSelecpass(String usuarioSelecpass) {
+		this.usuarioSelecpass = usuarioSelecpass;
+	}
+
 	private static final long serialVersionUID = 1L;
 }

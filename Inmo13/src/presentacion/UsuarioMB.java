@@ -56,16 +56,18 @@ public class UsuarioMB implements Serializable {
 		this.propiedadMB = propiedadMB;
 	}
 
-//	@PostConstruct
-//	public void iniciar(){
-//		System.out.println("post constructor");
+	@PostConstruct
+	public void iniciar(){
+		System.out.println("post constructor usuario MB");
 //		this.passwordregistro="";
 //		this.mailregistro="";
 //		this.mail="";
 //		this.password="";
 //		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
 //		this.administradores = this.getUsuarios();
-//	}
+	this.usuarioSelecmail="";
+	this.usuarioSelecpass="";
+	}
 	
 	public void registroUsuario() {
 
@@ -108,36 +110,34 @@ public class UsuarioMB implements Serializable {
 			
 	}
 
-	public void ModificarUsuario(String mail, String pass) {
-		System.out.println("estoy en modificar usuario");
+	public void modificarUsuario() {
+		System.out.println("estoy en modificar usuarioMB mail: "+this.usuarioSelecmail+" pass: "+ this.usuarioSelecpass);
 		
 		ClientRequest request = null;
 		try {
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/modificar");
 		
-			//WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
-			WrapperUsuario usuario = new WrapperUsuario(mail,pass);
+			WrapperUsuario usuario = new WrapperUsuario(this.usuarioSelecmail,this.usuarioSelecpass);
 
 			String usuarioJSON = toJSONString(usuario);
-
 			request.body("application/json", usuarioJSON);
 
 			ClientResponse<String> respuesta = request.post(String.class);
-
+/*
 			if (respuesta.getStatus() != 201) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage("Error al Modificar Usuario"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ respuesta.getStatus());
 			}
+			*/
 			
-			/*Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
-			
+			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 			if (creado)	{
-				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
-			}else{		*/	
-					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
-			//};
+				FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+			}else{			
+					FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
+			};
 			
 			}
 			catch(Exception e){
@@ -184,13 +184,6 @@ public class UsuarioMB implements Serializable {
 		}
 		return null;
 	}
-	
-	/*public String eliminarUsuario(String mail) {
-		System.out.println("eliminar Usuarios");
-		icu.eliminarUsuario(mail);
-		return "IndexAdmin.xhtml?faces-redirect=true";
-		
-	}*/
 	
 	public String irRegistroUsuario(){
 		
@@ -273,7 +266,7 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	
-	public void EnviarCorreo(String nombre, String correo, String asunto, String cuerpo, Integer id) {
+	public void enviarCorreo(String nombre, String correo, String asunto, String cuerpo, Integer id) {
 		System.out.println("estoy en Enviar correo web");
 		
 		ClientRequest request = null;
@@ -300,7 +293,7 @@ public class UsuarioMB implements Serializable {
 			if (creado)	{
 				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
 			}else{		*/	
-					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
+					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
 			//};
 			
 			}
@@ -312,36 +305,43 @@ public class UsuarioMB implements Serializable {
 	
 	}
 	
-public void eliminarUsuario(String mail) {
-		
-		System.out.println("eliminar UsuarioMB:::::::"+mail);
-		
+public void eliminarUsuario() {
+		//System.out.println("eliminar UsuarioMB:::::::"+this.usuarioSelecmail);
 			ClientRequest request = null;
-
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+			
 				try {
-					/*							
-					request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/eliminar");
-					request.header("mail", "mail2");
-					//request.pathParameter("mail", "mail2");
-					
+														
+					request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/eliminar/"+this.usuarioSelecmail);
+					//request.header("mail", this.usuarioSelecmail);
+										
 					ClientResponse<String> respuesta = request.get(String.class);
 					
-					if (respuesta.getStatus() != 201) {
+					System.out.println(respuesta.getEntity());
+					
+				/*	if (respuesta.getStatus() != 201) {
 						FacesContext.getCurrentInstance().addMessage(null,
 								new FacesMessage("Error No se pudo borrar el usuario"));
 						throw new RuntimeException("Failed : HTTP error code : "
 								+ respuesta.getStatus());
-					}
-								*/
-					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+					}*/
+							
+					Boolean elimino = gson.fromJson(respuesta.getEntity(), Boolean.class);
+					//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 					
+					if (elimino)	{
+						FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+					}else{		
+							FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
+					};
+							
 				}
 				catch(Exception e){
 					e.printStackTrace();
 				}finally{
-					//request.clear();
-				}
-				
+					request.clear();
+}
 	}
 
 	public String getMail() {

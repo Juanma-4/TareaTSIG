@@ -83,7 +83,7 @@ public class ServicioUsuario extends Application {
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Path("/modificar")
 		public Response modificarUsuario(String datos) {
-			System.out.println("estoy en modificar usuario servicio");
+			
 			boolean creado = false;
 			String booleanJSON = null;
 			
@@ -91,10 +91,11 @@ public class ServicioUsuario extends Application {
 			Gson gson = gsonBuilder.create();
 
 			Usuario usuario = gson.fromJson(datos, Usuario.class);
-
+						
 			String codigoRetorno = "200";			
 			
 			try {
+				System.out.println("estoy en modificar usuario servicio: mail "+usuario.getMail()+"pass: "+usuario.getPassword());
 				creado = iuc.modificarUsuario(usuario);
 				booleanJSON = gson.toJson(creado);
 				
@@ -106,10 +107,8 @@ public class ServicioUsuario extends Application {
 				return Response.status(500).entity(booleanJSON).build();
 			}
 			return Response.status(201).entity(booleanJSON).build();
-		
 		}
 		
-
 		@GET
 		@Produces(MediaType.APPLICATION_JSON)
 		@Path("/administradores")	
@@ -212,31 +211,25 @@ public class ServicioUsuario extends Application {
 	
 		
 		
-		@DELETE
-		@Consumes(MediaType.APPLICATION_JSON)
+		@GET
+		//@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.APPLICATION_JSON)
 		@Path("/eliminar/{mail}")
 		public Response eliminarUsu(@PathParam("mail") String mail) {
 			
 			System.out.println("Estoy en eliminar servicio usuario"+ mail);
-			String returnCode = "";
+			String booleanoJson = null;
 
 			try {
+				Boolean elimino = iuc.eliminarUsuario(mail);
+				booleanoJson = toJSONString(elimino);
 				
-				iuc.eliminarUsuario(mail);
-					
-				returnCode = "{"
-						+ "\"message\":\"Usuario succesfully deleted\""
-						+ "}";
 			} catch (Exception err) {
 				err.printStackTrace();
-				returnCode = "{\"status\":\"500\","+
-						"\"message\":\"Resource not deleted.\""+
-						"\"developerMessage\":\""+err.getMessage()+"\""+
-						"}";
-				return  Response.status(500).entity(returnCode).build(); 
+				
+				return Response.status(500).entity(booleanoJson).build(); 
 			}
-			return Response.ok(returnCode).build();
+			return Response.ok(booleanoJson).build();
 		}
 	
 		public String toJSONString(Object object) { 

@@ -58,7 +58,7 @@ public class ControladorUsuario implements IControladorUsuario {
 		
 		boolean modifico = false;
 		try{
-			System.out.println("estoy en modificar usuario Controlador usuario:"+ usuario.getMail());
+			System.out.println("estoy en modificar usuario Controlador usuario mail: "+ usuario.getMail()+"pass: "+usuario.getPassword());
 			modifico = UsuarioDAO.modificarUsuario(usuario);
 		}catch(Exception e){
 			e.printStackTrace();			
@@ -89,10 +89,12 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 */
 	
-	public void eliminarUsuario(String mail) {
+	public Boolean eliminarUsuario(String mail) {
 		System.out.println("eliminar Usuarios controlador :"+ mail);
 		Usuario usu = UsuarioDAO.getUsuario(mail);
-		UsuarioDAO.delete(usu);
+		Boolean elimino = UsuarioDAO.delete(usu);
+		
+		return elimino;
 	}
 	
 }

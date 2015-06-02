@@ -33,16 +33,13 @@ public class UsuarioDAO implements IUsuarioDAO{
 	
 	public boolean modificarUsuario(Usuario usuario) {
 		
-		
 		boolean modifico = false;
-		
 		try {
-			System.out.println("estoy en modificar usuario DAO");
+			System.out.println("estoy en modificar usuario DAO mail: "+ usuario.getMail());
 			em.merge(usuario);			
 			modifico = true;
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 		return modifico;
 	}
@@ -106,10 +103,19 @@ public class UsuarioDAO implements IUsuarioDAO{
     	em.merge(u);
     }
     
-    public void delete(Usuario u)
+    public Boolean delete(Usuario u)
     {
     	System.out.println("eliminar Usuarios en dato DAO"+ u.getMail());
-    	em.remove(u);
+    	Boolean elimino = false;
+    	
+    	try{
+    		em.remove(u);
+    		elimino = true;
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	
+    	return elimino;
     } 
 	
 }

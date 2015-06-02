@@ -6,6 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"> 
 	
+	<h:outputScript library="primefaces" name="jquery/jquery.js" target="head"></h:outputScript>
+	
 	<ui:define name="titulo">
         Baja y Modificacion de Usuarios
     </ui:define>
@@ -15,7 +17,7 @@
 	  	 		    
 	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:30px" />
     
-      	<form id="form">
+      	<h:form prependId="false" id="form">
 		    <p:dataTable id="listAdmin" var="usu" value="#{listarUsuarios.listusus}" 
 		    	emptyMessage="No existen Usuarios" scrollable="true" style=" text-align:center;">
 		    	
@@ -36,52 +38,52 @@
 		        	        
 		        <p:column headerText="Acciones">
 		      																							
-	        	  <p:commandButton value="Eliminar" type="button" onclick="document.getElementById('inputmail').value='#{usu.mail}'; PF('eliminar').show();"/>
-	        	 
-	        	  <p:commandButton value="Editar" type="button" onclick="document.getElementById('inputmail2').value='#{usu.mail}'; document.getElementById('inputpass').value='#{usu.password}'; PF('editar').show();" />
+	        	  <p:commandButton value="Eliminar"  onclick="$('#inputmail').val('#{usu.mail}'); PF('eliminar').show();" />	        	 
+	        	  <p:commandButton value="Editar"  onclick="$('#inputmail2').val('#{usu.mail}'); $('#inputpass').val('#{usu.password}'); PF('editar').show();" />
 	        	   
 	    	   	</p:column>
 	  	    </p:dataTable>
+	  	    </h:form>
 	  	    <f:facet name="footer">  
-            Se encuentran #{(usuarioMB.administradores.size())} usuarios registrados.  
+            Se encuentran #{(listarUsuarios.listusus.size())} usuarios registrados.  
         	</f:facet>
-		</form>
+	
 		
-		
- 		<p:dialog header="Desea Eliminar este Usuario?" widgetVar="eliminar" showEffect="explode" hideEffect="bounce" height="28">
+		<h:form prependId="false" id="formEliminar">
+ 		<p:dialog header="Desea Eliminar este Usuario?" widgetVar="eliminar" showEffect="explode" hideEffect="bounce" height="40">
  				                   
-                	 <h:outputLabel for="inputmail" value="Mail: " />  
-		    		 
-            		<h:inputText id="inputmail" value='#{usuarioMB.usuarioSelecmail}' readonly="true"/>  
+               		 <p:outputLabel for="inputmail" value="Mail: " />   
+            		
+         		    <p:inputText value="#{usuarioMB.usuarioSelecmail}" id="inputmail"></p:inputText>
          		    
              <f:facet name="footer">  
-                		<p:commandButton value="Eliminar" type="button" action="#{usuarioMB.eliminarUsuario(usuarioMB.usuarioSelecmail)}" />
-		    		    <p:commandButton value="Cancelar" type="button" onclick="PF('eliminar').hide();"  /> 
-             
-            </f:facet> 
-		    		  
-		
+                       		<p:commandButton type="submit" value="Eliminar" onclick="PF('eliminar').hide();" action="#{usuarioMB.eliminarUsuario()}" />
+			    		    <p:commandButton type="submit" value="Cancelar" onclick="PF('eliminar').hide();" /> 
+           	 </f:facet> 
+		    		
 		</p:dialog>
+		</h:form>  
 		
-		<p:dialog header="Edicion de Usuario" widgetVar="editar" Height="80" Width="20">
 		
-		        	 <h:outputLabel for="inputmail2" value="Mail: " />  
+		<h:form prependId="false" id="formEditar">
+		<p:dialog header="Edicion de Usuario" widgetVar="editar" Height="80" Width="100">
+		
+		        	 <p:outputLabel for="inputmail2" value="Mail: " />  
 		        	 
-		    		 <h:inputText id="inputmail2" value='#{usuarioMB.usuarioSelecmail}' readonly="true"/>
+		    		 <p:inputText id="inputmail2" value="#{usuarioMB.usuarioSelecmail}" />
 		    		   
-            		 <h:outputLabel for="inputpass" value="Password: " />  
+            		 <p:outputLabel for="inputpass" value="Password: " />  
             		 
             		 <p:password id="inputpass" value="#{usuarioMB.usuarioSelecpass}" readonly="false"/>
                		    
              <f:facet name="footer">  
-                		<p:commandButton value="Guardar" type="button" action="#{usuarioMB.ModificarUsuario(usuarioMB.usuarioSelecmail, usuarioMB.usuarioSelecpass)}" />
-		    		    <p:commandButton value="Cancelar" type="button" onclick="PF('editar').hide();"  /> 
+                		<p:commandButton  type="submit" value="Guardar"  onclick="PF('editar').hide();" action="#{usuarioMB.modificarUsuario()}" />
+		    		    <p:commandButton  type="submit" value="Cancelar"  onclick="PF('editar').hide();" /> 
             </f:facet> 
 		    
 		</p:dialog>
-
-
-  
-
+		</h:form>  
+ 
+	
 	</ui:define>
 </ui:composition>
