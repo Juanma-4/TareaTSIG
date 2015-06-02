@@ -66,7 +66,7 @@
 			<div id="panelBusqueda" class="center-row col-lg-3 col-md-4 col-sm-3 col-xs-12 col-filtros">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-filtros" style="width: 101.5% ">
 					<div class="header-filtros-text">
-						<h3>Informacion de la propiedad</h3>
+						<h3>Información de la propiedad</h3>
 					</div>
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-filtros-divider"></div><!--Barra gris -->
 				</div><!-- Header de los filtros dice el titulo -->
@@ -74,7 +74,53 @@
 				
 				<div class="body-filtros">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h:form style="margin-top:12px" id="formBMPropiedad">
 						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Calle </label>
+						<h:outputText  style="color: white; font-size: 13px " value="#{propiedadMB.calle} " />
+						
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Numero de Puerta </label>
+						<h:outputText  style="color: white; font-size: 13px " value="#{propiedadMB.numPuerta} " />
+						
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Operación </label>
+						<h:outputText  style="color: white; font-size: 13px " value="#{propiedadMB.tipotransaccion} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Precio </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value=" $#{propiedadMB.numPuerta} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Dormitorios </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.cantBanio} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Baños </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.cantBanio} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Metros Cuadrados </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.cantBanio}m² " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Parrillero </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.parrillero} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Garage </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.garage} " />
+						<br></br><br></br>
+						
+						<img src="#{propiedadMB.imagen} " width="300" height="150"></img>
+						
+						
+					
+   		 				
+   		 
+						</h:form>
 						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModaleditar" onclick="document.getElementById('numeroPuerta').value='#{propiedadMB.numPuerta}';return false;">Consultar  propiedad</button>
 						
 						
@@ -145,7 +191,7 @@
 
 				<h:outputScript library="defecto" name="js/Variables.js"
 					target="body" />
-				<h:outputScript library="defecto" name="js/index.js" target="body" />
+		 		<h:outputScript library="defecto" name="js/index.js" target="body" />  
 
 			</div><!-- cierra div del  Mapaaaa -->
 

@@ -6,6 +6,7 @@ var propiedades;
 var estiloProp;
 var vectorLocalizador;
 var propId;
+var selectedFeature;
 //////////// style para geolocalizacion
 var style = {
 	    fillColor: '#000',
