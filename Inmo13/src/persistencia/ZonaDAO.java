@@ -32,7 +32,7 @@ public class ZonaDAO implements IZonaDAO{
 						+ " FROM propiedad, zonas"
 						+ " WHERE ST_INTERSECTS(ST_BUFFER(propiedad.geom,300), zonas.geom)"
 						+ " GROUP BY zonas.nombre, zonas.descripcion"
-						+ " ORDER BY propiedades";
+						+ " ORDER BY propiedades DESC";
 			zonas = em.createNativeQuery(sql,WrapperZona.class).getResultList();
 	
 			for(WrapperZona pi : zonas){

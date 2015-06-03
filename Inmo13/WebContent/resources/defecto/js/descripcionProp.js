@@ -48,6 +48,7 @@ function init() {
    		});
    		 
    		 var fid= document.getElementById('formDescripcion:fid').value;
+   		
    		 
    		 var filter = new OpenLayers.Filter.Logical({
 		        type: OpenLayers.Filter.Logical.OR,
@@ -135,11 +136,37 @@ function init() {
    		});	
    		map.addLayers([gmapLayer,propiedades,vectorLocalizador]);
    		
-        map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
+
+        // Asi es como anda 
+   		    map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
         new OpenLayers.Projection(miEPSG),
         map.getProjectionObject()
         ), 12);
-
+           
+   	
+           
+        
+   	/*
+   		var dataExtent = propiedades.getDataExtent();
+   		map.zoomToExtent(dataExtent);
+   		
+   			
+   	 map.zoomToExtent(propiedades.getDataExtent());
+   	 
+   	 map.setCenter(new OpenLayers.LonLat(, ).transform(
+   	        new OpenLayers.Projection(miEPSG),
+   	        map.getProjectionObject()
+   	        ), 12);
+   	        
+   	        
+   	    //	map.setCenter(new OpenLayers.LonLat(fid.geometry.getBounds(), fid.geometry.getBounds()), 16);    
+	*/	
+   	
+   		
+	
+   		
+   		
+   		
         remoteListarPuntosInteres();
 }
         
@@ -193,8 +220,8 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/macro.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 						    }
 						})
 						
@@ -218,8 +245,8 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/devoto.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 						    }
 						})
 						,
@@ -242,8 +269,8 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/tiendaInglesa.jpg",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 						    }
 						})
 						,
@@ -256,8 +283,8 @@ function handleConfirm(xhr,status,args){
 							symbolizer : {
 								externalGraphic: "resources/defecto/img/carro.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 							}
 					})
 						,
@@ -270,8 +297,8 @@ function handleConfirm(xhr,status,args){
 							symbolizer : {
 								externalGraphic: "resources/defecto/img/pelota.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 							}
 					}),
 						
@@ -284,8 +311,9 @@ function handleConfirm(xhr,status,args){
 							symbolizer : {
 								externalGraphic: "resources/defecto/img/escuela.jpg",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
+								
 							}
 					})
 						,
@@ -298,8 +326,8 @@ function handleConfirm(xhr,status,args){
 							symbolizer : {
 								externalGraphic: "resources/defecto/img/secundaria.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 							}
 					})
 						,
@@ -322,8 +350,8 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/multiahorro.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 						    }
 						}),
 						new OpenLayers.Rule({
@@ -345,8 +373,8 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/disco.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 33,
-								graphicHeight : 33
+						        graphicWidth : 20,
+								graphicHeight : 20
 						    }
 						}),
 						
@@ -369,9 +397,11 @@ function handleConfirm(xhr,status,args){
 	  var puntoInteres = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(pi.x, pi.y));
 	  puntoInteres.data.nombre = pi.nombre;
 	  puntoInteres.data.tipo = pi.tipo;
+	  puntoInteres.data.distancia = pi.distancia;
 	  
 	  puntoInteres.attributes.nombre = pi.nombre;
 	  puntoInteres.attributes.tipo = pi.tipo;
+	  puntoInteres.attributes.distancia = pi.distancia;
 	  
 	  puntoInteres.renderIntent = "default";
       
@@ -399,13 +429,14 @@ function onPopupClose(evt) {
 
 function onPopupFeatureSelect(feature) {
     selectedFeature = feature;
+    
     var popUpHtml = 
         '<div>'+
         '<div style="color:#FF0000;text-align:center">'+
         feature.data.nombre +
         '</br>' + 
         '<label for="usr"style="color:#000000" >Distancia: </label>'+ feature.data.distancia + '<label for="usr"style="color:#000000" >m </label>'
-        '</div>'
+        '</div>' 
       
 
     
