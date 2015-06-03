@@ -15,9 +15,15 @@ Inmo 13 - Descripción Propiedad
 	<link rel="stylesheet" type="text/css"
 		href="resources/bootstrap/css/bootstrap-theme.min.css"></link>
 
+	
+
 	<h:outputStylesheet library="defecto" name="css/mapaStyle.css" />
+	<h:outputStylesheet library="lightbox" name="css/lightbox.css" />
+	
+	
 	
 	<h:outputScript library="defecto" name="js/jquery-1.11.3.min.js"	target="head" />
+	<h:outputScript library="lightbox" name="js/lightbox.min.js"	target="head" />
 
 	<script src="http://openlayers.org/api/OpenLayers.js"></script>
 	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"
@@ -118,8 +124,9 @@ Inmo 13 - Descripción Propiedad
 						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.garage} " />
 						<br></br><br></br>
 						
-						<img src="#{propiedadMB.imagen} " width="300" height="150"></img>
-						
+						<a href="#{propiedadMB.imagen}" data-lightbox="image-1" data-title="Calle : #{propiedadMB.calle}">
+							<img src="#{propiedadMB.imagen}" width="300" height="150"></img>
+						</a>
 						<h:inputHidden value="#{propiedadMB.fid}" id="fid"/>
 					
    		 				
