@@ -167,10 +167,141 @@ function handleConfirm(xhr,status,args){
 						        ]
 						    }),
 						    symbolizer: {
-						        externalGraphic: "resources/defecto/img/pelota.png",
-						        graphicOpacity : 1
+						        externalGraphic: "resources/defecto/img/tata.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 20,
+								graphicHeight : 20
 						    }
 						})
+						,
+							new OpenLayers.Rule({
+						    filter: filter = new OpenLayers.Filter.Logical({
+						        type: OpenLayers.Filter.Logical.AND,
+						        filters: [
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "tipo",
+						                value: "comercial"
+						            }),
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "nombre",
+						                value: "MACRO MERCA"
+						            })  
+						        ]
+						    }),
+						    symbolizer: {
+						        externalGraphic: "resources/defecto/img/macro.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+						    }
+						})
+						
+						,
+						new OpenLayers.Rule({
+						    filter: filter = new OpenLayers.Filter.Logical({
+						        type: OpenLayers.Filter.Logical.AND,
+						        filters: [
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "tipo",
+						                value: "comercial"
+						            }),
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "nombre",
+						                value: "DEVOTO"
+						            })  
+						        ]
+						    }),
+						    symbolizer: {
+						        externalGraphic: "resources/defecto/img/devoto.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+						    }
+						})
+						,
+						new OpenLayers.Rule({
+						    filter: filter = new OpenLayers.Filter.Logical({
+						        type: OpenLayers.Filter.Logical.AND,
+						        filters: [
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "tipo",
+						                value: "comercial"
+						            }),
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "nombre",
+						                value: "TIENDA INGL"
+						            })  
+						        ]
+						    }),
+						    symbolizer: {
+						        externalGraphic: "resources/defecto/img/tiendaInglesa.jpg",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+						    }
+						})
+						,
+						new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "tipo" ,
+								value : "comercial" ,
+							}),
+							symbolizer : {
+								externalGraphic: "resources/defecto/img/carro.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+							}
+					})
+						,
+						new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "tipo" ,
+								value : "plaza" ,
+							}),
+							symbolizer : {
+								externalGraphic: "resources/defecto/img/pelota.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+							}
+					}),
+						
+						new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "tipo" ,
+								value : "escuela" ,
+							}),
+							symbolizer : {
+								externalGraphic: "resources/defecto/img/escuela.jpg",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+							}
+					})
+						,
+						new OpenLayers.Rule({
+							filter : new OpenLayers.Filter.Comparison({
+								type : OpenLayers.Filter.Comparison.EQUAL_TO,
+								property : "tipo" ,
+								value : "liceo" ,
+							}),
+							symbolizer : {
+								externalGraphic: "resources/defecto/img/secundaria.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+							}
+					})
 						,
 						new OpenLayers.Rule({
 						    filter: filter = new OpenLayers.Filter.Logical({
@@ -189,10 +320,36 @@ function handleConfirm(xhr,status,args){
 						        ]
 						    }),
 						    symbolizer: {
-						        externalGraphic: "resources/defecto/img/buses.png",
-						        graphicOpacity : 1
+						        externalGraphic: "resources/defecto/img/multiahorro.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
 						    }
-						})
+						}),
+						new OpenLayers.Rule({
+						    filter: filter = new OpenLayers.Filter.Logical({
+						        type: OpenLayers.Filter.Logical.AND,
+						        filters: [
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "tipo",
+						                value: "comercial"
+						            }),
+						            new OpenLayers.Filter.Comparison({
+						                type: OpenLayers.Filter.Comparison.EQUAL_TO,
+						                property: "nombre",
+						                value: "DISCO"
+						            })  
+						        ]
+						    }),
+						    symbolizer: {
+						        externalGraphic: "resources/defecto/img/disco.png",
+						        graphicOpacity : 1,
+						        graphicWidth : 33,
+								graphicHeight : 33
+						    }
+						}),
+						
 				 ]
 			})
 		});
@@ -224,5 +381,51 @@ function handleConfirm(xhr,status,args){
  
 	map.addLayer(puntosInteres);
 	 
-	 
+	selectControl = new OpenLayers.Control.SelectFeature([puntosInteres],
+		    {
+		        onSelect: onPopupFeatureSelect,
+		        onUnselect: onPopupFeatureUnselect,
+		        hover:true,
+		        //highlightOnly: false // en true solo se agranda, es solo para eso
+		    });
+
+map.addControl(selectControl); 
+selectControl.activate();
+}
+
+function onPopupClose(evt) {
+    selectControl.unselect(selectedFeature);
+}
+
+function onPopupFeatureSelect(feature) {
+    selectedFeature = feature;
+    var popUpHtml = 
+        '<div>'+
+        '<div style="color:#FF0000;text-align:center">'+
+        feature.data.nombre +
+        '</br>' + 
+        '<label for="usr"style="color:#000000" >Distancia: </label>'+ feature.data.distancia + '<label for="usr"style="color:#000000" >m </label>'
+        '</div>'
+      
+
+    
+    popup = new OpenLayers.Popup.FramedCloud(
+    		"chicken",
+	        feature.geometry.getBounds().getCenterLonLat(),
+	        null,	
+	        popUpHtml
+	        ,
+	        null, 
+	        true, 
+	        onPopupClose
+	);
+    popup.panMapIfOutOfView = true;
+    popup.autoSize = true;
+    feature.popup = popup;
+    map.addPopup(popup);
+}
+function onPopupFeatureUnselect(feature) {
+    map.removePopup(feature.popup);
+    feature.popup.destroy();
+    feature.popup = null;
 }
