@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -20,7 +20,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import controladores.IControladorUsuario;
 import wrappers.WrapperCorreo;
 import wrappers.WrapperUsuario;
 
@@ -44,6 +43,12 @@ public class UsuarioMB implements Serializable {
 	
 	private String usuarioSelecmail;
 	private String usuarioSelecpass;
+	
+	private String nombre;
+	private String correo;
+	private String asunto;
+	private String mensaje;
+	private Integer idprop;
 	
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
 	
@@ -266,14 +271,18 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	
-	public void enviarCorreo(String nombre, String correo, String asunto, String cuerpo, Integer id) {
-		System.out.println("estoy en Enviar correo web");
+	public void enviarCorreo() {
 		
+		//String nombre, String correo, String asunto, String cuerpo, Integer id
+		
+		System.out.println("estoy en Enviar correo webbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+				
 		ClientRequest request = null;
 		try {
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
 		
-			WrapperCorreo wc = new WrapperCorreo(nombre, correo, asunto, cuerpo, id);
+			//WrapperCorreo wc = new WrapperCorreo(nombre, correo, asunto, cuerpo, id);
+			WrapperCorreo wc = new WrapperCorreo(this.nombre, this.correo, this.asunto, this.mensaje, 1);
 
 			String wcJSON = toJSONString(wc);
 
@@ -286,15 +295,15 @@ public class UsuarioMB implements Serializable {
 						new FacesMessage("Error al Enviar correo"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ respuesta.getStatus());
-			}
+			};
 			
-			/*Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 			
 			if (creado)	{
-				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
-			}else{		*/	
-					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
-			//};
+				FacesContext.getCurrentInstance().getExternalContext().redirect("descripcionProp.xhtml");
+			}else{		
+				  FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");			
+			};
 			
 			}
 			catch(Exception e){
@@ -305,7 +314,7 @@ public class UsuarioMB implements Serializable {
 	
 	}
 	
-public void eliminarUsuario() {
+	public void eliminarUsuario() {
 		//System.out.println("eliminar UsuarioMB:::::::"+this.usuarioSelecmail);
 			ClientRequest request = null;
 			GsonBuilder gsonBuilder = new GsonBuilder();
@@ -331,7 +340,8 @@ public void eliminarUsuario() {
 					//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 					
 					if (elimino)	{
-						FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+						//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+						this.irRegistroUsuario();
 					}else{		
 							FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
 					};
@@ -341,7 +351,47 @@ public void eliminarUsuario() {
 					e.printStackTrace();
 				}finally{
 					request.clear();
-}
+				}
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+
+	public Integer getIdprop() {
+		return idprop;
+	}
+
+	public void setIdprop(Integer idprop) {
+		this.idprop = idprop;
 	}
 
 	public String getMail() {

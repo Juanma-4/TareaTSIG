@@ -31,15 +31,12 @@
 		            <h:outputText value="#{usu.mail}" />
 		        </p:column>
 		        
-		      	<p:column headerText="Password">
-		     
-		            <h:outputText value="#{usu.password}" />
-		        </p:column>	 
+		      
 		        	        
 		        <p:column headerText="Acciones">
 		      																							
-	        	  <p:commandButton value="Eliminar"  onclick="$('#inputmail').val('#{usu.mail}'); PF('eliminar').show();" />	        	 
-	        	  <p:commandButton value="Editar"  onclick="$('#inputmail2').val('#{usu.mail}'); $('#inputpass').val('#{usu.password}'); PF('editar').show();" />
+	        	  <p:commandButton value="Eliminar" rendered="#{usuarioMB.mail==usu.mail or usuarioMB.mail=='admin'}" onclick="$('#inputmail').val('#{usu.mail}'); PF('eliminar').show();" />	        	 
+	        	  <p:commandButton value="Editar"  rendered="#{usuarioMB.mail==usu.mail or usuarioMB.mail=='admin'}" onclick="$('#inputmail2').val('#{usu.mail}'); $('#inputpass').val('#{usu.password}'); PF('editar').show();" />
 	        	   
 	    	   	</p:column>
 	  	    </p:dataTable>
@@ -50,11 +47,11 @@
 	
 		
 		<h:form prependId="false" id="formEliminar">
- 		<p:dialog header="Desea Eliminar este Usuario?" widgetVar="eliminar" showEffect="explode" hideEffect="bounce" height="40">
+ 		<p:dialog header="Desea Eliminar este Usuario?" widgetVar="eliminar" showEffect="explode" hideEffect="bounce" mminHeight="40">
  				                   
                		 <p:outputLabel for="inputmail" value="Mail: " />   
             		
-         		    <p:inputText value="#{usuarioMB.usuarioSelecmail}" id="inputmail"></p:inputText>
+         		    <p:inputText value="#{usuarioMB.usuarioSelecmail}" id="inputmail" ></p:inputText>
          		    
              <f:facet name="footer">  
                        		<p:commandButton type="submit" value="Eliminar" onclick="PF('eliminar').hide();" action="#{usuarioMB.eliminarUsuario()}" />
@@ -66,20 +63,20 @@
 		
 		
 		<h:form prependId="false" id="formEditar">
-		<p:dialog header="Edicion de Usuario" widgetVar="editar" Height="80" Width="100">
-		
+		<p:dialog header="Edicion de Usuario" widgetVar="editar" mminHeight="40">
+			<p:panelGrid columns="2" cellpadding="5">
 		        	 <p:outputLabel for="inputmail2" value="Mail: " />  
 		        	 
 		    		 <p:inputText id="inputmail2" value="#{usuarioMB.usuarioSelecmail}" />
-		    		   
+		    		 
             		 <p:outputLabel for="inputpass" value="Password: " />  
             		 
             		 <p:password id="inputpass" value="#{usuarioMB.usuarioSelecpass}" readonly="false"/>
-               		    
+             </p:panelGrid>  		    
              <f:facet name="footer">  
-                		<p:commandButton  type="submit" value="Guardar"  onclick="PF('editar').hide();" action="#{usuarioMB.modificarUsuario()}" />
+                  		<p:commandButton  type="submit" value="Guardar"  onclick="PF('editar').hide();" action="#{usuarioMB.modificarUsuario()}" />
 		    		    <p:commandButton  type="submit" value="Cancelar"  onclick="PF('editar').hide();" /> 
-            </f:facet> 
+		     </f:facet> 
 		    
 		</p:dialog>
 		</h:form>  

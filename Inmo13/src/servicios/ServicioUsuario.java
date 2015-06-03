@@ -7,7 +7,6 @@ import javax.ejb.EJB;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -189,7 +188,7 @@ public class ServicioUsuario extends Application {
 	    	//String asunto, String mensaje) throws AddressException, MessagingException
 			
 			//SE NOTIFICA AL QUE CONSULTA QUE SU CONSULTA FUE HECHA
-			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", "inmogrupo13@gmail.com","inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la vedrevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias...");
+			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", wc.getOrigen(),"inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la vedrevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias...");
 			booleanJSON = gson.toJson(creado);
 			
 			//NO BORRAR
@@ -198,6 +197,8 @@ public class ServicioUsuario extends Application {
 			for(Usuario u: usus){
 				creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", u.getMail(),"inmobiliaria13", "Consulta realizada sobre la propiedad "+ wc.getPropid(), "El visitante: "+wc.getNombre()+"</br>"+"Se encuentra interesado en la propiedad: "+wc.getPropid()+"</br> Su consulta es: "+wc.getCuerpo());
 			}*/
+			
+			
 			
 		} catch (Exception err) {
 			err.printStackTrace();
