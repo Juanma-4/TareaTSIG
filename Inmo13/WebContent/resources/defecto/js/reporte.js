@@ -187,47 +187,65 @@ function onPopupClose(evt) {
 
 function onPopupFeatureSelect(feature) {
     selectedFeature = feature;
+    var popUpHtml = 
+        '<div>'+
+        '<div style="color:#FF0000;text-align:center">'+
+        feature.data.calle +
+        '</br>' + 
+        feature.data.numeropuerta +
+        '</div>'+
+      
+
+        '</br>'+ '</br>'+
+  '<div style="color:#000000">'+
+        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
+        '</br>';
+    if(feature.data.parrillero == "true"){
+    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>Si</label>' +
+			        '</br>';
+			        
+    }else{
+    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>No</label>' +
+        '</br>';
+    }
+    if(feature.data.garage == "true"){
+    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>Si</label> '+
+			         '</br>'+
+			         '</div>' +
+			        	'</br>' +
+			            '</br>' +
+			            '<div style="text-align:center">'+
+			            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+			            '</div>';
+			        
+    }else{
+    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>No</label> '+
+			         '</br>'+
+			         '</div>' +
+			        	'</br>' +     
+			            '</br>' +
+			            '<div style="text-align:center">'+
+			            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+			            '</div>';
+    }
+    
     popup = new OpenLayers.Popup.FramedCloud(
     		"chicken",
 	        feature.geometry.getBounds().getCenterLonLat(),
-	        null,
-	        
-	        '<div>'+
-	        '<div style="color:#FF0000;text-align:center">'+
-	        feature.data.calle +
-	        '</br>' + 
-	        feature.data.numeropuerta +
-	        '</div>'+
-	       
-   
-	        '</br>'+ '</br>'+
-	  '<div style="color:#000000">'+
-	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label>' + feature.data.tipomoneda +'<label>  </label>'+ feature.data.precio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Parrillero: </label>' + feature.data.parrillero +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Garage: </label>' + feature.data.garage +
-	        '</br>'+
-	    '</div>'+
-	        '</div>'    
-	       
-	      //  '<Button value="Aceptar" action="#{usuarioMB.registroUsuario()}"' +'</Button>' //Muy loco ! jaja 
-	      //  '<a  href="http://localhost:8080/Inmo13/faces/InfoPropiedad.xhtml?fid='+ feature.data.fid + '" "form-signin-heading" style="color: rgb(0,255,0)">Ver</a>'+
-	       
-	       
-	      
+	        null,	
+	        popUpHtml
 	        ,
 	        null, 
 	        true, 

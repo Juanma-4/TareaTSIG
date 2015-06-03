@@ -2,6 +2,7 @@
 package utilidades;
 
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -12,9 +13,13 @@ import javax.mail.internet.MimeMessage;
 
 public class Correo
 {     
-    public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
+    public boolean enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
     		String asunto, String mensaje) throws AddressException, MessagingException
     {
+    	
+    	boolean modifico = false;
+		try{
+		    	
     	Properties props = new Properties();
         
         props.setProperty("mail.smtp.host", host); //"smtp.gmail.com"
@@ -34,6 +39,14 @@ public class Correo
         t.connect(origen,password);
         t.sendMessage(message,message.getAllRecipients());       
         t.close();
+        
+        modifico = true;
+        
+		}catch(Exception e){
+			e.printStackTrace();			
+		}
+		
+		return modifico;
     }
     
    /* public void enviarMensajeSinAuth(String host, Integer puerto, String origen, String destino, 

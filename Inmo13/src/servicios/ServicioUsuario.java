@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -82,7 +83,7 @@ public class ServicioUsuario extends Application {
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Path("/modificar")
 		public Response modificarUsuario(String datos) {
-			System.out.println("estoy en modificar usuario servicio");
+			
 			boolean creado = false;
 			String booleanJSON = null;
 			
@@ -90,11 +91,12 @@ public class ServicioUsuario extends Application {
 			Gson gson = gsonBuilder.create();
 
 			Usuario usuario = gson.fromJson(datos, Usuario.class);
-
+						
 			String codigoRetorno = "200";			
 			
 			try {
-				creado = this.iuc.modificarUsuario(usuario);
+				System.out.println("estoy en modificar usuario servicio: mail "+usuario.getMail()+"pass: "+usuario.getPassword());
+				creado = iuc.modificarUsuario(usuario);
 				booleanJSON = gson.toJson(creado);
 				
 			} catch (Exception err) {
@@ -105,10 +107,8 @@ public class ServicioUsuario extends Application {
 				return Response.status(500).entity(booleanJSON).build();
 			}
 			return Response.status(201).entity(booleanJSON).build();
-		
 		}
 		
-
 		@GET
 		@Produces(MediaType.APPLICATION_JSON)
 		@Path("/administradores")	
@@ -166,25 +166,72 @@ public class ServicioUsuario extends Application {
 			}
 		}
 		
+			
 		@PUT
+		@Produces(MediaType.APPLICATION_JSON)
+		@Consumes(MediaType.APPLICATION_JSON)
 		@Path("/contacto")
-		public void enviarCorreo(String datos) throws AddressException, MessagingException
+		public Response	 enviarCorreo(String datos) throws AddressException, MessagingException 
 		{
-			// Create a new Gson object that could parse all passed in elements
-						GsonBuilder gsonBuilder = new GsonBuilder();
-						Gson gson = gsonBuilder.create();
-				
-						// Get book Object parsed from JSON string
-						WrapperCorreo wc = gson.fromJson(datos, WrapperCorreo.class);	
+			System.out.println("estoy en ENVIAR CORREO");
+			boolean creado = false;
+			String booleanJSON = null;
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+			WrapperCorreo wc = gson.fromJson(datos, WrapperCorreo.class);	
+			
+			String codigoRetorno = "200";			
 		
-		Correo c = new Correo();
-		//public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
-    	//String asunto, String mensaje) throws AddressException, MessagingException
-		c.enviarMensajeConAuth("smtp.gmail.com", 587,wc.getCorreo(), "inmogrupo13@gmail.com","inmobiliaria13", wc.getAsunto(), wc.getCuerpo());
+		try {
+			//public WrapperCorreo(String nombre, String correo, String asunto, String cuerpo) {
+			Correo c = new Correo();
+			//public void enviarMensajeConAuth(String host, Integer puerto, String origen, String destino, String password,
+	    	//String asunto, String mensaje) throws AddressException, MessagingException
 			
+			//SE NOTIFICA AL QUE CONSULTA QUE SU CONSULTA FUE HECHA
+			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", "inmogrupo13@gmail.com","inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la vedrevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias...");
+			booleanJSON = gson.toJson(creado);
 			
+			//NO BORRAR
+			//SE NOTIFICA A TODOS LOS ADMINISTRAORES DE ESA PROPIEDAD
+		/*	List<Usuario> usus = iuc.listarUsuariosporPropiedad(wc.getPropid());
+			for(Usuario u: usus){
+				creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", u.getMail(),"inmobiliaria13", "Consulta realizada sobre la propiedad "+ wc.getPropid(), "El visitante: "+wc.getNombre()+"</br>"+"Se encuentra interesado en la propiedad: "+wc.getPropid()+"</br> Su consulta es: "+wc.getCuerpo());
+			}*/
+			
+		} catch (Exception err) {
+			err.printStackTrace();
+			codigoRetorno = "{\"status\":\"500\","
+					+ "\"message\":\"Resource not created.\""
+					+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
+			return Response.status(500).entity(booleanJSON).build();
 		}
+		return Response.status(201).entity(booleanJSON).build();
+		}
+	
+		
+		
+		@GET
+		//@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.APPLICATION_JSON)
+		@Path("/eliminar/{mail}")
+		public Response eliminarUsu(@PathParam("mail") String mail) {
+			
+			System.out.println("Estoy en eliminar servicio usuario"+ mail);
+			String booleanoJson = null;
 
+			try {
+				Boolean elimino = iuc.eliminarUsuario(mail);
+				booleanoJson = toJSONString(elimino);
+				
+			} catch (Exception err) {
+				err.printStackTrace();
+				
+				return Response.status(500).entity(booleanoJson).build(); 
+			}
+			return Response.ok(booleanoJson).build();
+		}
+	
 		public String toJSONString(Object object) { 
 			GsonBuilder gsonBuilder = new GsonBuilder();
 			Gson gson = gsonBuilder.create();

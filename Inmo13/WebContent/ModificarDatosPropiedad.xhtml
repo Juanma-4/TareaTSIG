@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 	
     <ui:define name="titulo">
-       Modificar Datos Propiedad
+   	  Inmo 13 - Modificar Datos
     </ui:define>
     
 <ui:define name="contenido">
@@ -55,15 +55,9 @@
    		  	</h:selectOneMenu>
    		 	<br/><br/>
 
-   		  	<h:outputText value="Precio" />
+   		  	<h:outputText value="Precio $" />
    		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Ingrese un precio"></h:inputText>
-   		  
-   		  	<h:selectOneMenu id="moneda" value="#{propiedadMB.tipoMoneda}">
-	   			<f:selectItem itemValue="$" itemLabel="$" />
-	   			<f:selectItem itemValue="US$" itemLabel="US$" />
-   		  	</h:selectOneMenu>
-   		  	
-   		  	<br/><br/>
+   		   	<br/><br/>
    		  	
    		  	<h:outputText value="Numero Piso" />
    		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Ingrese un numero de piso"></h:inputText>
@@ -101,10 +95,15 @@
 	   			<f:selectItem itemValue="Reservada" itemLabel="Reservada" />
 			</h:selectOneMenu>
 				<br/><br/>
+
+			<h:outputText value="URL Imagen" />
+   		  	<h:inputText value="#{propiedadMB.imagen}" id="imagen" required="true" requiredMessage="Ingrese la imagen"></h:inputText>
+   		  	<br/><br/> 
 				
 			<h:outputText id="fid" value="Feature ID : #{propiedadMB.fid}" />
 			<br />			
-									
+			
+   		  			
 				<h:commandButton type="submit" id="botonBMPropiedad" value="Modificar" action="#{propiedadMB.modificarPropiedad}"  update="growl"/>
 			</h:form>
    		

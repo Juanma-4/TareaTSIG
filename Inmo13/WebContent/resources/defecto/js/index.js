@@ -19,7 +19,7 @@ function init() {
 		 WGS84 = new OpenLayers.Projection(miEPSG);
 		 WGS84_google_mercator = new OpenLayers.Projection(gEPSG);
 		
-		opciones = {
+		var opciones = {
 			controls : [ new OpenLayers.Control.Navigation(),
 				new OpenLayers.Control.PanZoom(),
 				new OpenLayers.Control.LayerSwitcher(),
@@ -142,27 +142,13 @@ function init() {
 		 propiedades = new OpenLayers.Layer.Vector("Propiedades", {
 			strategies : [ new OpenLayers.Strategy.Fixed(),filterStrategy], //,filterStrategy BBOX Fixed()
 			styleMap: estiloProp,
-			protocol : 
-			 new OpenLayers.Protocol.WFS({
+			protocol :  new OpenLayers.Protocol.WFS({
 				version : "1.1.0",
 				url : urlWFS,
 				featureType : "propiedad",
 				featureNS : urlGeoServer,
 				geometryName : "geom",
 				srsName: gEPSG,
-//				new OpenLayers.Protocol.Script({
-//				url : urlWFS,
-//				callbackKey: 'format_options',
-//				callbackPrefix: 'callback:',
-//				params: {
-//					service: 'WFS',
-//					version: '1.1.0',
-//					srsName: miEPSG,
-//					request: 'GetFeature',
-//					typeName: 'sige:propiedad',
-//					outputFormat: 'json',
-//				    CQL_FILTER: "tipoestado='"+"Publica"+"'",
-//				}
 			})
 			
 		});	
@@ -170,7 +156,7 @@ function init() {
 		propId = propiedades.id;
 
 		map.addLayers([ google_maps, gphy,propiedades,vectorLocalizador]);
-    	//map.zoomToExtent(limites);		
+    	//map.zoomToExtent(limites);
 	
 		 /*	SelectControl, para popups */
 		selectControl = new OpenLayers.Control.SelectFeature([propiedades],
@@ -182,12 +168,13 @@ function init() {
 		
 	    map.addControl(selectControl);
 	    selectControl.activate();
-	
+		
 		/// PARA CENTRAR EN MONTEVIDEO
 		map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
  	            new OpenLayers.Projection(miEPSG),
  	            map.getProjectionObject()
  	            ), 12);
+
 };					
 
 // Se envian los datos para filtrar las propiedades.

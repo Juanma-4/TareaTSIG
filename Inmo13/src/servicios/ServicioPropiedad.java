@@ -1,7 +1,11 @@
 package servicios;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -10,8 +14,12 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import wrappers.WrapperPropiedadFiltrada;
+import wrappers.WrapperPuntoInteres;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import controladores.IControladorPropiedad;
 import controladores.IControladorUsuario;
@@ -53,15 +61,12 @@ public class ServicioPropiedad extends Application {
 													   propiedad.getParrillero(),propiedad.getGarage(),propiedad.getTipoPropiedad(),
 													   propiedad.getTipoEstado(),propiedad.getTipotransaccion(), 
 													   propiedad.getNumeroPuerta(),propiedad.getCalle() ,propiedad.getFid(),
-													   propiedad.getTipoMoneda(),propiedad.getPiso(),usuario);
+													   propiedad.getImagen(),propiedad.getPiso(),usuario);
 
 					booleanJSON = gson.toJson(creado);
 					
 				} catch (Exception err) {
 					err.printStackTrace();
-					//					codigoRetorno = "{\"status\":\"500\","
-					//							+ "\"message\":\"Resource not created.\""
-					//							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
 					return Response.status(500).entity(booleanJSON).build();
 
 				}
@@ -88,9 +93,6 @@ public class ServicioPropiedad extends Application {
 					
 				} catch (Exception err) {
 					err.printStackTrace();
-					//					codigoRetorno = "{\"status\":\"500\","
-					//							+ "\"message\":\"Resource not created.\""
-					//							+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
 					return Response.status(500).entity(booleanJSON).build();
 
 				}
@@ -98,6 +100,55 @@ public class ServicioPropiedad extends Application {
 			
 			}
 		
-	
+			@POST
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Consumes(MediaType.APPLICATION_JSON)
+			@Path("/listarPropiedades")
+			public Response listarPropiedades(String datosFiltro) {
+		
+//				System.out.println("ESTOY EN SERVICIOOOOO PROPIEDAD Entro!"+datosFiltro);
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+				
+				String respuesta = null;
+				List<WrapperPropiedadFiltrada> propiedadesFiltradas = new ArrayList<WrapperPropiedadFiltrada>();
+				
+				try {
+					ArrayList<String> filtros = gson.fromJson(datosFiltro, new TypeToken<ArrayList<String>>() {}.getType());
+					propiedadesFiltradas = ipc.listarPropiedades(filtros);
+					respuesta = gson.toJson(propiedadesFiltradas);
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					return Response.status(500).entity(respuesta).build();
+
+				}
+				return Response.status(201).entity(respuesta).build();
+			
+			}
+			
+			@GET
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Path("/listarPuntosInteres")
+			public Response listarPuntosInteres(@HeaderParam("fid") String fid) {
+		
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+				
+				String respuesta = null;
+				List<WrapperPuntoInteres> puntosInteres = null;
+				
+				try {					
+					puntosInteres = ipc.listarPuntosInteres(fid);
+					respuesta = gson.toJson(puntosInteres);
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					return Response.status(500).entity(respuesta).build();
+
+				}
+				return Response.status(201).entity(respuesta).build();
+			
+			}
 	
 }

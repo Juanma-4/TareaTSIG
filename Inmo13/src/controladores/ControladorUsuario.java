@@ -55,8 +55,10 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 
 	public boolean modificarUsuario(Usuario usuario) {
+		
 		boolean modifico = false;
 		try{
+			System.out.println("estoy en modificar usuario Controlador usuario mail: "+ usuario.getMail()+"pass: "+usuario.getPassword());
 			modifico = UsuarioDAO.modificarUsuario(usuario);
 		}catch(Exception e){
 			e.printStackTrace();			
@@ -65,8 +67,14 @@ public class ControladorUsuario implements IControladorUsuario {
 	}
 	
 	public List<Usuario> listarUsuarios() {
-		List<Usuario> equipos = UsuarioDAO.listarUsuarios();
-		return equipos;
+		List<Usuario> usus = UsuarioDAO.listarUsuarios();
+		return usus;
+		  
+	}
+	
+	public List<Usuario> listarUsuariosporPropiedad(Integer id){
+		List<Usuario> ususp = UsuarioDAO.listarUsuariosporProp(id);
+		return ususp;
 		  
 	}
 	
@@ -80,11 +88,13 @@ public class ControladorUsuario implements IControladorUsuario {
 		}
 	}
 */
-	@Override
-	public void eliminarUsuario(String mail) {
-		System.out.println("eliminar Usuarios controlador");
+	
+	public Boolean eliminarUsuario(String mail) {
+		System.out.println("eliminar Usuarios controlador :"+ mail);
 		Usuario usu = UsuarioDAO.getUsuario(mail);
-		UsuarioDAO.delete(usu);
+		Boolean elimino = UsuarioDAO.delete(usu);
+		
+		return elimino;
 	}
 	
 }

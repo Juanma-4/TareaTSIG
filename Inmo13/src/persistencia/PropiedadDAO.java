@@ -1,9 +1,14 @@
 package persistencia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import wrappers.WrapperPropiedadFiltrada;
+import wrappers.WrapperPuntoInteres;
 import dominio.Propiedad;
 
 @Stateless
@@ -33,7 +38,7 @@ public class PropiedadDAO implements IPropiedadDAO{
 			Integer cantDorm, Integer cantBanio, double metrosCuadrados,
 			boolean parrillero, boolean garage, String tipoPropiedad,
 			String tipotransaccion, String tipoEstado, Integer numeroPuerta,
-			String fid, String tipoMoneda, String piso, String usuario) {
+			String fid, String imagen, String piso, String usuario) {
 		
 		boolean modifico = false;
 		try {
@@ -51,7 +56,7 @@ public class PropiedadDAO implements IPropiedadDAO{
 			propiedad.setTipotransaccion(tipotransaccion);
 			propiedad.setTipoEstado(tipoEstado);
 			propiedad.setNumeroPuerta(numeroPuerta);
-			propiedad.setTipoMoneda(tipoMoneda);
+			propiedad.setImagen(imagen);
 			propiedad.setPiso(piso);
 			//propiedad.setUsuario(usuario);
 			//propiedad.setFid(fid);
@@ -64,5 +69,180 @@ public class PropiedadDAO implements IPropiedadDAO{
 
 		}
 		return modifico;
+	}
+	
+/*
+			datos.add(0,tipopropiedad);
+			datos.add(1,tipotransaccion);
+			datos.add(2, minimo);
+			datos.add(3, maximo);
+			datos.add(4, cantbanio);
+			datos.add(5, cantdorm);
+			datos.add(6, metroscuadrados);
+			datos.add(7, barrio);
+			datos.add(8, parrillero);
+			datos.add(9, garage);
+			datos.add(10, this.distanciaMar.toString());
+			datos.add(11, this.distanciaParada.toString());
+			datos.add(12, this.distanciaPInteres.toString());
+ */
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listarPropiedades(ArrayList<String> filtros) {
+		
+		// Filtros 
+		String tipoPropiedad = filtros.get(0);
+		String tipoTransaccion = filtros.get(1);
+		
+		Integer cantBanio = Integer.parseInt(filtros.get(4));
+		Integer cantDorm = Integer.parseInt(filtros.get(5));
+		String barrio = filtros.get(7);
+		
+		Boolean parrillero = Boolean.parseBoolean(filtros.get(8));
+		Boolean garage = Boolean.parseBoolean(filtros.get(9));
+				
+		Integer distanciaMar = Integer.parseInt(filtros.get(10));
+		Integer distanciaParada = Integer.parseInt(filtros.get(11));
+		Integer distanciaPuntoInteres = Integer.parseInt(filtros.get(12));
+		
+		String from = null;
+		String sql = null;
+		List<Object[]> propiedadesFiltradas = null;
+		try {		
+			
+			from = "propiedad";
+			
+			if(!barrio.equalsIgnoreCase("TODOS"))
+				from += ",barrios";
+			
+			if(distanciaMar!= 0)
+				from += ",borde_rambla";
+			
+			if(distanciaParada!= 0)				
+				from += ",paradas";
+			
+			if(distanciaPuntoInteres!= 0)				
+				from += ",serv_comerciales,edu_primaria,deportes";
+			
+			
+			sql = "SELECT DISTINCT propiedad.id,propiedad.calle,propiedad.cantbanio,propiedad.cantdorm,propiedad.garage,propiedad.metroscuadrados, "
+					+ "propiedad.numeropuerta,propiedad.parrillero,propiedad.precio,propiedad.tipoestado,propiedad.tipopropiedad, "
+					+ "propiedad.tipotransaccion,propiedad.usuario,propiedad.fid,propiedad.piso,propiedad.imagen, "
+					+ "ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud "
+					+ "FROM "+from+ " " 
+					+ "WHERE propiedad.tipopropiedad = '"+tipoPropiedad+"' AND propiedad.tipotransaccion = '"+tipoTransaccion+"'"
+					+ " AND propiedad.cantbanio = "+cantBanio+" AND propiedad.cantdorm = "+cantDorm+" AND propiedad.parrillero = "+parrillero 
+					+ " AND propiedad.garage = "+garage+" AND propiedad.tipoestado IN ('Publica','Reservada')";
+			
+			if(!filtros.get(2).equalsIgnoreCase("NaN")){
+				Double precioMinimo = Double.parseDouble(filtros.get(2));
+				sql += " AND propiedad.precio >= "+precioMinimo;
+			}
+			
+			if(!filtros.get(3).equalsIgnoreCase("NaN")){
+				Double precioMaximo = Double.parseDouble(filtros.get(3));
+				sql += " AND propiedad.precio <= "+precioMaximo;
+			}
+			
+			if(!filtros.get(6).equalsIgnoreCase("NaN")){
+				Double metrosCuadrados = Double.parseDouble(filtros.get(6));
+				sql += " AND propiedad.metroscuadrados = "+metrosCuadrados;
+			}
+			
+			if(!barrio.equalsIgnoreCase("TODOS")){
+				sql += " AND ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio = '"+barrio+"'";
+			}
+			
+			
+			if(distanciaMar!= 0){
+				distanciaMar = (distanciaMar*1000); // para expresarlo en km.
+				sql+= " AND ST_Intersects(ST_Buffer(borde_rambla.geom,"+distanciaMar+"),propiedad.geom)";
+			}
+			
+			if(distanciaParada!= 0){
+				sql+= " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaParada+"),paradas.geom)";
+			}
+			
+			if(distanciaPuntoInteres!= 0){				
+				sql+=" AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),serv_comerciales.geom)" 
+					 + " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),edu_primaria.geom)"
+					 + " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),deportes.geom)";
+			}
+			
+			propiedadesFiltradas = em.createNativeQuery(sql).getResultList();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return propiedadesFiltradas;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WrapperPuntoInteres> listarPuntosInteres(String fid) {
+		String sql = null;
+		
+		List<WrapperPuntoInteres> comerciales = null;
+		List<WrapperPuntoInteres> plazas = null;
+		List<WrapperPuntoInteres> escuelas = null;
+		List<WrapperPuntoInteres> liceos = null;
+		List<WrapperPuntoInteres> puntosInteres = new ArrayList<WrapperPuntoInteres>();
+		try{
+			
+			System.out.println("ESTOY EN PROPIEDAD DAO, ANTES CONSULTA, FID ="+fid);
+			
+			sql = "SELECT serv_comerciales.nbre AS nombre, ST_X(ST_Transform(serv_comerciales.geom, 900913)) AS x , "
+						+ "ST_Y(ST_Transform(serv_comerciales.geom, 900913)) AS y ,"  
+						+ "ST_DISTANCE(propiedad.geom,serv_comerciales.geom) AS distancia, 'comercial'::character varying(20) AS tipo"
+						+ " FROM propiedad, serv_comerciales"
+						+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),"
+						+ " serv_comerciales.geom)";
+			comerciales = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+	
+			sql= "SELECT deportes.nombre , ST_X(ST_Transform(deportes.geom, 900913)) AS x , ST_Y(ST_Transform(deportes.geom, 900913)) AS y ," 
+				+ "ST_DISTANCE(propiedad.geom,deportes.geom) AS distancia, 'plaza'::character varying(20) AS tipo"
+				+ " FROM propiedad, deportes"
+				+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),deportes.geom)";
+			
+			plazas = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+			
+			sql= "SELECT edu_primaria.nombre , ST_X(ST_Transform(edu_primaria.geom, 900913)) AS x , "
+					+ "ST_Y(ST_Transform(edu_primaria.geom, 900913)) AS y ," 
+					+ "ST_DISTANCE(propiedad.geom,edu_primaria.geom) AS distancia, 'escuela'::character varying(20) AS tipo"
+					+ " FROM propiedad, edu_primaria"
+					+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),edu_primaria.geom)";
+			
+			escuelas = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+			
+			sql= "SELECT edu_secundaria.nombre , ST_X(ST_Transform(edu_secundaria.geom, 900913)) AS x , "
+					+ "ST_Y(ST_Transform(edu_secundaria.geom, 900913)) AS y ," 
+					+ "ST_DISTANCE(propiedad.geom,edu_secundaria.geom) AS distancia, 'liceo'::character varying(20) AS tipo"
+					+ " FROM propiedad, edu_secundaria"
+					+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),edu_secundaria.geom)";
+			
+			liceos = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
+			
+			
+			for(WrapperPuntoInteres pi : comerciales){
+				puntosInteres.add(pi);
+			}
+			for(WrapperPuntoInteres pi : plazas){
+				puntosInteres.add(pi);
+			}
+			for(WrapperPuntoInteres pi : escuelas){
+				puntosInteres.add(pi);
+			}
+			for(WrapperPuntoInteres pi : liceos){
+				puntosInteres.add(pi);
+			}
+										
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return puntosInteres;
 	}
 }

@@ -1,14 +1,20 @@
 package controladores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import dominio.Propiedad;
 import dominio.Usuario;
 import persistencia.IPropiedadDAO;
+import wrappers.WrapperPropiedadFiltrada;
+import wrappers.WrapperPuntoInteres;
 
 
 @Stateless
@@ -17,13 +23,13 @@ public class ControladorPropiedad implements IControladorPropiedad{
 	@EJB
 	private IPropiedadDAO PropiedadDAO;
 	
-	public boolean guardarPropiedad(double Precio, Integer CantDorm, Integer CantBanio, double MetrosCuadrados,boolean Parrillero, boolean Garage, String TipoPropiedad, String Estado ,String Tipotransaccion, Integer NumeroPuerta, String Calle,String fid, String tipoMoneda,String piso ,Usuario Usuario){
+	public boolean guardarPropiedad(double Precio, Integer CantDorm, Integer CantBanio, double MetrosCuadrados,boolean Parrillero, boolean Garage, String TipoPropiedad, String Estado ,String Tipotransaccion, Integer NumeroPuerta, String Calle,String fid, String imagen,String piso ,Usuario Usuario){
 		
 		boolean guardo = false;
 		
 		try{			
 			
-			Propiedad p = new Propiedad(Precio,CantDorm,CantBanio,MetrosCuadrados,Parrillero,Garage,TipoPropiedad,Estado,Tipotransaccion,NumeroPuerta,Calle,fid,tipoMoneda,piso,Usuario);					
+			Propiedad p = new Propiedad(Precio,CantDorm,CantBanio,MetrosCuadrados,Parrillero,Garage,TipoPropiedad,Estado,Tipotransaccion,NumeroPuerta,Calle,fid,piso,Usuario,imagen);					
 			guardo = PropiedadDAO.guardarPropiedad(p);		
 		
 		}
@@ -52,7 +58,7 @@ public class ControladorPropiedad implements IControladorPropiedad{
 		String tipoEstado = jobj.get("tipoEstado").getAsString();
 		Integer numeroPuerta = jobj.get("numeroPuerta").getAsInt();
 		String fid = jobj.get("fid").getAsString();
-		String tipoMoneda = jobj.get("tipoMoneda").getAsString();
+		String imagen = jobj.get("imagen").getAsString();
 		String piso = jobj.get("piso").getAsString();
 		String usuario = jobj.get("usuario").getAsString();
 		
@@ -62,7 +68,7 @@ public class ControladorPropiedad implements IControladorPropiedad{
 							
 			modifico = PropiedadDAO.modificarPropiedad(calle,precio,cantDorm,cantBanio,metrosCuadrados,parrillero,garage,
 														tipoPropiedad,tipotransaccion,tipoEstado,numeroPuerta,fid,
-														tipoMoneda,piso,usuario);		
+														imagen,piso,usuario);		
 		
 		}
 		catch(Exception e){
@@ -72,6 +78,44 @@ public class ControladorPropiedad implements IControladorPropiedad{
 		return modifico;
 	}
 
+
+	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros) {
+		
+		List<WrapperPropiedadFiltrada> props = new ArrayList<WrapperPropiedadFiltrada>();;
+		System.out.println("FILTROS :"+ filtros);
+		try{		
+			List<Object[]> propiedadesFiltradas = PropiedadDAO.listarPropiedades(filtros);
+			
+			for (Object[] propiedad: propiedadesFiltradas) {
+				WrapperPropiedadFiltrada pf = new WrapperPropiedadFiltrada((Double)propiedad[8], (Integer)propiedad[3], (Integer)propiedad[2], (Double)propiedad[5],
+						(Boolean)propiedad[7], (Boolean)propiedad[4], (String)propiedad[10], (String)propiedad[9], (String)propiedad[11],(Integer)propiedad[6],
+						(String) propiedad[1],(String) propiedad[13],(String)propiedad[15], (String)propiedad[14], (Double)propiedad[16], ((Double)propiedad[17]),
+						(String)propiedad[12]);
+
+				props.add(pf);
+			 }
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return props;
+	}
+
+	@Override
+	public List<WrapperPuntoInteres> listarPuntosInteres(String fid) {
+		
+		List<WrapperPuntoInteres> puntosInteres = null;
+		try{		
+			puntosInteres = PropiedadDAO.listarPuntosInteres(fid);
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return puntosInteres;
+	}
 
 }
 

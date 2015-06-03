@@ -5,106 +5,137 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 <h:head>
+	<link rel="shortcut icon" type="image/x-icon" href="#{resource['defecto/img/logo.jpg']}"/>
+
+ <title>
+Inmo 13 - Descripción Propiedad
+ </title>
+	<link rel="stylesheet" type="text/css"
+		href="resources/bootstrap/css/bootstrap.min.css"></link>
+	<link rel="stylesheet" type="text/css"
+		href="resources/bootstrap/css/bootstrap-theme.min.css"></link>
+
+	
+
+	<h:outputStylesheet library="defecto" name="css/mapaStyle.css" />
+	<h:outputStylesheet library="lightbox" name="css/lightbox.css" />
+	
+	
+	
+	<h:outputScript library="defecto" name="js/jquery-1.11.3.min.js"	target="head" />
+	<h:outputScript library="lightbox" name="js/lightbox.min.js"	target="head" />
+
+	<script src="http://openlayers.org/api/OpenLayers.js"></script>
+	<h:outputScript library="bootstrap" name="js/bootstrap.min.js"
+		target="head" />
+
 	<!-- Google Maps -->
 	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <script src="http://openlayers.org/api/OpenLayers.js"></script>
-    <h:outputScript library="defecto" name="js/proj4js-combined.js" target="head"/>
-    <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
-    <h:outputScript library="defecto" name="js/altaPropiedad.js" target="head"/>
-    
-     <h:outputScript library="bootstrap" name="js/bootstrap.js" target="head"/>
-		 <h:outputStylesheet library="bootstrap" name="css/bootstrap.css" target="head"/>
-		 <h:outputScript library="defecto" name="js/jquery-1.11.3.min.js" target="head"/>
+	
     
 </h:head>
 
-<h:body>      
-      
-     <h:panelGroup layout="block" id="div-altaPropiedad">
-	
-   		<!-- <h:outputLabel value="" style="font-size:85px" />  -->
-   		  
-   		  <p:growl id="growl" widgetVar="growl" showDetail="false" />
-   		  <h:form style="margin-top:12px" id="formPropiedad">
-   	   		  	
-   		    <h:outputText value="Calle " />
-   		  	<h:inputText value="#{propiedadMB.calle}" id="calle" required="true" requiredMessage="Ingrese una calle"></h:inputText>
-   		  	<br/><br/>
-   		  	
-   		  	<h:outputText value="Nro Puerta " />
-   		  	<h:inputText value="#{propiedadMB.numPuerta}" id="numeroPuerta" required="true" requiredMessage="Ingrese un Nº de puerta"></h:inputText>
-   		  
-   		  	<br/><br/>
-   		  	
-   		  	<h:selectOneMenu id="tipoPropiedad" value="#{propiedadMB.tipoPropiedad}">
-	   			<f:selectItem id="casa" itemValue="Casa" itemLabel="Casa" />
-	   			<f:selectItem id="apartamento" itemValue="Apartamento" itemLabel="Apartamento" />
-	   			<f:selectItem id="terreno" itemValue="Terreno" itemLabel="Terreno" />
-   		  	</h:selectOneMenu>
-   		 	<br/><br/>
-   		  	
-   		  	<h:selectOneMenu id="tipoTransaccion" value="#{propiedadMB.tipotransaccion}">
-	   			<f:selectItem itemValue="Alquiler" itemLabel="Alquiler" />
-	   			<f:selectItem itemValue="Venta" itemLabel="Venta" />
-   		  	</h:selectOneMenu>
-   		 	<br/><br/>
+<h:body onload="init()">
 
-   		  	<h:outputText value="Precio" />
-   		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Ingrese un precio"></h:inputText>
-   		  
-   		  	<h:selectOneMenu id="moneda" value="#{propiedadMB.tipoMoneda}">
-	   			<f:selectItem itemValue="$" itemLabel="$" />
-	   			<f:selectItem itemValue="US$" itemLabel="US$" />
-   		  	</h:selectOneMenu>
-   		  	
-   		  	<br/><br/>
-   		  	
-   		  	<h:outputText value="Numero Piso" />
-   		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Ingrese un numero de piso"></h:inputText>
-   		  	<br/><br/>
-   		  	
-   		    <h:outputText value="Cantidad Baños" />
-   		  	<h:inputText value="#{propiedadMB.cantBanio}" id="cantBanio" required="true" requiredMessage="Ingrese la cantidad de los baños"></h:inputText>
-   		  	<br/><br/>
-   		  	
-   		  	<h:outputText value="Cantidad Dormitorios" />
-   		  	<h:inputText value="#{propiedadMB.cantDorm}" id="cantDormitorio" required="true" requiredMessage="Ingrese la cantidad de dormitorios"></h:inputText>
-   		  	<br/><br/>
-   		  	
-   		  	<h:outputText value="Metros Cuadrados " />
-   		  	<h:inputText value="#{propiedadMB.metrosCuadrados}" id="metrosCuadrados" required="true" requiredMessage="Ingrese los metros cuadrados"></h:inputText>
-   		  	<br/><br/>
-   		  	
-			<h:outputText value="Parrillero" />
-    		<h:selectBooleanCheckbox value="#{propiedadMB.parrillero}" id="parrillero"/>
-    		<br/><br/>
-   		  
-    		<h:outputText value="Garage" />
-    		<h:selectBooleanCheckbox value="#{propiedadMB.garage}" id="garage"/>
-			<br/><br/>
-			
-			<h:panelGroup layout="block" id="div-fid" style="display: none">			   
-				<h:outputText value="Feature ID" />
-				<br />
-				<h:inputText id="fid" value="#{propiedadMB.fid}" />
-				<br />			
-			</h:panelGroup>
-			
-			<h:panelGroup layout="block" id="div-usuario" style="display: none">
-				<h:inputText id="usuario" value="#{propiedadMB.usuario}" />	
-			</h:panelGroup>
-			
-				<br/><br/>
-			 
-			<div style="width:100%; height:100%" id="map"></div>
-			<div id="coordenadas"></div>		
-			
-   		  	<br/>
-   		  	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModaleditar" onclick="return false;">Hacer una consulta al administrador de esta propiedad</button>
-   		  	
-   		  </h:form>
-   		  
-   		  <div class="modal fade" id="myModaleditar" role="dialog">
+	<div id="#wrap"> <!-- div que contiene a todos los divs -->
+
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-navbar-collapse-1">
+					</button>
+					<div class="navbar-brand">
+						<img src="resources/defecto/img/logo.jpg" alt="Inmo13"></img>
+					</div>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+					<div class="navbar-main">
+						<ul class="nav navbar-nav">
+							<li class="text-navbar"><a
+								href="http://localhost:8080/Inmo13/Index.xhtml">Inicio</a></li>
+							<li class="text-navbar"><a
+								href="http://localhost:8080/Inmo13/Login.xhtml">Login</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav><!-- cierra el navbar -->
+
+
+
+
+		<div class="row center-container"><!-- div que contiene al de mapa y informacion -->
+
+
+
+			<div id="panelBusqueda" class="center-row col-lg-3 col-md-4 col-sm-3 col-xs-12 col-filtros">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-filtros" style="width: 101.5% ">
+					<div class="header-filtros-text">
+						<h3>Información de la propiedad</h3>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 header-filtros-divider"></div><!--Barra gris -->
+				</div><!-- Header de los filtros dice el titulo -->
+				
+				
+				<div class="body-filtros">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h:form style="margin-top:12px" id="formDescripcion">
+						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Calle </label>
+						<h:outputText  style="color: white; font-size: 13px " value="#{propiedadMB.calle} " />
+						
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Numero de Puerta </label>
+						<h:outputText  style="color: white; font-size: 13px " value="#{propiedadMB.numPuerta} " />
+						
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Operación </label>
+						<h:outputText  style="color: white; font-size: 13px " value="#{propiedadMB.tipotransaccion} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Precio </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value=" $#{propiedadMB.numPuerta} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Dormitorios </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.cantBanio} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Baños </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.cantBanio} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Metros Cuadrados </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.cantBanio}m² " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Parrillero </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.parrillero} " />
+						<br></br><br></br>
+						
+						<label class="labelClass" style="color: white; width: 150px;font-size: 13px;">Garage </label>
+						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.garage} " />
+						<br></br><br></br>
+						
+						<a href="#{propiedadMB.imagen}" data-lightbox="image-1" data-title="Calle : #{propiedadMB.calle}">
+							<img src="#{propiedadMB.imagen}" width="300" height="150"></img>
+						</a>
+						<h:inputHidden value="#{propiedadMB.fid}" id="fid"/>
+					
+   		 				
+   					 <p:remoteCommand name="remoteListarPuntosInteres" action="#{propiedadMB.getPuntosInteres}" oncomplete="handleConfirm(xhr,status,args)"></p:remoteCommand>
+						</h:form>
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModaleditar" onclick="document.getElementById('numeroPuerta').value='#{propiedadMB.numPuerta}';return false;">Consultar  propiedad</button>
+						
+						
+			<div class="modal fade" id="myModaleditar" role="dialog"> <!-- Comienza el modal -->
 		    <div class="modal-dialog">
 		        <div class="modal-content">
 		        <div class="modal-header">
@@ -114,25 +145,69 @@
 			        
 		        <div class="modal-body">
 	          	 
-		        	<div class="input-group">
+					<form id="contactForm" method="post" class="form-horizontal">
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Nombre:</label>
+					        <div class="col-xs-6">
+					            <input type="text" class="form-control" name="nombre" />
+					        </div>
+					    </div>
 					
-					  
-					</div>	  
-					<BR />
-					<div class="input-group">
-					  
-					  
-					</div>
-          		  
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Email:</label>
+					        <div class="col-xs-6">
+					            <input type="text" class="form-control" name="mail" />
+					        </div>
+					    </div>
+					
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Asunto:</label>
+					        <div class="col-xs-6">
+					            <input type="text" class="form-control" name="asunto" />
+					        </div>
+					    </div>
+					
+					    <div class="form-group">
+					        <label class="col-xs-3 control-label">Cuerpo:</label>
+					        <div class="col-xs-6">
+					            <textarea class="form-control" name="cuerpo" rows="5"></textarea>
+					        </div>
+					    </div>
+				  	  <!--    -->
+					</form>
 		        </div>
 		        <div class="modal-footer">
-		           <button type="button" class="btn btn-success" data-dismiss="modal" onclick="return false;">Enviar</button>
-		           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="return false;">Cancelar</button>
+		       <!--  public void EnviarCorreo(String correo, String asunto, String pass, String cuerpo)-->
+		          
 		        </div>
 		      </div>
 		    </div>
-		  </div>
-     </h:panelGroup>
+		  </div> <!-- cierra el modal -->
+						
+						
+						
+					</div><!-- div donde va toda la info de la propiedad -->
+				</div><!-- div dinde se muestra la informacion -->
+			</div><!-- div de los fitros enteroo -->
+			
+			
+			
+			
+			<!-- Mapaaaa -->
+			<div
+				class="center-row col-lg-9 col-md-8 col-sm-9 col-xs-12 col-mapa map">
+				<div id="map"
+					style="position: relative; overflow: hidden; transform: translateZ(0px); background-color: rgb(229, 227, 223);"></div>
+
+				<h:outputScript library="defecto" name="js/Variables.js"
+					target="body" />
+		 		<h:outputScript library="defecto" name="js/descripcionProp.js" target="body" />  
+
+			</div><!-- cierra div del  Mapaaaa -->
+
+		</div><!-- cierra div que contiene el div de la info y del mapa -->
+	</div><!-- cierra div #wrap que contiene a todos los divs (mapa, informacion y navbar)-->
+
 
 </h:body>
 </html>

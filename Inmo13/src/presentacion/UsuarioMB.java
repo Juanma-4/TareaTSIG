@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import org.jboss.resteasy.client.ClientRequest;
@@ -27,9 +28,11 @@ import wrappers.WrapperUsuario;
 @javax.faces.bean.SessionScoped
 public class UsuarioMB implements Serializable {
 
+	//@EJB
+	//private IControladorUsuario icu;
 	
-	@EJB
-	private IControladorUsuario icu;
+	@ManagedProperty(value="#{propiedadMB}")
+	private PropiedadMB propiedadMB;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -39,17 +42,31 @@ public class UsuarioMB implements Serializable {
 	private String mailregistro;
 	private String passwordregistro;
 	
+	private String usuarioSelecmail;
+	private String usuarioSelecpass;
+	
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
+	
+
+	public PropiedadMB getPropiedadMB() {
+		return propiedadMB;
+	}
+
+	public void setPropiedadMB(PropiedadMB propiedadMB) {
+		this.propiedadMB = propiedadMB;
+	}
 
 	@PostConstruct
 	public void iniciar(){
-		System.out.println("post constructor");
-		this.passwordregistro="";
-		this.mailregistro="";
-		this.mail="";
-		this.password="";
-		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
-		this.administradores = this.getUsuarios();
+		System.out.println("post constructor usuario MB");
+//		this.passwordregistro="";
+//		this.mailregistro="";
+//		this.mail="";
+//		this.password="";
+//		//this.usuario = ((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail")).trim();
+//		this.administradores = this.getUsuarios();
+	this.usuarioSelecmail="";
+	this.usuarioSelecpass="";
 	}
 	
 	public void registroUsuario() {
@@ -85,9 +102,6 @@ public class UsuarioMB implements Serializable {
 				
 				
 					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");					
-			
-				
-			
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally{
@@ -96,36 +110,34 @@ public class UsuarioMB implements Serializable {
 			
 	}
 
-	public void ModificarUsuario(String mail, String pass) {
-		System.out.println("estoy en modificar usuario");
+	public void modificarUsuario() {
+		System.out.println("estoy en modificar usuarioMB mail: "+this.usuarioSelecmail+" pass: "+ this.usuarioSelecpass);
 		
 		ClientRequest request = null;
 		try {
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/modificar");
 		
-			//WrapperUsuario usuario = new WrapperUsuario(this.mail,this.password);
-			WrapperUsuario usuario = new WrapperUsuario(mail,pass);
+			WrapperUsuario usuario = new WrapperUsuario(this.usuarioSelecmail,this.usuarioSelecpass);
 
 			String usuarioJSON = toJSONString(usuario);
-
 			request.body("application/json", usuarioJSON);
 
 			ClientResponse<String> respuesta = request.post(String.class);
-
+/*
 			if (respuesta.getStatus() != 201) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage("Error al Modificar Usuario"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ respuesta.getStatus());
 			}
+			*/
 			
-			/*Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
-			
+			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 			if (creado)	{
-				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
-			}else{		*/	
-					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
-			//};
+				FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+			}else{			
+					FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
+			};
 			
 			}
 			catch(Exception e){
@@ -171,13 +183,6 @@ public class UsuarioMB implements Serializable {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	public String eliminarUsuario(String mail) {
-		System.out.println("eliminar Usuarios");
-		icu.eliminarUsuario(mail);
-		return "IndexAdmin.xhtml?faces-redirect=true";
-		
 	}
 	
 	public String irRegistroUsuario(){
@@ -226,13 +231,12 @@ public class UsuarioMB implements Serializable {
 			if (lista.get(0) == false) {				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Credenciales incorrectas"));
 				FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-			//throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
 			}
 			
 			else {				
-				request.clear();
-								
-				response = request.get(String.class);						
+
+				this.propiedadMB.setUsuario(this.mail);
+				
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mail", this.mail);					
 				FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");			
 				
@@ -262,25 +266,24 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	
-	public void EnviarCorreo(String correo, String asunto, String pass, String cuerpo) {
-		System.out.println("estoy en Enviar correo");
+	public void enviarCorreo(String nombre, String correo, String asunto, String cuerpo, Integer id) {
+		System.out.println("estoy en Enviar correo web");
 		
 		ClientRequest request = null;
 		try {
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
 		
-			//public WrapperCorreo(String correo, String asunto, String pass, String cuerpo)
-			WrapperCorreo wc = new WrapperCorreo(correo, asunto, pass, cuerpo);
+			WrapperCorreo wc = new WrapperCorreo(nombre, correo, asunto, cuerpo, id);
 
 			String wcJSON = toJSONString(wc);
 
 			request.body("application/json", wcJSON);
 
-			ClientResponse<String> respuesta = request.post(String.class);
+			ClientResponse<String> respuesta = request.put(String.class);
 
 			if (respuesta.getStatus() != 201) {
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage("Error al Modificar Usuario"));
+						new FacesMessage("Error al Enviar correo"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ respuesta.getStatus());
 			}
@@ -290,7 +293,7 @@ public class UsuarioMB implements Serializable {
 			if (creado)	{
 				FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
 			}else{		*/	
-					//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
+					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");				
 			//};
 			
 			}
@@ -300,6 +303,45 @@ public class UsuarioMB implements Serializable {
 				request.clear();
 			}
 	
+	}
+	
+public void eliminarUsuario() {
+		//System.out.println("eliminar UsuarioMB:::::::"+this.usuarioSelecmail);
+			ClientRequest request = null;
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+			
+				try {
+														
+					request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/eliminar/"+this.usuarioSelecmail);
+					//request.header("mail", this.usuarioSelecmail);
+										
+					ClientResponse<String> respuesta = request.get(String.class);
+					
+					System.out.println(respuesta.getEntity());
+					
+				/*	if (respuesta.getStatus() != 201) {
+						FacesContext.getCurrentInstance().addMessage(null,
+								new FacesMessage("Error No se pudo borrar el usuario"));
+						throw new RuntimeException("Failed : HTTP error code : "
+								+ respuesta.getStatus());
+					}*/
+							
+					Boolean elimino = gson.fromJson(respuesta.getEntity(), Boolean.class);
+					//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+					
+					if (elimino)	{
+						FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+					}else{		
+							FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
+					};
+							
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}finally{
+					request.clear();
+}
 	}
 
 	public String getMail() {
@@ -348,6 +390,22 @@ public class UsuarioMB implements Serializable {
 
 	public void setPasswordregistro(String passwordregistro) {
 		this.passwordregistro = passwordregistro;
+	}
+
+	public String getUsuarioSelecpass() {
+		return usuarioSelecpass;
+	}
+
+	public void setUsuarioSelecpass(String usuarioSelecpass) {
+		this.usuarioSelecpass = usuarioSelecpass;
+	}
+
+	public String getUsuarioSelecmail() {
+		return usuarioSelecmail;
+	}
+
+	public void setUsuarioSelecmail(String usuarioSelecmail) {
+		this.usuarioSelecmail = usuarioSelecmail;
 	}
 	
 	

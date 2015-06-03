@@ -52,5 +52,14 @@ public class Usuario implements Serializable {
 		this.propiedades = propiedades;
 	}	
 	
+	public boolean administraestaPropiedad (Integer id){
+		 for(Propiedad p : propiedades)
+			{
+				if(p.getId()==id)
+					return true;
+			}
+			return false;
+	}	
+	
 	
 }

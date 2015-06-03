@@ -1,10 +1,12 @@
 package persistencia;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import dominio.Usuario;
 
@@ -32,13 +34,12 @@ public class UsuarioDAO implements IUsuarioDAO{
 	public boolean modificarUsuario(Usuario usuario) {
 		
 		boolean modifico = false;
-		
 		try {
+			System.out.println("estoy en modificar usuario DAO mail: "+ usuario.getMail());
 			em.merge(usuario);			
 			modifico = true;
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 		return modifico;
 	}
@@ -73,7 +74,22 @@ public class UsuarioDAO implements IUsuarioDAO{
 	public List<Usuario> listarUsuarios() {
 		//	List<Usuario> usus = em.createQuery("Select u FROM Usuario u", Usuario.class).getResultList();
 		//return usus;
-		return em.createQuery("SELECT o FROM Usuario o").getResultList();
+		Query q = em.createQuery("SELECT o FROM Usuario o");
+		return q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> listarUsuariosporProp(Integer id){
+		
+		 List<Usuario> usuarios = em.createQuery("SELECT o FROM Usuario o").getResultList();
+		 List<Usuario> uresult = new LinkedList<Usuario>();	 
+	
+		 for(Usuario u : usuarios)
+			{
+				if(u.administraestaPropiedad(id))
+					uresult.add(u);
+			}
+		return uresult;
 		
 	}
 
@@ -87,10 +103,19 @@ public class UsuarioDAO implements IUsuarioDAO{
     	em.merge(u);
     }
     
-    public void delete(Usuario u)
+    public Boolean delete(Usuario u)
     {
-    	System.out.println("eliminar Usuarios DAO");
-    	em.remove(u);
-    }
+    	System.out.println("eliminar Usuarios en dato DAO"+ u.getMail());
+    	Boolean elimino = false;
+    	
+    	try{
+    		em.remove(u);
+    		elimino = true;
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	
+    	return elimino;
+    } 
 	
 }
