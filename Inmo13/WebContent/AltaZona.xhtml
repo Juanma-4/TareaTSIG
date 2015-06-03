@@ -10,24 +10,17 @@
     </ui:define>
     
 <ui:define name="contenido">
- 
 <h:head>
-	 
 	<!-- Google Maps -->
-	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	
-    <script src="http://openlayers.org/api/OpenLayers.js"></script>
-    
-    <h:outputScript library="defecto" name="js/proj4js-combined.js" target="head"/>
-    
+	<script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script> 
     <h:outputScript library="defecto" name="js/javascript.util.js" target="head"/>
     <h:outputScript library="defecto" name="js/jsts.js" target="head"/>
-    <h:outputScript library="defecto" name="js/Variables.js" target="head"/>
-    
-    <h:outputScript library="defecto" name="js/altaZona.js" target="head"/>
 			
 </h:head>
 <h:body>      
+    <h:outputScript library="defecto" name="js/Variables.js" target="head"/>    
+    <h:outputScript library="defecto" name="js/altaZona.js" target="head"/>
       
      <h:panelGroup layout="block" id="div-altaZona">
 	

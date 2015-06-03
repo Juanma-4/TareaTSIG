@@ -1,0 +1,39 @@
+
+<ui:composition template="IndexAdmin.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"> 
+	
+	<ui:define name="titulo">
+        Clasificacion Zonas 
+    </ui:define>
+
+	<ui:define name="contenido">
+	  	 <h:outputScript library="bootstrap" name="js/bootstrap.js" target="head"/>
+		 <h:outputStylesheet library="bootstrap" name="css/bootstrap.css" target="head"/>
+		 <h:outputScript library="defecto" name="js/jquery-1.11.3.min.js" target="head"/>
+    
+      	<form id="form">
+		    <p:dataTable id="listAdmin" var="zona" value="#{zonaMB.zonas}" 
+		    	emptyMessage="No existen zonas." style=" text-align:center;">
+		    	
+		        <p:growl id="message" showDetail="true" /> 
+		        <f:facet name="header">
+		             Zonas
+		        </f:facet>
+		        
+		        <p:column headerText="Zona">
+		  
+		            <h:outputText value="#{zona.nombre}" />
+		        </p:column>
+		        
+		      	<p:column headerText="Propiedades">
+		     
+		            <h:outputText value="#{zona.descripcion}" />
+		        </p:column>
+		    </p:dataTable>
+		</form>
+	</ui:define>
+</ui:composition>

@@ -1,29 +1,31 @@
 package presentacion;
 
-import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.resteasy.client.ClientResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import wrappers.WrapperPropiedad;
+import controladores.IControladorZona;
+import dominio.Zona;
 
 @ManagedBean
 @javax.faces.bean.SessionScoped
 public class ZonaMB implements Serializable {
+	
+
+	@EJB
+	private IControladorZona icz;
+	
 
 	private static final long serialVersionUID = 1L;
 	
 	private String nombre;
 	private String desc;
+	private List<Zona> zonas;
 	
 	public String crearZona(){
 		
@@ -31,6 +33,19 @@ public class ZonaMB implements Serializable {
 	
 	}
 	
+	public String irBMZona(){
+		
+		return "BMZona.xhtml?faces-redirect=true";
+	
+	}
+	
+	public String irInfoZonas(){
+		
+		setZonas(icz.actualizarInfoZonas());
+		return "ReporteZonas.xhtml?faces-redirect=true";
+	
+	}
+
 	public String irIndex(){
 			
 		return "IndexAdmin.xhtml?faces-redirect=true";
@@ -60,5 +75,14 @@ public class ZonaMB implements Serializable {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+
+	public List<Zona> getZonas() {
+		return zonas;
+	}
+
+	public void setZonas(List<Zona> zonas) {
+		this.zonas = zonas;
+	}
+
 	
 }

@@ -5,18 +5,13 @@ var saveStrategy;
 var zonas;
 var nuevaZona;
 var growl;
+var map;
 
 //////////********** CREACIÓN DE MAPA, CAPAS Y CONTROLES **********//////////
 window.onload = function() {
 		growl = PF('growl');
-		
- 		var WGS84 = new OpenLayers.Projection(miEPSG);
- 		var WGS84_google_mercator = new OpenLayers.Projection(gEPSG);		
- 		
- 		var limites = new OpenLayers.Bounds(
- 			366582.290141166, 6127927.10038269,
- 			858252.0151745,6671738.21181725
- 		).transform(WGS84, WGS84_google_mercator);
+		var WGS84_google_mercator = new OpenLayers.Projection(gEPSG);	
+ 		var WGS84 = new OpenLayers.Projection(miEPSG);		
  		
  		var opciones = {
  			controls : [ new OpenLayers.Control.Navigation(),
@@ -25,18 +20,22 @@ window.onload = function() {
  				new OpenLayers.Control.MousePosition({
  					div : document.getElementById("coordenadas")
  				}) ],
- 			maxExtent: limites,
  			projection: WGS84_google_mercator, // se agrega solo igual, se puede omitir.
  			displayProjection: WGS84 
  		};
  	
  	
  		/* "Map Constructor" : Crea un mapa en el bloque con id "map"  */		
- 		var map = new OpenLayers.Map('map', opciones);	
+ 		map = new OpenLayers.Map('map', opciones);	
  		
- 		var google_maps = new OpenLayers.Layer.Google("Google Maps", {
- 			numZoomLevels : 20
- 		});
+ 		var google_maps = new OpenLayers.Layer.Google(
+ 	            "Google Streets", // the default
+ 	            {numZoomLevels: 20, 'sphericalMercator': true }
+ 	            );
+ 			
+// 			new OpenLayers.Layer.Google("Google Maps", {
+// 			numZoomLevels : 20
+// 		});
  		
  		var google_fisico = new OpenLayers.Layer.Google("Google Fisico", {
  		type : google.maps.MapTypeId.TERRAIN
@@ -99,8 +98,7 @@ window.onload = function() {
  		map.addControl(dibujar);		
  		dibujar.activate();
  				    
- 		map.addLayers([ google_maps, google_fisico, zonas, nuevaZona]);
- 		map.zoomToExtent(limites);		
+ 		map.addLayers([ google_maps, google_fisico, zonas, nuevaZona]);	
  	
  	// Control para Zonas "pegajosas"
  		var snap = new OpenLayers.Control.Snapping({
@@ -127,9 +125,10 @@ window.onload = function() {
  		split.activate();
 
  	  	/// PARA CENTRAR EN MONTEVIDEO
-     	map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
-             	    WGS84,  map.getProjectionObject()), miZoom + 3);
- 		
+ 		map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
+ 	            new OpenLayers.Projection(miEPSG),
+ 	            map.getProjectionObject()
+ 	            ), 12);
  							
  };
 
