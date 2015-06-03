@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import persistencia.IZonaDAO;
+import wrappers.WrapperZona;
 import dominio.Zona;
 
 @Stateless
@@ -15,8 +16,8 @@ public class ControladorZona implements IControladorZona {
 	private IZonaDAO zonaDAO;
 
 	@Override
-	public List<Zona> actualizarInfoZonas() {
-		List<Zona> zonas = zonaDAO.actualizarZonas();
+	public List<WrapperZona> actualizarInfoZonas() {
+		List<WrapperZona> zonas = zonaDAO.actualizarZonas();
 		return zonas;
 	}
 	

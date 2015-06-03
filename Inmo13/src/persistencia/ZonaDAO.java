@@ -1,11 +1,14 @@
 package persistencia;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import wrappers.WrapperPuntoInteres;
+import wrappers.WrapperZona;
 import dominio.Usuario;
 import dominio.Zona;
 
@@ -18,10 +21,28 @@ public class ZonaDAO implements IZonaDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Zona> actualizarZonas() {
-		// TODO Auto-generated method stub
-		return em.createQuery("SELECT z FROM Zona z").getResultList();
-	}
-
+	public List<WrapperZona> actualizarZonas() {
+		String sql = null;
+		
+		List<WrapperZona> zonas = null;
+		List<WrapperZona> retorno = new ArrayList<WrapperZona>();
+		try{
+			
+			sql = "SELECT zonas.nombre AS nombre, zonas.descripcion AS descripcion, count(propiedad.id) AS propiedades "
+						+ " FROM propiedad, zonas"
+						+ " WHERE ST_INTERSECTS(ST_BUFFER(propiedad.geom,300), zonas.geom)"
+						+ " GROUP BY zonas.nombre, zonas.descripcion"
+						+ " ORDER BY propiedades";
+			zonas = em.createNativeQuery(sql,WrapperZona.class).getResultList();
 	
+			for(WrapperZona pi : zonas){
+				retorno.add(pi);
+			}
+										
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return retorno;
+	}
 }

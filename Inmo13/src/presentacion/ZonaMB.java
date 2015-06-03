@@ -6,11 +6,12 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 
+import wrappers.WrapperZona;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import controladores.IControladorZona;
-import dominio.Zona;
 
 @ManagedBean
 @javax.faces.bean.SessionScoped
@@ -25,7 +26,7 @@ public class ZonaMB implements Serializable {
 	
 	private String nombre;
 	private String desc;
-	private List<Zona> zonas;
+	private List<WrapperZona> zonas;
 	
 	public String crearZona(){
 		
@@ -76,11 +77,11 @@ public class ZonaMB implements Serializable {
 		this.desc = desc;
 	}
 
-	public List<Zona> getZonas() {
+	public List<WrapperZona> getZonas() {
 		return zonas;
 	}
 
-	public void setZonas(List<Zona> zonas) {
+	public void setZonas(List<WrapperZona> zonas) {
 		this.zonas = zonas;
 	}
 

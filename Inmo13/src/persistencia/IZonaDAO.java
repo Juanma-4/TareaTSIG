@@ -3,12 +3,13 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import wrappers.WrapperZona;
 import dominio.Zona;
 
 @Local
 public interface IZonaDAO {	
 	
-	public List<Zona> actualizarZonas();
+	public List<WrapperZona> actualizarZonas();
     
 }
 
