@@ -188,7 +188,7 @@ public class ServicioUsuario extends Application {
 	    	//String asunto, String mensaje) throws AddressException, MessagingException
 			
 			//SE NOTIFICA AL QUE CONSULTA QUE SU CONSULTA FUE HECHA
-			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", wc.getOrigen(),"inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la vedrevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias..."+"  ASUNTO "+wc.getAsunto()+"CUERPO "+wc.getCuerpo()+"  NOMBRE "+wc.getNombre()+"FID "+wc.getPropid());
+			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", wc.getOrigen(),"inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la brevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias..."+"  ASUNTO "+wc.getAsunto()+"CUERPO "+wc.getCuerpo()+"  NOMBRE "+wc.getNombre()+"FID "+wc.getPropid());
 			booleanJSON = gson.toJson(creado);
 			
 			//NO BORRAR

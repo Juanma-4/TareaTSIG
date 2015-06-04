@@ -30,7 +30,7 @@ public class WrapperCorreo {
 		this.origen = correo;
 		this.asunto = asunto;
 		this.cuerpo = cuerpo;
-		//this.propid = id;
+	    this.propid = id;
 	}
 
 	public String getNombre() {
