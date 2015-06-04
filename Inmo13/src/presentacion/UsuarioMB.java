@@ -20,7 +20,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import wrappers.WrapperCorreo;
 import wrappers.WrapperUsuario;
 
 @ManagedBean
@@ -44,15 +43,8 @@ public class UsuarioMB implements Serializable {
 	private String usuarioSelecmail;
 	private String usuarioSelecpass;
 	
-	private String nombre;
-	private String correo;
-	private String asunto;
-	private String mensaje;
-	private Integer idprop;
-	
 	private List<WrapperUsuario> administradores = new ArrayList<WrapperUsuario>();
 	
-
 	public PropiedadMB getPropiedadMB() {
 		return propiedadMB;
 	}
@@ -270,52 +262,8 @@ public class UsuarioMB implements Serializable {
 		// return "Index.xhtml?faces-redirect=true";
 	}
 	
-	
-	public void enviarCorreo() {
-		
-		//String nombre, String correo, String asunto, String cuerpo, Integer id
-		
-		System.out.println("estoy en Enviar correo webbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-				
-		ClientRequest request = null;
-		try {
-			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
-		
-			//WrapperCorreo wc = new WrapperCorreo(nombre, correo, asunto, cuerpo, id);
-			WrapperCorreo wc = new WrapperCorreo(this.nombre, this.correo, this.asunto, this.mensaje, 1);
-
-			String wcJSON = toJSONString(wc);
-
-			request.body("application/json", wcJSON);
-
-			ClientResponse<String> respuesta = request.put(String.class);
-
-			if (respuesta.getStatus() != 201) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage("Error al Enviar correo"));
-				throw new RuntimeException("Failed : HTTP error code : "
-						+ respuesta.getStatus());
-			};
-			
-			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
-			
-			if (creado)	{
-				FacesContext.getCurrentInstance().getExternalContext().redirect("descripcionProp.xhtml");
-			}else{		
-				  FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");			
-			};
-			
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}finally{
-				request.clear();
-			}
-	
-	}
-	
 	public void eliminarUsuario() {
-		//System.out.println("eliminar UsuarioMB:::::::"+this.usuarioSelecmail);
+		System.out.println("eliminar UsuarioMB:::::::"+this.usuarioSelecmail);
 			ClientRequest request = null;
 			GsonBuilder gsonBuilder = new GsonBuilder();
 			Gson gson = gsonBuilder.create();
@@ -336,7 +284,7 @@ public class UsuarioMB implements Serializable {
 								+ respuesta.getStatus());
 					}*/
 							
-					Boolean elimino = gson.fromJson(respuesta.getEntity(), Boolean.class);
+					/*Boolean elimino = gson.fromJson(respuesta.getEntity(), Boolean.class);
 					//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 					
 					if (elimino)	{
@@ -344,7 +292,7 @@ public class UsuarioMB implements Serializable {
 						this.irRegistroUsuario();
 					}else{		
 							FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
-					};
+					};*/
 							
 				}
 				catch(Exception e){
@@ -352,46 +300,6 @@ public class UsuarioMB implements Serializable {
 				}finally{
 					request.clear();
 				}
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getCorreo() {
-		return correo;
-	}
-
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-
-	public String getAsunto() {
-		return asunto;
-	}
-
-	public void setAsunto(String asunto) {
-		this.asunto = asunto;
-	}
-
-	public String getMensaje() {
-		return mensaje;
-	}
-
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
-	}
-
-	public Integer getIdprop() {
-		return idprop;
-	}
-
-	public void setIdprop(Integer idprop) {
-		this.idprop = idprop;
 	}
 
 	public String getMail() {
@@ -457,7 +365,4 @@ public class UsuarioMB implements Serializable {
 	public void setUsuarioSelecmail(String usuarioSelecmail) {
 		this.usuarioSelecmail = usuarioSelecmail;
 	}
-	
-	
-
 }

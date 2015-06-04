@@ -142,30 +142,35 @@ Inmo 13 - Descripción Propiedad
 								 				  <p:panelGrid columns="2" cellpadding="5" >                 
 									               		 <p:outputLabel for="inputnombre" value="Nombre: " />   
 									            		
-									         		     <p:inputText value="#{usuarioMB.nombre}" id="inputnombre" required="true"></p:inputText>
-									         		     
-									         		     <p:outputLabel for="inputmail" value="Mail: " />   
+									         		     <p:inputText value="#{propiedadMB.nombre}" id="inputnombre" required="true"></p:inputText>
+									         		    
+									           		     <p:outputLabel for="inputmail" value="Mail: " />   
 									            		
-									         		     <p:inputText value="#{usuarioMB.correo}" id="inputmail" required="true"></p:inputText>
+									         		     <p:inputText value="#{propiedadMB.correo}" id="inputmail" required="true"></p:inputText>
 									         		     
 									         		     <p:outputLabel for="inputasunto" value="Asunto: " />   
 									            		
-									         		     <p:inputText value="#{usuarioMB.asunto}" id="inputasunto" required="true" ></p:inputText>
+									         		     <p:inputText value="#{propiedadMB.asunto}" id="inputasunto" required="true" ></p:inputText>
 									         		     
 									         		     <p:outputLabel for="inputmensaje" value="Mensaje: " />   
 								         		     
-								         		      	<p:inputTextarea id="inputmensaje" value="#{usuarioMB.mensaje}" required="true" rows="6" cols="19" />
-								            	</p:panelGrid>  		    
+								         		      	<p:inputTextarea id="inputmensaje" value="#{propiedadMB.mensaje}" required="true" rows="6" cols="19" />
+								         		      	
+								      	          </p:panelGrid>  		    
 								            		    
 								             <f:facet name="footer">  
-								             	<p:commandButton type="submit" value="Enviar" onclick="PF('dialco').hide();" action="#{usuarioMB.enviarCorreo()}" />
+								             	<p:commandButton type="submit" value="Enviar" onclick="PF('dialco').hide();" actionListener="#{propiedadMB.mensajeok()}" update="growl" action="#{propiedadMB.enviarCorreo()}" />
 											    <p:commandButton type="submit" value="Cancelar" onclick="PF('dialco').hide();" /> 
 								           	 </f:facet> 
 										    		
 										</p:dialog>
+										
+										    <p:growl id="growl" showDetail="true" sticky="true" />  
+														   
+										
 								</h:form>  
 				
-		
+								
 						
 						
 						

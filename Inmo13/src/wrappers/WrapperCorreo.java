@@ -16,7 +16,7 @@ public class WrapperCorreo {
 	private String cuerpo;
 	
 	@SerializedName("propid")
-	private Integer propid;
+	private String propid;
 
 	
 
@@ -24,13 +24,13 @@ public class WrapperCorreo {
 		
 	}
 
-	public WrapperCorreo(String nombre, String correo, String asunto, String cuerpo, Integer id) {
+	public WrapperCorreo(String nombre, String correo, String asunto, String cuerpo, String id) {
 
 		this.nombre = nombre;
 		this.origen = correo;
 		this.asunto = asunto;
 		this.cuerpo = cuerpo;
-		this.propid = id;
+		//this.propid = id;
 	}
 
 	public String getNombre() {
@@ -65,11 +65,19 @@ public class WrapperCorreo {
 		this.cuerpo = cuerpo;
 	}
 	
-	public Integer getPropid() {
+	/*public Integer getPropid() {
 		return propid;
 	}
 
 	public void setPropid(Integer propid) {
+		this.propid = propid;
+	}*/
+	
+	public String getPropid() {
+	return propid;
+	}
+	
+	public void setPropid(String propid) {
 		this.propid = propid;
 	}
 }

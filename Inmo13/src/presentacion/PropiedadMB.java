@@ -6,24 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.primefaces.context.RequestContext;
 
+import wrappers.WrapperCorreo;
 import wrappers.WrapperPropiedad;
 import wrappers.WrapperPuntoInteres;
-import wrappers.WrapperUsuario;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @ManagedBean(name="propiedadMB")
@@ -51,7 +48,12 @@ public class PropiedadMB implements Serializable {
 	private Integer distanciaMar;
 	private Integer distanciaParada;
 	private Integer distanciaPInteres;
-		
+	
+	private String nombre;
+	private String correo;
+	private String asunto;
+	private String mensaje;
+	
 	private List<WrapperPuntoInteres> lpuntosInteres;
 	
 	public void altaPropiedad() {
@@ -490,4 +492,85 @@ public void listarProp(){
 		return gson.toJson(object);
 	}
 	
+		public void enviarCorreo() {
+			
+			//String nombre, String correo, String asunto, String cuerpo, Integer id
+			
+			System.out.println("estoy en Enviar correo web PROPIEDAD");
+					
+			ClientRequest request = null;
+			try {
+				request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
+			
+				//WrapperCorreo wc = new WrapperCorreo(nombre, correo, asunto, cuerpo, id);
+				WrapperCorreo wc = new WrapperCorreo(this.nombre, this.correo, this.asunto, this.mensaje, this.fid);
+	
+				String wcJSON = toJSONString(wc);
+	
+				request.body("application/json", wcJSON);
+	
+				ClientResponse<String> respuesta = request.put(String.class);
+	
+				if (respuesta.getStatus() != 201) {
+					FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage("Error al Enviar correo"));
+					throw new RuntimeException("Failed : HTTP error code : "
+							+ respuesta.getStatus());
+				};
+				/*
+				Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+				
+				if (creado)	{
+					FacesContext.getCurrentInstance().getExternalContext().redirect("descripcionProp.xhtml");
+				}else{		
+					  FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");			
+				};*/
+				
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}finally{
+					request.clear();
+				}
+		
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+		
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+		
+		public String getCorreo() {
+			return correo;
+		}
+		
+		public void setCorreo(String correo) {
+			this.correo = correo;
+		}
+		
+		public String getAsunto() {
+			return asunto;
+		}
+		
+		public void setAsunto(String asunto) {
+			this.asunto = asunto;
+		}
+		
+		public String getMensaje() {
+			return mensaje;
+		}
+		
+		public void setMensaje(String mensaje) {
+			this.mensaje = mensaje;
+		}
+		
+		public void mensajeok() {
+		    FacesContext context = FacesContext.getCurrentInstance();
+		    //context.addMessage(null, new FacesMessage("Successful",  "Your message: " + message) );
+		    context.addMessage(null, new FacesMessage("Todo OK", "Su consulta fue enviada correctamente."));
+		}
+
 }

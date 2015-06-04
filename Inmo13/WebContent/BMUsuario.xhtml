@@ -30,12 +30,10 @@
 		  
 		            <h:outputText value="#{usu.mail}" />
 		        </p:column>
-		        
-		      
-		        	        
+		         	        
 		        <p:column headerText="Acciones">
 		      																							
-	        	  <p:commandButton value="Eliminar" rendered="#{usuarioMB.mail==usu.mail or usuarioMB.mail=='admin'}" onclick="$('#inputmail').val('#{usu.mail}'); PF('eliminar').show();" />	        	 
+	        	  <p:commandButton value="Eliminar"  rendered="#{usuarioMB.mail==usu.mail or usuarioMB.mail=='admin'}" onclick="$('#inputmail').val('#{usu.mail}'); PF('eliminar').show();" />	        	 
 	        	  <p:commandButton value="Editar"  rendered="#{usuarioMB.mail==usu.mail or usuarioMB.mail=='admin'}" onclick="$('#inputmail2').val('#{usu.mail}'); $('#inputpass').val('#{usu.password}'); PF('editar').show();" />
 	        	   
 	    	   	</p:column>
@@ -54,7 +52,7 @@
          		    <p:inputText value="#{usuarioMB.usuarioSelecmail}" id="inputmail" ></p:inputText>
          		    
              <f:facet name="footer">  
-                       		<p:commandButton type="submit" value="Eliminar" onclick="PF('eliminar').hide();" action="#{usuarioMB.eliminarUsuario()}" />
+                       		<p:commandButton type="submit" value="Eliminar" onclick="PF('eliminar').hide();" actionListener="#{usuarioMB.eliminarUsuario()}" action="#{usuarioMB.logOut()}" />
 			    		    <p:commandButton type="submit" value="Cancelar" onclick="PF('eliminar').hide();" /> 
            	 </f:facet> 
 		    		
