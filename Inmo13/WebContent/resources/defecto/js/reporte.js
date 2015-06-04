@@ -107,7 +107,7 @@ window.onload = function() {
 /////////// Usuo de WFS para traer las propiedades con las reglas y estilos definidos arriba ////////
 		
 		
-		var PropiedadesPublicas = new OpenLayers.Layer.Vector("Propiedades Publicas (Verde)", {
+		var PropiedadesPublicas = new OpenLayers.Layer.Vector("Propiedades Publicas", {
 			strategies : [ new OpenLayers.Strategy.Fixed() ],
 			styleMap: estiloPropPublica,
 			protocol : new OpenLayers.Protocol.WFS({
@@ -121,7 +121,7 @@ window.onload = function() {
 			}),
 		});	
 	
-		var PropiedadesPrivadas = new OpenLayers.Layer.Vector("Propiedades Privadas	(Rojo)", {
+		var PropiedadesPrivadas = new OpenLayers.Layer.Vector("Propiedades Privadas", {
 			strategies : [new OpenLayers.Strategy.Fixed() ],
 			styleMap: estiloPropPrivada,
 			protocol : new OpenLayers.Protocol.WFS({
@@ -135,7 +135,7 @@ window.onload = function() {
 			}),
 		});	
 			
-		var PropiedadesReservadas = new OpenLayers.Layer.Vector("Propiedades Reservadas (Azul)", {
+		var PropiedadesReservadas = new OpenLayers.Layer.Vector("Propiedades Reservadas", {
 			strategies : [new OpenLayers.Strategy.Fixed() ],
 			styleMap: estiloPropReservadas,
 			protocol : new OpenLayers.Protocol.WFS({
