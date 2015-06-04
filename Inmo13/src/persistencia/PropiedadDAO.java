@@ -196,14 +196,14 @@ public class PropiedadDAO implements IPropiedadDAO{
 			
 			sql = "SELECT serv_comerciales.nbre AS nombre, ST_X(ST_Transform(serv_comerciales.geom, 900913)) AS x , "
 						+ "ST_Y(ST_Transform(serv_comerciales.geom, 900913)) AS y ,"  
-						+ "ST_DISTANCE(propiedad.geom,serv_comerciales.geom) AS distancia, 'comercial'::character varying(20) AS tipo"
+						+ "trunc(ST_DISTANCE(propiedad.geom,serv_comerciales.geom)) AS distancia, 'comercial'::character varying(20) AS tipo"
 						+ " FROM propiedad, serv_comerciales"
 						+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),"
 						+ " serv_comerciales.geom)";
 			comerciales = em.createNativeQuery(sql,WrapperPuntoInteres.class).getResultList();
 	
 			sql= "SELECT deportes.nombre , ST_X(ST_Transform(deportes.geom, 900913)) AS x , ST_Y(ST_Transform(deportes.geom, 900913)) AS y ," 
-				+ "ST_DISTANCE(propiedad.geom,deportes.geom) AS distancia, 'plaza'::character varying(20) AS tipo"
+				+ "trunc(ST_DISTANCE(propiedad.geom,deportes.geom)) AS distancia, 'plaza'::character varying(20) AS tipo"
 				+ " FROM propiedad, deportes"
 				+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),deportes.geom)";
 			
@@ -211,7 +211,7 @@ public class PropiedadDAO implements IPropiedadDAO{
 			
 			sql= "SELECT edu_primaria.nombre , ST_X(ST_Transform(edu_primaria.geom, 900913)) AS x , "
 					+ "ST_Y(ST_Transform(edu_primaria.geom, 900913)) AS y ," 
-					+ "ST_DISTANCE(propiedad.geom,edu_primaria.geom) AS distancia, 'escuela'::character varying(20) AS tipo"
+					+ "trunc(ST_DISTANCE(propiedad.geom,edu_primaria.geom)) AS distancia, 'escuela'::character varying(20) AS tipo"
 					+ " FROM propiedad, edu_primaria"
 					+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),edu_primaria.geom)";
 			
@@ -219,7 +219,7 @@ public class PropiedadDAO implements IPropiedadDAO{
 			
 			sql= "SELECT edu_secundaria.nombre , ST_X(ST_Transform(edu_secundaria.geom, 900913)) AS x , "
 					+ "ST_Y(ST_Transform(edu_secundaria.geom, 900913)) AS y ," 
-					+ "ST_DISTANCE(propiedad.geom,edu_secundaria.geom) AS distancia, 'liceo'::character varying(20) AS tipo"
+					+ "trunc(ST_DISTANCE(propiedad.geom,edu_secundaria.geom)) AS distancia, 'liceo'::character varying(20) AS tipo"
 					+ " FROM propiedad, edu_secundaria"
 					+ " WHERE propiedad.fid = '"+fid.trim()+"' AND ST_INTERSECTS(ST_BUFFER(propiedad.geom,300),edu_secundaria.geom)";
 			
