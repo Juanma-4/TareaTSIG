@@ -11,15 +11,18 @@ public class WrapperZona {
 	private String descripcion;
 	@SerializedName("propiedades")
 	private Integer propiedades;
+	@SerializedName("nivel")
+	private String nivel;
 
 	public WrapperZona() {
 	}
 
-	public WrapperZona(String nombre, String descripcion, Integer propiedades) {
+	public WrapperZona(String nombre, String descripcion, Integer propiedades, String nivel) {
 
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.propiedades = propiedades;
+		this.nivel = nivel;
 
 	}
 
@@ -45,6 +48,14 @@ public class WrapperZona {
 
 	public void setPropiedades(Integer propiedades) {
 		this.propiedades = propiedades;
+	}
+
+	public String getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
 	}
 
 	

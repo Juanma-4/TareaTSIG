@@ -23,7 +23,8 @@ public class ZonaDAO implements IZonaDAO{
 	@Override
 	public List<WrapperZona> actualizarZonas() {
 		String sql = null;
-		
+		Integer cantidadPropEnZonas = 0;
+		Integer porcentajeZona;
 		List<WrapperZona> zonas = null;
 		List<WrapperZona> retorno = new ArrayList<WrapperZona>();
 		try{
@@ -35,9 +36,29 @@ public class ZonaDAO implements IZonaDAO{
 						+ " ORDER BY propiedades DESC";
 			zonas = em.createNativeQuery(sql,WrapperZona.class).getResultList();
 	
+			for(WrapperZona wz : zonas){
+				cantidadPropEnZonas = cantidadPropEnZonas + wz.getPropiedades();  // Total de las propiedades en zonas
+			}
+			
 			for(WrapperZona pi : zonas){
 				retorno.add(pi);
 			}
+			
+			for(WrapperZona pi2 : retorno){
+				porcentajeZona = ((pi2.getPropiedades()*100)/ cantidadPropEnZonas);
+				
+				if(porcentajeZona<25){
+					pi2.setNivel("Baja");
+				}
+				else if((porcentajeZona>=25) && (porcentajeZona<84)){
+					pi2.setNivel("Media");
+				}
+				else{
+					pi2.setNivel("Alta");
+				}
+			}
+			
+			
 										
 		}catch(Exception e){
 			e.printStackTrace();
