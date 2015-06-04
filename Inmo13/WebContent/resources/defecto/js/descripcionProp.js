@@ -429,13 +429,17 @@ function onPopupClose(evt) {
 
 function onPopupFeatureSelect(feature) {
     selectedFeature = feature;
+   
+    
     
     var popUpHtml = 
         '<div>'+
         '<div style="color:#FF0000;text-align:center">'+
         feature.data.nombre +
-        '</br>' + 
-        '<label for="usr"style="color:#000000" >Distancia: </label>'+ feature.data.distancia + '<label for="usr"style="color:#000000" >m </label>'
+        '</br>' +
+        '<div style="color:#000000">'+
+        '<label for="usr"style="color:#000000" >Distancia: </label>'+ feature.data.distancia + '<label for="usr"style="color:#000000" >m </label>'+
+        '</div>'+
         '</div>' 
       
 
