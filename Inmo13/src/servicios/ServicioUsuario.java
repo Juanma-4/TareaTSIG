@@ -173,7 +173,9 @@ public class ServicioUsuario extends Application {
 		public Response	 enviarCorreo(String datos) throws AddressException, MessagingException 
 		{
 			System.out.println("estoy en ENVIAR CORREO");
+			System.out.println(datos);
 			boolean creado = false;
+			boolean creado2 = false;
 			String booleanJSON = null;
 			GsonBuilder gsonBuilder = new GsonBuilder();
 			Gson gson = gsonBuilder.create();
@@ -188,7 +190,7 @@ public class ServicioUsuario extends Application {
 	    	//String asunto, String mensaje) throws AddressException, MessagingException
 			
 			//SE NOTIFICA AL QUE CONSULTA QUE SU CONSULTA FUE HECHA
-			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", wc.getOrigen(),"inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la brevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias..."+"  ASUNTO "+wc.getAsunto()+"CUERPO "+wc.getCuerpo()+"  NOMBRE "+wc.getNombre()+"FID "+wc.getPropid());
+			creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", wc.getOrigen(),"inmobiliaria13", "Notificacion de consulta", "Estimado "+wc.getNombre()+":Su Consulta fue recibida con exito y sera respondida a la brevedad por nuestro grupo de administradores de Inmo13, Muchas Gracias...");
 			booleanJSON = gson.toJson(creado);
 			
 			//NO BORRAR
@@ -197,7 +199,9 @@ public class ServicioUsuario extends Application {
 			for(Usuario u: usus){
 				creado = c.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", u.getMail(),"inmobiliaria13", "Consulta realizada sobre la propiedad "+ wc.getPropid(), "El visitante: "+wc.getNombre()+"</br>"+"Se encuentra interesado en la propiedad: "+wc.getPropid()+"</br> Su consulta es: "+wc.getCuerpo());
 			}*/
-			
+			Correo correoAdmin = new Correo();
+			creado2 = correoAdmin.enviarMensajeConAuth("smtp.gmail.com", 587,"inmogrupo13@gmail.com", wc.getAdmin(),"inmobiliaria13", "Consulta realizada a tu propiedad "+ wc.getPropiedad()+" "+wc.getNumeroPuerta(), "El visitante: "+wc.getNombre()+"  "+"Se encuentra interesado en la propiedad: "+wc.getPropiedad()+" "+wc.getNumeroPuerta()+" Se puede comunicar con "+wc.getNombre()+" atraves de su telefono "+wc.getTelefono()+" o su correo "+wc.getOrigen() + "  Su consulta es: "+wc.getCuerpo());
+			booleanJSON = gson.toJson(creado2);
 			
 			
 		} catch (Exception err) {

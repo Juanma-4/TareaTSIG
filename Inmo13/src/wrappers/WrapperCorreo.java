@@ -9,14 +9,22 @@ public class WrapperCorreo {
 	@SerializedName("origen")
 	private String origen;
 	
-	@SerializedName("asunto")
-	private String asunto;
+	@SerializedName("telefono")
+	private String telefono;
 	
 	@SerializedName("cuerpo")
 	private String cuerpo;
 	
-	@SerializedName("propid")
-	private String propid;
+	@SerializedName("admin")
+	private String admin;
+	
+	@SerializedName("propiedad")
+	private String propiedad;
+	
+	@SerializedName("numeroPuerta")
+	private Integer numeroPuerta;
+	
+	
 
 	
 
@@ -24,13 +32,15 @@ public class WrapperCorreo {
 		
 	}
 
-	public WrapperCorreo(String nombre, String correo, String asunto, String cuerpo, String id) {
+	public WrapperCorreo(String nombre, String correo, String telefono, String cuerpo, String admin, String propiedad, Integer numeroPuerta) {
 
 		this.nombre = nombre;
 		this.origen = correo;
-		this.asunto = asunto;
+		this.telefono = telefono;
 		this.cuerpo = cuerpo;
-	    this.propid = id;
+	    this.admin = admin;
+	    this.propiedad = propiedad;
+	    this.numeroPuerta = numeroPuerta;
 	}
 
 	public String getNombre() {
@@ -49,12 +59,12 @@ public class WrapperCorreo {
 		this.origen = origen;
 	}
 
-	public String getAsunto() {
-		return asunto;
+	public String getTelefono() {
+		return telefono;
 	}
 
-	public void setAsunto(String asunto) {
-		this.asunto = asunto;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	public String getCuerpo() {
@@ -64,22 +74,32 @@ public class WrapperCorreo {
 	public void setCuerpo(String cuerpo) {
 		this.cuerpo = cuerpo;
 	}
-	
-	/*public Integer getPropid() {
-		return propid;
+
+	public String getAdmin() {
+		return admin;
 	}
 
-	public void setPropid(Integer propid) {
-		this.propid = propid;
-	}*/
-	
-	public String getPropid() {
-	return propid;
+	public void setAdmin(String admin) {
+		this.admin = admin;
 	}
-	
-	public void setPropid(String propid) {
-		this.propid = propid;
+
+	public String getPropiedad() {
+		return propiedad;
 	}
+
+	public void setPropiedad(String propiedad) {
+		this.propiedad = propiedad;
+	}
+
+	public Integer getNumeroPuerta() {
+		return numeroPuerta;
+	}
+
+	public void setNumeroPuerta(Integer numeroPuerta) {
+		this.numeroPuerta = numeroPuerta;
+	}
+
+	
 }
 
 

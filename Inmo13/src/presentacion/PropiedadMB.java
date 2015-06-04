@@ -503,7 +503,7 @@ public void listarProp(){
 				request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/contacto");
 			
 				//WrapperCorreo wc = new WrapperCorreo(nombre, correo, asunto, cuerpo, id);
-				WrapperCorreo wc = new WrapperCorreo(this.nombre, this.correo, this.asunto, this.mensaje, this.fid);
+				WrapperCorreo wc = new WrapperCorreo(this.nombre, this.correo, this.asunto, this.mensaje, this.usuario, this.calle, this.numPuerta);
 	
 				String wcJSON = toJSONString(wc);
 	
@@ -570,7 +570,7 @@ public void listarProp(){
 		public void mensajeok() {
 		    FacesContext context = FacesContext.getCurrentInstance();
 		    //context.addMessage(null, new FacesMessage("Successful",  "Your message: " + message) );
-		    context.addMessage(null, new FacesMessage("Todo OK", "Su consulta fue enviada correctamente."));
+		    context.addMessage(null, new FacesMessage("Mensaje enviado", "Nos comunicaremos con usted a la brevedad"));
 		}
 
 }
