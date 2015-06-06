@@ -39,8 +39,8 @@ window.onload = function() {
    							pointRadius : 20,
    							externalGraphic : "resources/defecto/img/localizacion.png",
    							graphicOpacity : 1,
-   							graphicWidth : 50,
-   							graphicHeight : 36
+   							graphicWidth : 54,
+   							graphicHeight : 40
    	
    						}
    					}
@@ -189,10 +189,11 @@ function handleConfirm(xhr,status,args){
 	
 	
 	 //Estilos
-	 estiloPuntoInteres = new OpenLayers.StyleMap({
-			"default" : new OpenLayers.Style(null, {
-				rules : [ 
-						new OpenLayers.Rule({
+	 estiloPuntoInteres = new OpenLayers.Style();
+			
+	 
+	 
+					var tata =	new OpenLayers.Rule({
 						    filter: filter = new OpenLayers.Filter.Logical({
 						        type: OpenLayers.Filter.Logical.AND,
 						        filters: [
@@ -211,12 +212,12 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/tata.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 20,
-								graphicHeight : 20
+						        graphicWidth : 25,
+								graphicHeight : 25
 						    }
-						})
-						,
-							new OpenLayers.Rule({
+						});
+						
+				 var macro = new OpenLayers.Rule({
 						    filter: filter = new OpenLayers.Filter.Logical({
 						        type: OpenLayers.Filter.Logical.AND,
 						        filters: [
@@ -235,13 +236,13 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/macro.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 20,
-								graphicHeight : 20
+						        graphicWidth : 35,
+								graphicHeight : 35
 						    }
-						})
+						});
 						
-						,
-						new OpenLayers.Rule({
+						
+					var devoto =	new OpenLayers.Rule({
 						    filter: filter = new OpenLayers.Filter.Logical({
 						        type: OpenLayers.Filter.Logical.AND,
 						        filters: [
@@ -263,9 +264,9 @@ function handleConfirm(xhr,status,args){
 						        graphicWidth : 20,
 								graphicHeight : 20
 						    }
-						})
-						,
-						new OpenLayers.Rule({
+						});
+						
+					var inglesa =	new OpenLayers.Rule({
 						    filter: filter = new OpenLayers.Filter.Logical({
 						        type: OpenLayers.Filter.Logical.AND,
 						        filters: [
@@ -287,9 +288,9 @@ function handleConfirm(xhr,status,args){
 						        graphicWidth : 20,
 								graphicHeight : 20
 						    }
-						})
-						,
-						new OpenLayers.Rule({
+						});
+						
+					var carrito =	new OpenLayers.Rule({
 							filter : new OpenLayers.Filter.Comparison({
 								type : OpenLayers.Filter.Comparison.EQUAL_TO,
 								property : "tipo" ,
@@ -301,9 +302,9 @@ function handleConfirm(xhr,status,args){
 						        graphicWidth : 20,
 								graphicHeight : 20
 							}
-					})
-						,
-						new OpenLayers.Rule({
+					});
+						
+					var plaza =	new OpenLayers.Rule({
 							filter : new OpenLayers.Filter.Comparison({
 								type : OpenLayers.Filter.Comparison.EQUAL_TO,
 								property : "tipo" ,
@@ -315,9 +316,9 @@ function handleConfirm(xhr,status,args){
 						        graphicWidth : 20,
 								graphicHeight : 20
 							}
-					}),
+					});
 						
-						new OpenLayers.Rule({
+						var escuela = new OpenLayers.Rule({
 							filter : new OpenLayers.Filter.Comparison({
 								type : OpenLayers.Filter.Comparison.EQUAL_TO,
 								property : "tipo" ,
@@ -330,9 +331,9 @@ function handleConfirm(xhr,status,args){
 								graphicHeight : 20
 								
 							}
-					})
-						,
-						new OpenLayers.Rule({
+					});
+						
+					var secundaria =	new OpenLayers.Rule({
 							filter : new OpenLayers.Filter.Comparison({
 								type : OpenLayers.Filter.Comparison.EQUAL_TO,
 								property : "tipo" ,
@@ -344,9 +345,9 @@ function handleConfirm(xhr,status,args){
 						        graphicWidth : 20,
 								graphicHeight : 20
 							}
-					})
-						,
-						new OpenLayers.Rule({
+					});
+						
+					var multi =	new OpenLayers.Rule({
 						    filter: filter = new OpenLayers.Filter.Logical({
 						        type: OpenLayers.Filter.Logical.AND,
 						        filters: [
@@ -365,11 +366,11 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/multiahorro.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 20,
-								graphicHeight : 20
+						        graphicWidth : 23,
+								graphicHeight : 23
 						    }
-						}),
-						new OpenLayers.Rule({
+						});
+						var disco = new OpenLayers.Rule({
 						    filter: filter = new OpenLayers.Filter.Logical({
 						        type: OpenLayers.Filter.Logical.AND,
 						        filters: [
@@ -388,15 +389,16 @@ function handleConfirm(xhr,status,args){
 						    symbolizer: {
 						        externalGraphic: "resources/defecto/img/disco.png",
 						        graphicOpacity : 1,
-						        graphicWidth : 20,
-								graphicHeight : 20
+						        graphicWidth : 23,
+								graphicHeight : 23
+								
 						    }
-						}),
+						});
 						
-				 ]
-			})
-		});
-	
+			
+					
+					
+	estiloPuntoInteres.addRules([escuela, plaza, carrito, secundaria,tata, multi, macro, disco, inglesa, devoto ]);
 	 
   //Creo la capa de los puntos de interes.
   puntosInteres = new OpenLayers.Layer.Vector("Puntos Interes",
