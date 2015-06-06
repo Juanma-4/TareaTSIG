@@ -13,23 +13,21 @@
 			-->
 			
 			
+				<p:panel id="panel2" style="float:left;" >	
+					<h:form id="formulario-navbars" style="float:left;"> 
+						 
+						<h:commandLink action="#{propiedadMB.irHome()}">
+						    <h:graphicImage value="resources/defecto/img/logo.jpg" title="Inicio"></h:graphicImage>
+						</h:commandLink>
+											
+					</h:form>
+				</p:panel>
 			
-			<p:panel id="panel1" style="float:right;" rendered="#{not empty usuarioMB.mail}" >
-			
-		
-					
-			
-				<h:form id="formulario-navbar" style="float:right;"> <!--  prependId="false"  -->
-					<h:outputText value="Bienvenido, #{usuarioMB.mail}" rendered="#{not empty usuarioMB.mail}"/><br/>
-					<h:commandLink rendered="#{not empty usuarioMB.mail}" id="logoutLink" value="LogOut" action="#{usuarioMB.logOut()}"></h:commandLink>
-					
-					
-					
-					
-					
-					
-				</h:form>
-			</p:panel>
+				<p:panel id="panel1" style="float:right;" rendered="#{not empty usuarioMB.mail}" >
+						<h:form id="formulario-navbar" style="float:right;"> <!--  prependId="false"  -->
+							<h:outputText value="Bienvenido, #{usuarioMB.mail}" rendered="#{not empty usuarioMB.mail}"/><br/>
+							<h:commandLink rendered="#{not empty usuarioMB.mail}" id="logoutLink" value="LogOut" action="#{usuarioMB.logOut()}"></h:commandLink>
+						</h:form>
+				</p:panel>
 
-	
-			</html>
+</html>

@@ -301,6 +301,10 @@ public void listarProp(){
 		return "IndexAdmin.xhtml?faces-redirect=true";
 	}
 	
+	public String irHome(){
+		return "Index.xhtml?faces-redirect=true";
+	}
+	
 	public void limpiarDatos(){
 		this.calle = "";
 		this.numPuerta = 0;
