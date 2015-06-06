@@ -1,7 +1,7 @@
 var map;
 var gmapLayer;
 var propId;
-
+var propiedades;
 ////////////style para geolocalizacion
 var style = {
 	    fillColor: '#000',
@@ -9,7 +9,7 @@ var style = {
 	    strokeWidth: 0
 };
 
-function init() {
+window.onload = function() {
 	
         	var WGS84_google_mercator = new OpenLayers.Projection(gEPSG);	
      		var WGS84 = new OpenLayers.Projection(miEPSG);	
@@ -21,7 +21,8 @@ function init() {
         								div : document.getElementById("coordenadas")
         							}) ],
          			projection: WGS84_google_mercator, // se agrega solo igual, se puede omitir.
-         			displayProjection: WGS84 
+         			displayProjection: WGS84, 
+         			
          		};
             map = new OpenLayers.Map('map', opciones);
 
@@ -136,14 +137,15 @@ function init() {
    		});	
    		map.addLayers([gmapLayer,propiedades,vectorLocalizador]);
    		
-
+   		propId = propiedades.id;
+   		
         // Asi es como anda 
-   		    map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
+   	/*	    map.setCenter(new OpenLayers.LonLat(miLongitud, miLatitud).transform(
         new OpenLayers.Projection(miEPSG),
         map.getProjectionObject()
         ), 12);
            
-   	
+   	*/
            
         
    	/*
@@ -163,13 +165,26 @@ function init() {
 	*/	
    	
    		
-	
+   		 propiedades.events.register("loadend", propiedades, function() {
+   		console.log("termino");
+   		terminar();
+   		});
    		
    		
    		
         remoteListarPuntosInteres();
 }
-        
+function terminar() {
+	//alert("asdasd");
+var propiedades = map.getLayer(propId);
+
+
+map.zoomToExtent(propiedades.getDataExtent()); 
+map.zoomTo(17);
+}
+
+
+
 function handleConfirm(xhr,status,args){
 	
 	
