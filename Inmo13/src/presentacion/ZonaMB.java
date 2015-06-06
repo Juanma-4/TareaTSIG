@@ -35,9 +35,14 @@ public class ZonaMB implements Serializable {
 	}
 	
 	public String irBMZona(){
-		
+		limpiaraltazona();
 		return "BMZona.xhtml?faces-redirect=true";
 	
+	}
+	
+	public void limpiaraltazona(){
+		this.nombre="";
+		this.desc="";
 	}
 	
 	public String irInfoZonas(){

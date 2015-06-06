@@ -16,20 +16,100 @@
 		</h:head>
 
 	<h:body>      
-      
-	     <h:panelGroup layout="block" id="div-primerpag">
-	     	<h:outputLabel value="Registro Usuario." style="font-size:30px" />
-	   		 <br/><br/>
-		    	  <h:form style="margin-top:12px">
-		   		  	<h:outputText value="Mail: " />
-		   		  	<h:inputText value="#{usuarioMB.mailregistro}" id="mail"></h:inputText>
-		   		  	<br/><br/>
-		   		    <h:outputText value="Password: " />   		 
-		   		    <h:inputSecret value="#{usuarioMB.passwordregistro}" id="password"></h:inputSecret>
-		   		    <br/><br/><br/>
-		   		  	<h:commandButton value="Aceptar" action="#{usuarioMB.registroUsuario()}" />
+        	
+	 	    	  <h:form >
+			 
+	   				 	<p:panel header="Registro de Usuario">  
+	   				 		<br/>
+	   				 			<br/>
+	   				 		<p:panelGrid columns="2" layout="grid" >  
+					   		 			<p:outputLabel for="mail" value="Mail: " />   
+					   		 	 		<p:inputText value="#{usuarioMB.mailregistro}" id="mail" required="true"></p:inputText>
+							   		  	
+						   		  		<p:outputLabel for="password" value="Password: " />   
+										<p:password value="#{usuarioMB.passwordregistro}" id="password" required="true"></p:password>
+										
+											
+			   		    	</p:panelGrid>
+			   		    	
+			   		    	<br/>	<br/>
+				   		  <h:commandButton value="Aceptar" action="#{usuarioMB.registroUsuario()}" update="growl" />
+				   		  	
+					  </p:panel> 
+
 		   		  </h:form>
-	     </h:panelGroup>
+	   
+	        <p:growl id="growl" showDetail="true" sticky="true" />  
+	     
+	     
+	     
+<!-- "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"; -->
+<!-- 
+<h:form>
+    <p:panel header="Validate">
+        <p:messages autoUpdate="true"/>
+ 
+        <h:panelGrid id="grid" columns="4" cellpadding="5">
+            <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>                    
+            <p:inputText id="name" value="#{validationView.text}" required="true" label="Name"/>
+            <p:message for="name" />
+            <h:outputText value="#{validationView.text}" />
+ 
+            <h:outputLabel for="number" value="Number:" style="font-weight:bold"/>                    
+            <p:inputText id="number" value="#{validationView.integer}" label="Number">
+                <f:validateDoubleRange minimum="5" maximum="8" />
+            </p:inputText>
+            <p:message for="number" />
+            <h:outputText value="#{validationView.integer}" />
+ 
+            <h:outputLabel for="dd" value="Double:" style="font-weight:bold"/>                    
+            <p:inputText id="dd" value="#{validationView.doubleNumber}" converterMessage="Cannot convert to double.">
+                <f:validateDoubleRange minimum="5.5" maximum="8.5" />
+            </p:inputText>
+            <p:message for="dd" />
+            <h:outputText value="#{validationView.doubleNumber}" />
+ 
+            <h:outputLabel for="money" value="Currency ($):" style="font-weight:bold"/>                   
+            <p:inputText id="money" value="#{validationView.money}" label="Currency">
+                <f:convertNumber type="currency" currencySymbol="$"/>
+            </p:inputText>
+            <p:message for="money" />
+            <h:outputText value="#{validationView.money}">
+                <f:convertNumber  type="currency" currencySymbol="$" />
+            </h:outputText>
+ 
+            <h:outputLabel for="regex" value="Regex (^[a-zA-Z]+$):" style="font-weight:bold"/>                    
+            <p:inputText id="regex" value="#{validationView.regexText}" validatorMessage="Value does not match pattern.">
+                <f:validateRegex pattern="^[a-zA-Z]+$" />
+            </p:inputText>
+            <p:message for="regex" />
+            <h:outputText value="#{validationView.regexText}" />
+ 
+            <h:outputLabel for="date" value="Date" style="font-weight:bold"/>                 
+            <p:inputText id="date" value="#{validationView.date}" label="Date">
+                <f:convertDateTime pattern="MM/dd/yyyy" />
+            </p:inputText>
+            <p:message for="date" />
+            <h:outputText value="#{validationView.date}">
+                <f:convertDateTime pattern="MM/dd/yyyy" />
+            </h:outputText>
+ 
+            <h:outputLabel for="desc" value="Description" style="font-weight:bold"/>
+            <p:inputTextarea id="desc" value="#{validationView.description}" required="true" label="Description">
+                <f:validateLength minimum="3" maximum="10" /> 
+            </p:inputTextarea>
+            <p:message for="desc" />
+            <h:outputText value="#{validationView.description}" />
+        </h:panelGrid>
+ 
+        <p:commandButton value="Non-Ajax" ajax="false" icon="ui-icon-check" validateClient="true" style="margin-right:10px"/>
+        <p:commandButton value="Ajax" update="grid" icon="ui-icon-check" validateClient="true" style="margin-right:10px"/>
+        <p:commandButton value="Partial" update="grid" process="name number" validateClient="true" icon="ui-icon-check" style="margin-right:10px"/>
+        <p:commandButton value="Disabled" ajax="false" icon="ui-icon-check" />
+    </p:panel>
+</h:form> -->
+	     
+	     
 	</h:body>
  	</ui:define>
 </ui:composition>

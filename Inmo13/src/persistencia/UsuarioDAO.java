@@ -21,8 +21,10 @@ public class UsuarioDAO implements IUsuarioDAO{
 		boolean guardo = false;
 		
 		try {
+			if (!this.existeUsuario(usuario)){
 			em.persist(usuario);
 			guardo = true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -117,5 +119,10 @@ public class UsuarioDAO implements IUsuarioDAO{
     	
     	return elimino;
     } 
+    
+    public boolean existeUsuario (String mail){
+		
+		return (em.createQuery("SELECT u FROM Usuario u WHERE u.mail="+ mail).getResultList().size()== 1);
+	}
 	
 }

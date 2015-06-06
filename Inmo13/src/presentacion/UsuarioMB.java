@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -85,20 +84,25 @@ public class UsuarioMB implements Serializable {
 				ClientResponse<String> respuesta = request.post(String.class);
 
 				if (respuesta.getStatus() != 201) {
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage("Error al ingresar un nuevo usuario"));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al ingresar un nuevo usuario","Ya se encuentra registrador otro usuario con este email, pruebe con otro"));
 					throw new RuntimeException("Failed : HTTP error code : "
 							+ respuesta.getStatus());
+					
+					
+					// FacesContext context = FacesContext.getCurrentInstance();
+					    //context.addMessage(null, new FacesMessage("Successful",  "Your message: " + message) );
+					// context.addMessage(null, new FacesMessage("Error al crear usuario", "Ya se encuentra registrador otro usuario con este email, pruebe con otro"));
+				}
+				//else FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+				
+				Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));				
+		
+				if (creado)	{
+					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+				}else{			
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al ingresar un nuevo usuario","Ya se encuentra registrador otro usuario con este email, pruebe con otro"));		
 				}
 				
-				//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));				
-		
-				//if (creado)	{
-				//	FacesContext.getCurrentInstance().getExternalContext().redirect("Vista.xhtml");
-				//}else{			
-				
-				
-					FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");					
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally{
@@ -120,20 +124,19 @@ public class UsuarioMB implements Serializable {
 			request.body("application/json", usuarioJSON);
 
 			ClientResponse<String> respuesta = request.post(String.class);
-/*
+
 			if (respuesta.getStatus() != 201) {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage("Error al Modificar Usuario"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ respuesta.getStatus());
 			}
-			*/
-			
+					
 			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
 			if (creado)	{
 				FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
 			}else{			
-					FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al modificar la propiedad"));			
 			};
 			
 			}
@@ -183,9 +186,14 @@ public class UsuarioMB implements Serializable {
 	}
 	
 	public String irRegistroUsuario(){
-		
+         this.limpiarRegistro();
 		return "AltaUsuario.xhtml?faces-redirect=true";
 	
+	}
+	
+	public void limpiarRegistro(){
+		this.mailregistro="";
+		this.passwordregistro="";
 	}
 	
 	public String BMUsuario(){
