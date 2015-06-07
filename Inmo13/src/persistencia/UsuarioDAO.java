@@ -111,8 +111,10 @@ public class UsuarioDAO implements IUsuarioDAO{
     	Boolean elimino = false;
     	
     	try{
-    		em.remove(u);
-    		elimino = true;
+    		if (this.existeUsuario(u)){
+    			em.remove(u);
+    			elimino = true;
+    		}
     	}catch(Exception e){
     		e.printStackTrace();
     	}

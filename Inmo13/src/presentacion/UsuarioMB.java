@@ -257,7 +257,7 @@ public class UsuarioMB implements Serializable {
 	}
 
 	public void logOut() {
-
+		System.out.println("LOGOUT");
 		// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 
 		try {
@@ -285,24 +285,36 @@ public class UsuarioMB implements Serializable {
 					
 					System.out.println(respuesta.getEntity());
 					
-				/*	if (respuesta.getStatus() != 201) {
-						FacesContext.getCurrentInstance().addMessage(null,
-								new FacesMessage("Error No se pudo borrar el usuario"));
-						throw new RuntimeException("Failed : HTTP error code : "
-								+ respuesta.getStatus());
-					}*/
-							
-					/*Boolean elimino = gson.fromJson(respuesta.getEntity(), Boolean.class);
-					//Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+					if (respuesta.getStatus() != 201) {
+						System.out.println("ERROR !=201");
+						FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Error al Eliminar Usuario","No se pudo eliminar"));
+						/*throw new RuntimeException("Failed : HTTP error code : "
+								+ respuesta.getStatus());*/
+					//}else{
 					
-					if (elimino)	{
-						//FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
-						this.irRegistroUsuario();
+					
+					//Boolean elimino = Boolean.parseBoolean(respuesta.getEntity(String.class));	
+					}
+					Boolean elimino = Boolean.parseBoolean(respuesta.getEntity(String.class));
+					if (elimino){
+						if (this.mail.equals("admin")){
+									FacesContext.getCurrentInstance().getExternalContext().redirect("BMUsuario.xhtml");
+						//this.irRegistroUsuario();
+									System.out.println("es administrador");
+						}
+						else {
+							this.logOut();
+							//FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");
+							System.out.println("NO ES admin");
+						}
 					}else{		
-							FacesContext.getCurrentInstance().getExternalContext().redirect("Index.xhtml");				
-					};*/
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al Eliminar Usuario","Intentelo nuevamente, asegurese que el mailes el correcto"));			
+							System.out.println("NO ELIMINO");
+					};
+					
+					}
 							
-				}
+				
 				catch(Exception e){
 					e.printStackTrace();
 				}finally{

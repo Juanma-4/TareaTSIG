@@ -91,9 +91,14 @@ public class ControladorUsuario implements IControladorUsuario {
 	
 	public Boolean eliminarUsuario(String mail) {
 		System.out.println("eliminar Usuarios controlador :"+ mail);
-		Usuario usu = UsuarioDAO.getUsuario(mail);
-		Boolean elimino = UsuarioDAO.delete(usu);
 		
+		Boolean elimino=false;
+		
+		Usuario usu = UsuarioDAO.getUsuario(mail);
+		
+		if (usu!=null){
+				elimino = UsuarioDAO.delete(usu);
+		}
 		return elimino;
 	}
 	

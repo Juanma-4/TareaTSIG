@@ -52,7 +52,7 @@
          		    <p:inputText value="#{usuarioMB.usuarioSelecmail}" id="inputmail" ></p:inputText>
          		    
              <f:facet name="footer">  
-                       		<p:commandButton type="submit" value="Eliminar" onclick="PF('eliminar').hide();" actionListener="#{usuarioMB.eliminarUsuario()}" action="#{usuarioMB.logOut()}" />
+                       		<p:commandButton type="submit" value="Eliminar" onclick="PF('eliminar').hide();" actionListener="#{usuarioMB.eliminarUsuario()}"  />
 			    		    <p:commandButton type="submit" value="Cancelar" onclick="PF('eliminar').hide();" /> 
            	 </f:facet> 
 		    		
@@ -65,11 +65,11 @@
 			<p:panelGrid columns="2" cellpadding="5">
 		        	 <p:outputLabel for="inputmail2" value="Mail: " />  
 		        	 
-		    		 <p:inputText id="inputmail2" value="#{usuarioMB.usuarioSelecmail}" />
+		    		 <p:inputText id="inputmail2" value="#{usuarioMB.usuarioSelecmail}"/>
 		    		 
             		 <p:outputLabel for="inputpass" value="Password: " />  
             		 
-            		 <p:password id="inputpass" value="#{usuarioMB.usuarioSelecpass}" readonly="false"/>
+            		 <p:password id="inputpass" value="#{usuarioMB.usuarioSelecpass}" />
              </p:panelGrid>  		    
              <f:facet name="footer">  
                   		<p:commandButton  type="submit" value="Guardar"  onclick="PF('editar').hide();" action="#{usuarioMB.modificarUsuario()}" />
