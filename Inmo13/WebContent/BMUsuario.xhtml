@@ -14,8 +14,8 @@
 
 	<ui:define name="contenido">
 	 
-	  	 		    
-	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:30px" />
+	  <!-- 	 		    
+	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:30px" /> -->
     
       	<h:form prependId="false" id="form">
 		    <p:dataTable id="listAdmin" var="usu" value="#{listarUsuarios.listusus}" 
@@ -23,7 +23,7 @@
 		    	
 		        <p:growl id="message" showDetail="true" /> 
 		        <f:facet name="header">
-		             Administradores
+		             Seccion de Edicion y Eliminacion de Usurios
 		        </f:facet>
 		        
 		        <p:column headerText="Mail">

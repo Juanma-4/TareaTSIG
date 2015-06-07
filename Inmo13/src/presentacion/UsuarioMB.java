@@ -116,6 +116,12 @@ public class UsuarioMB implements Serializable {
 		
 		ClientRequest request = null;
 		try {
+			
+		
+			if(this.mail=="admin" || this.mail==this.usuarioSelecmail){
+				System.out.println("ENTRO AL MODIFICAR");
+				
+		
 			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioUsuario/modificar");
 		
 			WrapperUsuario usuario = new WrapperUsuario(this.usuarioSelecmail,this.usuarioSelecpass);
@@ -124,21 +130,27 @@ public class UsuarioMB implements Serializable {
 			request.body("application/json", usuarioJSON);
 
 			ClientResponse<String> respuesta = request.post(String.class);
-
-			if (respuesta.getStatus() != 201) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage("Error al Modificar Usuario"));
+			System.out.println(respuesta.getEntity());
+			/*	if (respuesta.getStatus() != 201) {
+						System.out.println("ERROR !=201 EN MODIFICAR");
+						FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage("Error al Modificar Usuario","No se pudo modificar el Usuario"));
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ respuesta.getStatus());
-			}
+			}*/
 					
-			Boolean creado = Boolean.parseBoolean(respuesta.getEntity(String.class));	
-			if (creado)	{
-				FacesContext.getCurrentInstance().getExternalContext().redirect("IndexAdmin.xhtml");
+			Boolean modifico = Boolean.parseBoolean(respuesta.getEntity(String.class));
+			
+			if (modifico){
+						System.out.println("MODIFICO USUARIO MB");
+							FacesContext.getCurrentInstance().getExternalContext().redirect("BMUsuario.xhtml");
 			}else{			
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al modificar la propiedad"));			
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al Modificar Usuario","Intentelo nuevamente"));	
+				System.out.println("NOOOOO  MODIFICO USUARIO MB");
 			};
 			
+			
+			}
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -285,16 +297,16 @@ public class UsuarioMB implements Serializable {
 					
 					System.out.println(respuesta.getEntity());
 					
-					if (respuesta.getStatus() != 201) {
+					/*if (respuesta.getStatus() != 201) {
 						System.out.println("ERROR !=201");
 						FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Error al Eliminar Usuario","No se pudo eliminar"));
-						/*throw new RuntimeException("Failed : HTTP error code : "
-								+ respuesta.getStatus());*/
+						throw new RuntimeException("Failed : HTTP error code : "
+								+ respuesta.getStatus());
 					//}else{
 					
 					
 					//Boolean elimino = Boolean.parseBoolean(respuesta.getEntity(String.class));	
-					}
+					}*/
 					Boolean elimino = Boolean.parseBoolean(respuesta.getEntity(String.class));
 					if (elimino){
 						if (this.mail.equals("admin")){

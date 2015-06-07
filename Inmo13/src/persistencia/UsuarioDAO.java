@@ -37,14 +37,31 @@ public class UsuarioDAO implements IUsuarioDAO{
 		
 		boolean modifico = false;
 		try {
-			System.out.println("estoy en modificar usuario DAO mail: "+ usuario.getMail());
-			em.merge(usuario);			
-			modifico = true;
+			if (this.existeUsuario(usuario.getMail())){
+				System.out.println("estoy en modificar usuario DAO mail: "+ usuario.getMail());
+				em.merge(usuario);			
+				modifico = true;
+    		}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return modifico;
 	}
+	
+	/*System.out.println("eliminar Usuarios en dato DAO"+ u.getMail());
+    	Boolean elimino = false;
+    	
+    	try{
+    		if (this.existeUsuario(u)){
+    			em.remove(u);
+    			elimino = true;
+    		}
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	
+    	return elimino;*/
 
 	public boolean existeUsuario(Usuario usuario) {
 		
@@ -123,8 +140,8 @@ public class UsuarioDAO implements IUsuarioDAO{
     } 
     
     public boolean existeUsuario (String mail){
-		
-		return (em.createQuery("SELECT u FROM Usuario u WHERE u.mail="+ mail).getResultList().size()== 1);
+    	//ad.fid = '"+fid.trim()+"'
+		return (em.createQuery("SELECT u FROM Usuario u WHERE u.mail='"+mail+"'").getResultList().size()== 1);
 	}
 	
 }

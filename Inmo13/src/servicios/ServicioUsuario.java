@@ -91,7 +91,7 @@ public class ServicioUsuario extends Application {
 
 			Usuario usuario = gson.fromJson(datos, Usuario.class);
 						
-			String codigoRetorno = "200";			
+		//	String codigoRetorno = "200";			
 			
 			try {
 				System.out.println("estoy en modificar usuario servicio: mail "+usuario.getMail()+"pass: "+usuario.getPassword());
@@ -100,12 +100,47 @@ public class ServicioUsuario extends Application {
 				
 			} catch (Exception err) {
 				err.printStackTrace();
-				codigoRetorno = "{\"status\":\"500\","
+				/*codigoRetorno = "{\"status\":\"500\","
 						+ "\"message\":\"Resource not created.\""
-						+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
+						+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";*/
 				return Response.status(500).entity(booleanJSON).build();
 			}
-			return Response.status(201).entity(booleanJSON).build();
+			//return Response.status(201).entity(booleanJSON).build();
+			return Response.ok(booleanJSON).build();
+			/*
+			 * 
+			 * 
+			System.out.println("Estoy en eliminar servicio usuario"+ mail);
+			String booleanoJson = null;
+
+			try {
+				Boolean elimino = iuc.eliminarUsuario(mail);
+				booleanoJson = toJSONString(elimino);
+				
+			} catch (Exception err) {
+				err.printStackTrace();
+				
+				return Response.status(500).entity(booleanoJson).build(); 
+			}
+			return Response.ok(booleanoJson).build();
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 * */
+			
+			
+			
+			
+			
+			
+			
 		}
 		
 		@GET
