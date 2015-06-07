@@ -18,20 +18,22 @@
 			 <ui:include src="Navbar.xhtml" />     
     </p:layoutUnit>
  
-    <p:layoutUnit position="south" styleClass="footer" >
-      <h:outputText value="Inmo13"></h:outputText>
-    </p:layoutUnit>
+<!--     <p:layoutUnit position="south" styleClass="footer" > -->
+<!--       <h:outputText value="Inmo13"></h:outputText> -->
+<!--     </p:layoutUnit> -->
  
     <p:layoutUnit position="west"   styleClass="menu">
      	 <ui:include src="Menu.xhtml" />     
     </p:layoutUnit>
   
     <p:layoutUnit position="center" styleClass="Container">
-      	<div id="contenido">
-        		<br/>
-        		<ui:insert name="contenido"><h:outputText value="Hola Administrador"/></ui:insert>
-        		<br/><br/>
-       	</div>
+    
+	    <ui:insert name="contenido">
+		    <h:panelGroup layout="block" id="div-welcome" styleClass="div-welcome">
+		     <p:outputLabel value="¡Hola Administrador!" style=" color:black; opacity:0.25;"></p:outputLabel>
+		    </h:panelGroup>
+	    </ui:insert>      
+    
     </p:layoutUnit>
  
 </p:layout>

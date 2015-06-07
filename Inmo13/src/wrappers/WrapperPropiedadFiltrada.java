@@ -39,6 +39,7 @@ public class WrapperPropiedadFiltrada {
 	@SerializedName("longitud")
 	private Double longitud;
 
+	public WrapperPropiedadFiltrada() {}
 	public WrapperPropiedadFiltrada(Double precio, Integer cantDorm,
 			Integer cantBanio, Double metrosCuadrados, Boolean parrillero,
 			Boolean garage, String tipoPropiedad, String tipoEstado,

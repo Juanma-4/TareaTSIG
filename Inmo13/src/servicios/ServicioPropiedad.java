@@ -106,12 +106,11 @@ public class ServicioPropiedad extends Application {
 			@Path("/listarPropiedades")
 			public Response listarPropiedades(String datosFiltro) {
 		
-//				System.out.println("ESTOY EN SERVICIOOOOO PROPIEDAD Entro!"+datosFiltro);
 				GsonBuilder gsonBuilder = new GsonBuilder();
 				Gson gson = gsonBuilder.create();
 				
 				String respuesta = null;
-				List<WrapperPropiedadFiltrada> propiedadesFiltradas = new ArrayList<WrapperPropiedadFiltrada>();
+				List<WrapperPropiedadFiltrada> propiedadesFiltradas = null;
 				
 				try {
 					ArrayList<String> filtros = gson.fromJson(datosFiltro, new TypeToken<ArrayList<String>>() {}.getType());

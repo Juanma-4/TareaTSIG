@@ -377,6 +377,19 @@
                 50% 50% 
                 no-repeat !Important;
 }
+.modal2 {
+    display:    none !Important;
+    position:   fixed !Important;
+    z-index:    1000 !Important;
+    top:        0 !Important;
+    left:       0 !Important;
+    height:     100% !Important;
+    width:      100% !Important;
+    background: rgba(0, 0, 0, 0.32) 
+                url("#{resource['defecto/img/ajax_loader_gray.gif']}") 
+                50% 50% 
+                no-repeat !Important;
+}
 
 /* When the body has the loading class, we turn
    the scrollbar off with overflow:hidden */
@@ -387,6 +400,14 @@ body.loading {
 /* Anytime the body has the loading class, our
    modal element will be visible */
 body.loading .modal {
+    display: block !Important;
+}
+
+body.loading-puntosInteres {
+    overflow: hidden !Important;   
+}
+
+body.loading-puntosInteres .modal2 {
     display: block !Important;
 }
 

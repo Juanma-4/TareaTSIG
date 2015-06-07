@@ -191,11 +191,15 @@ function buscarPropiedades(){
 	var parrillero = document.getElementById('filtro-centros:parrillero').checked;
 	var garage = document.getElementById('filtro-centros:garage').checked; 
 	
+	var calleDestino = document.getElementById('filtro-centros:calleDestino').value;
+	var esquinaDestino =  document.getElementById('filtro-centros:esquinaDestino').value;
+	
 	remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},
 	              {name:'minimo', value:minimo},{name:'maximo', value:maximo},
 	              {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
 	              {name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},
-	              {name:'parrillero', value:parrillero},{name:'garage', value:garage}]);
+	              {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'calleDestino', value:calleDestino},
+	              {name:'esquinaDestino', value:esquinaDestino}]);
 	
 
 }
@@ -365,6 +369,9 @@ function onPopupFeatureUnselect(feature) {
 }	
 
 function enviarDatos(){
+	  $body = $("body");
+	  $body.addClass("loading-puntosInteres"); 	
+	
 	var calle = selectedFeature.data.calle;
 	var precio = selectedFeature.data.precio;
 	var numPuerta = selectedFeature.data.numeropuerta; 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import wrappers.WrapperPropiedadFiltrada;
 import wrappers.WrapperPuntoInteres;
 import dominio.Propiedad;
 import dominio.Usuario;
@@ -18,6 +19,6 @@ public interface IPropiedadDAO  {
 			boolean parrillero, boolean garage, String tipoPropiedad,
 			String tipotransaccion, String tipoEstado, Integer numeroPuerta,
 			String fid, String imagen, String piso, String usuario);
-	public List<Object[]> listarPropiedades(ArrayList<String> filtros);
+	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros);
 	public List<WrapperPuntoInteres> listarPuntosInteres(String fid);
 }

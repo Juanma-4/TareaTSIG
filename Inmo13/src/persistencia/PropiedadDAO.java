@@ -71,25 +71,24 @@ public class PropiedadDAO implements IPropiedadDAO{
 		return modifico;
 	}
 	
-/*
-			datos.add(0,tipopropiedad);
-			datos.add(1,tipotransaccion);
-			datos.add(2, minimo);
-			datos.add(3, maximo);
-			datos.add(4, cantbanio);
-			datos.add(5, cantdorm);
-			datos.add(6, metroscuadrados);
-			datos.add(7, barrio);
-			datos.add(8, parrillero);
-			datos.add(9, garage);
-			datos.add(10, this.distanciaMar.toString());
-			datos.add(11, this.distanciaParada.toString());
-			datos.add(12, this.distanciaPInteres.toString());
- */
 
+	/**
+	 * 0, tipopropiedad
+	 * 2, minimo
+	 * 3, maximo
+	 * 4, cantbanio
+	 * 5, cantdorm
+	 * 6, metroscuadrados
+	 * 7, barrio
+	 * 8, parrillero
+	 * 9, garage
+	 * 10, distanciaMar
+	 * 11, distanciaParada
+	 * 12, distanciaPInteres
+	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> listarPropiedades(ArrayList<String> filtros) {
-		
+	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros) {
+			
 		// Filtros 
 		String tipoPropiedad = filtros.get(0);
 		String tipoTransaccion = filtros.get(1);
@@ -105,80 +104,336 @@ public class PropiedadDAO implements IPropiedadDAO{
 		Integer distanciaParada = Integer.parseInt(filtros.get(11));
 		Integer distanciaPuntoInteres = Integer.parseInt(filtros.get(12));
 		
+		
+		String select = null;
 		String from = null;
+		String where = null;
 		String sql = null;
-		List<Object[]> propiedadesFiltradas = null;
+		
+		List<WrapperPropiedadFiltrada> comunes = null;
+		List<WrapperPropiedadFiltrada> conBarrios = null;
+		List<WrapperPropiedadFiltrada> conDistanciaMar = null;
+		List<WrapperPropiedadFiltrada> conDistanciaParadas = null;
+		List<WrapperPropiedadFiltrada> conDistanciaParadasDestino = null;
+		List<WrapperPropiedadFiltrada> resultado = null;
+		
+		//// Para los puntos de Interes ////
+		
+		List<WrapperPropiedadFiltrada> puntoInteresComercial = null;
+		List<WrapperPropiedadFiltrada> puntoInteresEscuela = null;
+		List<WrapperPropiedadFiltrada> puntoInteresLiceo = null;
+		List<WrapperPropiedadFiltrada> puntoInteresPlaza = null;
+		
 		try {		
+						
+			// Primero hago los filtros básicos.
+			select = "SELECT DISTINCT propiedad.precio,propiedad.cantDorm,propiedad.cantBanio,propiedad.metrosCuadrados,propiedad.parrillero, "
+					+ "propiedad.garage,propiedad.tipoPropiedad,propiedad.tipotransaccion,propiedad.tipoestado,propiedad.numeroPuerta, "
+					+ "propiedad.calle,propiedad.fid,propiedad.imagen,propiedad.piso, propiedad.usuario, "
+					+ "ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud ";
 			
-			from = "propiedad";
+			from = "FROM propiedad ";
 			
-			if(!barrio.equalsIgnoreCase("TODOS"))
-				from += ",barrios";
-			
-			if(distanciaMar!= 0)
-				from += ",borde_rambla";
-			
-			if(distanciaParada!= 0)				
-				from += ",paradas";
-			
-			if(distanciaPuntoInteres!= 0)				
-				from += ",serv_comerciales,edu_primaria,deportes";
-			
-			
-			sql = "SELECT DISTINCT propiedad.id,propiedad.calle,propiedad.cantbanio,propiedad.cantdorm,propiedad.garage,propiedad.metroscuadrados, "
-					+ "propiedad.numeropuerta,propiedad.parrillero,propiedad.precio,propiedad.tipoestado,propiedad.tipopropiedad, "
-					+ "propiedad.tipotransaccion,propiedad.usuario,propiedad.fid,propiedad.piso,propiedad.imagen, "
-					+ "ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud "
-					+ "FROM "+from+ " " 
-					+ "WHERE propiedad.tipopropiedad = '"+tipoPropiedad+"' AND propiedad.tipotransaccion = '"+tipoTransaccion+"'"
+			where = "WHERE propiedad.tipopropiedad = '"+tipoPropiedad+"' AND propiedad.tipotransaccion = '"+tipoTransaccion+"'"
 					+ " AND propiedad.cantbanio = "+cantBanio+" AND propiedad.cantdorm = "+cantDorm+" AND propiedad.parrillero = "+parrillero 
-					+ " AND propiedad.garage = "+garage+" AND propiedad.tipoestado IN ('Publica','Reservada')";
+					+ " AND propiedad.garage = "+garage;
 			
 			if(!filtros.get(2).equalsIgnoreCase("NaN")){
 				Double precioMinimo = Double.parseDouble(filtros.get(2));
-				sql += " AND propiedad.precio >= "+precioMinimo;
+				where += " AND propiedad.precio >= "+precioMinimo;
 			}
 			
 			if(!filtros.get(3).equalsIgnoreCase("NaN")){
 				Double precioMaximo = Double.parseDouble(filtros.get(3));
-				sql += " AND propiedad.precio <= "+precioMaximo;
+				where += " AND propiedad.precio <= "+precioMaximo;
 			}
 			
 			if(!filtros.get(6).equalsIgnoreCase("NaN")){
 				Double metrosCuadrados = Double.parseDouble(filtros.get(6));
-				sql += " AND propiedad.metroscuadrados = "+metrosCuadrados;
+				where += " AND propiedad.metroscuadrados = "+metrosCuadrados;
 			}
 			
-			if(!barrio.equalsIgnoreCase("TODOS")){
-				sql += " AND ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio = '"+barrio+"'";
+			where += " AND propiedad.tipoestado IN ('Publica','Reservada')";
+			
+			
+			sql = select+from+where;
+			comunes = em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList();
+			resultado = new ArrayList<WrapperPropiedadFiltrada>(comunes);
+			
+			// Si me trajo algo los filtros comunes, se sigue filtrando con los filtros espaciales.
+			if(resultado.size() != 0){
+			
+				
+				if(!barrio.equalsIgnoreCase("TODOS")){					
+					sql = armarCondicionBarrios(select,from,where,barrio,resultado);
+					conBarrios = em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList();
+					
+					resultado = new ArrayList<WrapperPropiedadFiltrada>(conBarrios);				
+					
+				}						
+				
 			}
 			
-			
-			if(distanciaMar!= 0){
-				distanciaMar = (distanciaMar*1000); // para expresarlo en km.
-				sql+= " AND ST_Intersects(ST_Buffer(borde_rambla.geom,"+distanciaMar+"),propiedad.geom)";
+			// si devuelve algo con los filtros comunes y quiso filtrar por barrio
+			if(resultado.size() != 0){
+				
+				if(distanciaMar != 0){
+					
+					distanciaMar = (distanciaMar*1000); // para expresarlo en km.			
+					sql = armarCondicionDistanciaMar(select,from,where,distanciaMar,resultado);	
+					conDistanciaMar = em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList();
+					
+					resultado = new ArrayList<WrapperPropiedadFiltrada>(conDistanciaMar);
+						
+				}
 			}
-			
-			if(distanciaParada!= 0){
-				sql+= " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaParada+"),paradas.geom)";
-			}
-			
-			if(distanciaPuntoInteres!= 0){				
-				sql+=" AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),serv_comerciales.geom)" 
-					 + " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),edu_primaria.geom)"
-					 + " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),deportes.geom)";
-			}
-			
-			propiedadesFiltradas = em.createNativeQuery(sql).getResultList();
+				
+			if(resultado.size() != 0){	
+				if(distanciaPuntoInteres!= 0){
+					
+					sql= armarCondicionPuntosInteres(select,from,where,"serv_comerciales",distanciaPuntoInteres,resultado);
+					puntoInteresComercial = new ArrayList<WrapperPropiedadFiltrada>(em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList());
+					
+					sql= armarCondicionPuntosInteres(select,from,where,"deportes",distanciaPuntoInteres,resultado);
+					puntoInteresPlaza = new ArrayList<WrapperPropiedadFiltrada>(em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList());
+					
+					sql= armarCondicionPuntosInteres(select,from,where,"edu_primaria",distanciaPuntoInteres,resultado);
+					puntoInteresEscuela = new ArrayList<WrapperPropiedadFiltrada>(em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList());
+					
+					sql= armarCondicionPuntosInteres(select,from,where,"edu_secundaria",distanciaPuntoInteres,resultado);
+					puntoInteresLiceo = new ArrayList<WrapperPropiedadFiltrada>(em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList());
+							
+					//limpio lista
+					resultado.clear();
+					
+					resultado = new ArrayList<WrapperPropiedadFiltrada>(puntoInteresComercial);
+										
+					if(puntoInteresPlaza.size() != 0){
+						
+						if(resultado.size() != 0){
+						
+							for(WrapperPropiedadFiltrada plaza : puntoInteresPlaza){
+								
+								if(!contieneWrapperPuntoInteres(resultado,plaza))
+									resultado.add(plaza);
+								
+									
+							}
+							
+						}else{
+								resultado = puntoInteresPlaza;
+						}
+					}
+					
 
+
+					if(puntoInteresEscuela.size() != 0){
+											
+						if(resultado.size() != 0){
+						
+							for(WrapperPropiedadFiltrada escuela : puntoInteresEscuela){
+								
+								if(!contieneWrapperPuntoInteres(resultado,escuela))
+									resultado.add(escuela);								
+									
+							}
+							
+						}else{
+								resultado = puntoInteresEscuela;
+						}
+					}
+					
+					if(puntoInteresLiceo.size() != 0){
+						
+						if(resultado.size() != 0){
+						
+							for(WrapperPropiedadFiltrada liceo : puntoInteresLiceo){
+								
+								if(!contieneWrapperPuntoInteres(resultado,liceo))
+									resultado.add(liceo);
+								
+									
+							}
+							
+						}else{
+								resultado = puntoInteresLiceo;
+						}
+					}
+					
+						
+				}
+			}
+			
+			
+			if(resultado.size() != 0){
+				
+				if(distanciaParada!= 0){
+					conDistanciaParadasDestino = new ArrayList<WrapperPropiedadFiltrada>();
+					
+					if((!filtros.get(13).equalsIgnoreCase("")) && (!filtros.get(14).equalsIgnoreCase(""))){ //Si quiso ver filtro mas avanzado
+						String calleDestino = filtros.get(13);
+						String esquinaDestino = filtros.get(14);
+						
+						sql = armarCondicionLineas(select,from,where,calleDestino,esquinaDestino);
+						List<String> paradas = em.createNativeQuery(sql,String.class).getResultList();
+						
+						if(paradas.size() != 0){
+							sql = armarCondicionDistanciaParadaConDestino(select,from,where,paradas,distanciaParada,resultado);
+							conDistanciaParadasDestino = em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList();
+
+							resultado = new ArrayList<WrapperPropiedadFiltrada>(conDistanciaParadasDestino);
+							
+						}else{							
+							resultado = conDistanciaParadasDestino;
+						}
+						
+						
+					}else{ 	// Filtro normal de parada				
+						
+							sql = armarCondicionDistanciaParada(select, from, where,distanciaParada, resultado);
+							conDistanciaParadas =  em.createNativeQuery(sql,WrapperPropiedadFiltrada.class).getResultList();
+							
+							resultado = new ArrayList<WrapperPropiedadFiltrada>(conDistanciaParadas);
+							
+					}
+			    }
+				
+			}
+			
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-		return propiedadesFiltradas;
+	return resultado;
+		
+		
+	}		
+	
+	
+	private String armarCondicionBarrios(String select, String from, String where, String barrio, List<WrapperPropiedadFiltrada> comunes) {
+	
+
+		from += ",barrios ";
+		where = armarCondicionesIn(comunes);
+		where += " AND ST_CONTAINS(barrios.geom,propiedad.geom) AND barrios.barrio = '"+barrio+"'"; 
+		
+		return (select+from+where);
 	}
 
+
+	private String armarCondicionesIn(List<WrapperPropiedadFiltrada> filtradas) {
+		String resultado = "WHERE propiedad.fid IN ('"+filtradas.get(0).getFid()+"'";
+						
+		for(int i = 1; i<filtradas.size() ;i++){
+			resultado += ",'"+filtradas.get(i).getFid()+"'";
+		}	
+		resultado += ")";
+		
+		return resultado;
+	}
+
+	private String armarCondicionDistanciaMar(String select, String from, String where, Integer distanciaMar, List<WrapperPropiedadFiltrada> filtradas) {
+
+		from = " FROM propiedad, borde_rambla ";
+		
+		where = armarCondicionesIn(filtradas);							
+		where += " AND ST_Intersects(ST_Buffer(borde_rambla.geom,"+distanciaMar+"),propiedad.geom)";
+		
+		return (select+from+where);
+	}
+	
+	private String armarCondicionPuntosInteres(String select, String from,String where,String pi, Integer distanciaPuntoInteres, List<WrapperPropiedadFiltrada> resultado) {
+		
+		select = "SELECT DISTINCT propiedad.precio,propiedad.cantDorm,propiedad.cantBanio, "
+				+ "propiedad.metrosCuadrados,propiedad.parrillero, propiedad.garage,propiedad.tipoPropiedad, "
+				+ "propiedad.tipotransaccion,propiedad.tipoestado,propiedad.numeroPuerta, propiedad.calle, "
+				+ "propiedad.fid,propiedad.imagen,propiedad.piso, propiedad.usuario, ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , "
+				+ "ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud ";
+		
+		from = " FROM propiedad, "+pi+" ";
+		
+		where = armarCondicionesIn(resultado);
+		where += " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"), "+pi+".geom)";
+
+		return (select+from+where);
+		
+	}
+	
+	public boolean contieneWrapperPuntoInteres(List<WrapperPropiedadFiltrada> lista,WrapperPropiedadFiltrada prop) {
+		   boolean contiene = false;
+		   
+			for(WrapperPropiedadFiltrada p : lista){
+				
+				if(p.getFid().equals(prop.getFid()))
+					contiene = true;
+			}
+			
+			return contiene;
+			
+    }
+		
+//	private String armarCondicionPuntosInteres(String select, String from,	String where, Integer distanciaPuntoInteres,List<WrapperPropiedadFiltrada> filtradas) {
+//		select = "SELECT DISTINCT propiedad.precio,propiedad.cantDorm,propiedad.cantBanio,propiedad.metrosCuadrados,propiedad.parrillero, "
+//				+ "propiedad.garage,propiedad.tipoPropiedad,propiedad.tipotransaccion,propiedad.tipoestado,propiedad.numeroPuerta, "
+//				+ "propiedad.calle,propiedad.fid,propiedad.imagen,propiedad.piso, propiedad.usuario, "
+//				+ "ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud "; 
+//		from = " FROM propiedad, serv_comerciales,edu_primaria, edu_secundaria, deportes ";		
+//		where = armarCondicionesIn(filtradas);							
+//		where += " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),serv_comerciales.geom)" 
+//					 + " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),edu_primaria.geom)"
+//					 + " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),edu_secundaria.geom)"
+//					 + " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaPuntoInteres+"),deportes.geom)";
+//		return (select+from+where);
+//	}
+
+	private String armarCondicionDistanciaParada(String select, String from,String where, Integer distanciaParada, List<WrapperPropiedadFiltrada> resultado) {
+			
+			select = "SELECT DISTINCT propiedad.precio,propiedad.cantDorm,propiedad.cantBanio,propiedad.metrosCuadrados,propiedad.parrillero, "
+					+ "propiedad.garage,propiedad.tipoPropiedad,propiedad.tipotransaccion,propiedad.tipoestado,propiedad.numeroPuerta, "
+					+ "propiedad.calle,propiedad.fid,propiedad.imagen,propiedad.piso, propiedad.usuario, "
+					+ "ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud "; 
+			from = " FROM propiedad, paradas ";		
+			where = armarCondicionesIn(resultado);							
+			where += " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaParada+"),paradas.geom)";
+			
+			return (select+from+where);
+			
+	}
+	
+	private String armarCondicionLineas(String select, String from,String where, String calleDestino, String esquinaDestino) {
+			select = "SELECT DISTINCT paradas.desc_linea "; 
+			from = " FROM propiedad, paradas ";		
+			where += " AND paradas.calle = '"+ calleDestino +"' AND paradas.esquina = '" + esquinaDestino + "' OR "
+					+ "paradas.calle = '"+ esquinaDestino +"' AND paradas.esquina = '" + calleDestino + "'";		
+			
+			return (select+from+where);
+	}
+	private String armarCondicionDistanciaParadaConDestino(String select,
+			String from, String where, List<String> paradas,
+			Integer distanciaParada, List<WrapperPropiedadFiltrada> resultado) {
+
+	
+		select = "SELECT DISTINCT propiedad.precio,propiedad.cantDorm,propiedad.cantBanio,propiedad.metrosCuadrados,propiedad.parrillero, "
+				+ "propiedad.garage,propiedad.tipoPropiedad,propiedad.tipotransaccion,propiedad.tipoestado,propiedad.numeroPuerta, "
+				+ "propiedad.calle,propiedad.fid,propiedad.imagen,propiedad.piso, propiedad.usuario, "
+				+ "ST_X(ST_Transform(propiedad.geom, 900913)) AS latitud , ST_Y(ST_Transform(propiedad.geom, 900913)) AS longitud ";
+		from = " FROM propiedad, paradas ";		
+		where = armarCondicionesIn(resultado);	
+		where += armarCondicionesInParadas(paradas);
+		where += " AND ST_Intersects(ST_Buffer(propiedad.geom,"+distanciaParada+"),paradas.geom)";
+		
+		return (select+from+where);
+	}
+	
+	private String armarCondicionesInParadas(List<String> paradas) {
+		String resultado = " AND paradas.desc_linea IN ('"+paradas.get(0)+"'";
+		
+		for(int i = 1; i<paradas.size() ;i++){
+			resultado += ",'"+paradas.get(i)+"'";
+		}	
+		resultado += ")";
+		
+		return resultado;
+	}	
 
 	@SuppressWarnings("unchecked")
 	@Override

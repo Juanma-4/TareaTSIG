@@ -78,28 +78,35 @@ public class ControladorPropiedad implements IControladorPropiedad{
 		return modifico;
 	}
 
-
+	@Override
 	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros) {
-		
-		List<WrapperPropiedadFiltrada> props = new ArrayList<WrapperPropiedadFiltrada>();;
-		System.out.println("FILTROS :"+ filtros);
-		try{		
-			List<Object[]> propiedadesFiltradas = PropiedadDAO.listarPropiedades(filtros);
 			
-			for (Object[] propiedad: propiedadesFiltradas) {
-				WrapperPropiedadFiltrada pf = new WrapperPropiedadFiltrada((Double)propiedad[8], (Integer)propiedad[3], (Integer)propiedad[2], (Double)propiedad[5],
-						(Boolean)propiedad[7], (Boolean)propiedad[4], (String)propiedad[10], (String)propiedad[9], (String)propiedad[11],(Integer)propiedad[6],
-						(String) propiedad[1],(String) propiedad[13],(String)propiedad[15], (String)propiedad[14], (Double)propiedad[16], ((Double)propiedad[17]),
-						(String)propiedad[12]);
-
-				props.add(pf);
-			 }
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		return props;
+			List<WrapperPropiedadFiltrada> props = new ArrayList<WrapperPropiedadFiltrada>();;
+			System.out.println("FILTROS :"+ filtros);
+			try{	
+				
+				 props = PropiedadDAO.listarPropiedades(filtros);			
+				
+				
+	//			List<Object[]> propiedadesFiltradas = PropiedadDAO.listarPropiedades(filtros);
+	//			
+	//			for (Object[] propiedad: propiedadesFiltradas) {
+	//				WrapperPropiedadFiltrada pf = new WrapperPropiedadFiltrada((Double)propiedad[8], (Integer)propiedad[3], (Integer)propiedad[2], (Double)propiedad[5],
+	//						(Boolean)propiedad[7], (Boolean)propiedad[4], (String)propiedad[10], (String)propiedad[9], (String)propiedad[11],(Integer)propiedad[6],
+	//						(String) propiedad[1],(String) propiedad[13],(String)propiedad[15], (String)propiedad[14], (Double)propiedad[16], ((Double)propiedad[17]),
+	//						(String)propiedad[12]);
+	//
+	//				props.add(pf);
+	//			 }
+				
+				
+				
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			return props;
 	}
 
 	@Override
