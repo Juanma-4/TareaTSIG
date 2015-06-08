@@ -151,8 +151,8 @@ window.onload = function() {
 		
 	////// agregó las 3 capas de propiedades hechas antes ////////////////
 	
-		PropiedadesReservadas.setVisibility(false);
-		PropiedadesPrivadas.setVisibility(false);
+	//	PropiedadesReservadas.setVisibility(false);
+	//	PropiedadesPrivadas.setVisibility(false);
 		
 		map.addLayers([ google_maps, gphy,PropiedadesPublicas,PropiedadesPrivadas,PropiedadesReservadas]);
 
