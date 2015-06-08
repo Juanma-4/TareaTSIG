@@ -21,4 +21,5 @@ public interface IPropiedadDAO  {
 			String fid, String imagen, String piso, String usuario);
 	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros);
 	public List<WrapperPuntoInteres> listarPuntosInteres(String fid);
+	public List<String> listarIds(String fid);
 }

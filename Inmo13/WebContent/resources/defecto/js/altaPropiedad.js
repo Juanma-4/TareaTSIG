@@ -126,11 +126,12 @@ window.onload = function() {
  	apreto = true;
  }
  	
-  
-function darAltaGeom(){	
-	  
+function llamarRemoto(fid){
+	  remoteTraerFid([{name:'fid', value:fid}]);  
+}
+function darAltaGeom(xhr,status,args){
 	
-	 //Agrego la nueva feature a la capa de propiedades
+	 var fid = args.idGenerado
 	 propiedades.addFeatures([nuevaPropiedad.getFeatureById(propiedad.id)]);
  	 
  	 // Preparo los datos	 
@@ -145,13 +146,16 @@ function darAltaGeom(){
  	 propiedad.attributes.tipoestado = document.getElementById('formPropiedad:tipoEstado').value;
  	 propiedad.attributes.tipopropiedad = document.getElementById('formPropiedad:tipoPropiedad').value;
  	 propiedad.attributes.tipotransaccion =  document.getElementById('formPropiedad:tipoTransaccion').value;
- 	 propiedad.attributes.usuario = document.getElementById('formPropiedad:usuario').value; // "admin@gmail.com" para probar
- 	 propiedad.attributes.fid =  propiedad.id;//document.getElementById('formPropiedad:fid').value;
+ 	 propiedad.attributes.usuario = document.getElementById('formPropiedad:usuario').value; 
+ 	 propiedad.attributes.fid =  fid;
  	 propiedad.attributes.piso =  document.getElementById('formPropiedad:piso').value;
  	 propiedad.attributes.imagen =  document.getElementById('formPropiedad:imagen').value;
 
  	// propiedad.state = OpenLayers.State.INSERT; //No es necesario porque el dibujar ya le cambia el estado.
  	 saveStrategy.save();	
+ 	
+ 	 remoteRedireccionarIndex();
+ 	 
 }
 
 /////////////*************** FUNCIONES DE CONTROL ***************/////////////
@@ -160,7 +164,9 @@ $(function() {
 	$("#formPropiedad\\:botonFormPropiedad").click(function(){ 
 	  if (apreto){			  
 		  if(controlarInputs()){
-			  darAltaGeom();
+//			  darAltaGeom();
+			  llamarRemoto(propiedad.id);
+			  return false;
 		  }else
 			  return false;
 	  }else{

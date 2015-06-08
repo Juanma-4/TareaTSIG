@@ -2,6 +2,7 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,6 +24,37 @@ public class ControladorPropiedad implements IControladorPropiedad{
 	@EJB
 	private IPropiedadDAO PropiedadDAO;
 	
+	
+public String generarFid(String fid) {
+		
+		String idGenerado = fid;
+		List<String> ids = new ArrayList<String>();
+		
+		Random random = new Random();
+		int randomInt = random.nextInt(500 - 100 + 1) + 100; // de 100 a 500
+		
+		Boolean unico = false;
+		try{			
+			
+			ids = PropiedadDAO.listarIds(fid);	
+			
+			while(!unico){
+				if(ids.contains(idGenerado)){
+					idGenerado = "OpenLayers_Feature_Vector_"+randomInt++;
+				}else{
+					unico = true;
+				}		
+			}
+			
+					
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return idGenerado;
+	}
+
 	public boolean guardarPropiedad(double Precio, Integer CantDorm, Integer CantBanio, double MetrosCuadrados,boolean Parrillero, boolean Garage, String TipoPropiedad, String Estado ,String Tipotransaccion, Integer NumeroPuerta, String Calle,String fid, String imagen,String piso ,Usuario Usuario){
 		
 		boolean guardo = false;

@@ -114,6 +114,8 @@
 			<div style="width:90%; height:85%" id="map"></div>
 			
    		  	<br/>
+   		  	<p:remoteCommand name="remoteRedireccionarIndex" action="#{propiedadMB.irIndex()}"></p:remoteCommand>
+   		  	<p:remoteCommand name="remoteTraerFid" action="#{propiedadMB.generarFid()}" oncomplete="darAltaGeom(xhr,status,args)"></p:remoteCommand>
    		  	<h:commandButton type="submit" id="botonFormPropiedad" value="Aceptar" action="#{propiedadMB.irIndex()}"  update="growl"/>
    		 
    		  </h:form>

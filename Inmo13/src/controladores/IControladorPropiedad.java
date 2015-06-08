@@ -17,5 +17,6 @@ public interface IControladorPropiedad {
 	public boolean modificarPropiedad(String datosPropiedad);
 	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros);
 	public List<WrapperPuntoInteres> listarPuntosInteres(String fid);
+	public String generarFid(String fid);
 	
 }

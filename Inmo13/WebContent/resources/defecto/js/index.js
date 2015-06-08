@@ -177,31 +177,44 @@ function init() {
 
 };					
 
-// Se envian los datos para filtrar las propiedades.
+//Se envian los datos para filtrar las propiedades.
 function buscarPropiedades(){
-
-	var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
-	var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
-	var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
-	var maximo = parseInt(document.getElementById('filtro-centros:maximo').value);
-	var cantbanio = parseInt(document.getElementById('filtro-centros:cantBanio').value);
-	var cantdorm = parseInt(document.getElementById('filtro-centros:cantDormitorio').value);
-	var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
-	var barrio =  document.getElementById('filtro-centros:barrio').value;
-	var parrillero = document.getElementById('filtro-centros:parrillero').checked;
-	var garage = document.getElementById('filtro-centros:garage').checked; 
-	
 	var calleDestino = document.getElementById('filtro-centros:calleDestino').value;
 	var esquinaDestino =  document.getElementById('filtro-centros:esquinaDestino').value;
 	
-	remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},
-	              {name:'minimo', value:minimo},{name:'maximo', value:maximo},
-	              {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
-	              {name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},
-	              {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'calleDestino', value:calleDestino},
-	              {name:'esquinaDestino', value:esquinaDestino}]);
+	if(calleDestino != ""){
+		$("#freeow").freeow("My Title", "Debe ingresar una esquina");
+//		$("#freeow").freeow("Another Title", "One more message", {
+//		    classes: ["gray", "error"],
+//		    autoHide: false,
+//		    autoHideDelay:2000
+//		});
 	
-
+//		alert("Debe ingresar una esquina");		
+	}else if(esquinaDestino != ""){
+		$("#freeow").freeow("My Title", "Debe ingresar una calle");
+//		alert("Debe ingresar una calle");
+	}else{
+		
+		var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
+		var tipotransaccion =  document.getElementById('filtro-centros:tipoTransaccion').value;
+		var minimo = parseInt(document.getElementById('filtro-centros:minimo').value);
+		var maximo = parseInt(document.getElementById('filtro-centros:maximo').value);
+		var cantbanio = parseInt(document.getElementById('filtro-centros:cantBanio').value);
+		var cantdorm = parseInt(document.getElementById('filtro-centros:cantDormitorio').value);
+		var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
+		var barrio =  document.getElementById('filtro-centros:barrio').value;
+		var parrillero = document.getElementById('filtro-centros:parrillero').checked;
+		var garage = document.getElementById('filtro-centros:garage').checked; 
+		
+		remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},
+		              {name:'minimo', value:minimo},{name:'maximo', value:maximo},
+		              {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
+		              {name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},
+		              {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'calleDestino', value:calleDestino},
+		              {name:'esquinaDestino', value:esquinaDestino}]);
+		
+	}
 }
 //Funcion onstart
 function load(){

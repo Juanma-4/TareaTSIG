@@ -188,6 +188,10 @@ a.linkMB {
 #j_idt9-resizer  {
 	 background-color: rgb(50, 47, 47) !Important;
 }
+
+#j_idt18-resizer{
+	background-color: rgb(50, 47, 47) !Important;
+}
 /*
 .ui-layout-resizer ui-layout-resizer ui-layout-resizer-south {
 	  background-color: rgb(50, 47, 47) !Important;
@@ -199,5 +203,4 @@ a.linkMB {
   min-height: 1px;
   padding-left: 5px !Important;
 }
-
 

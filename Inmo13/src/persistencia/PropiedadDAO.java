@@ -17,6 +17,16 @@ public class PropiedadDAO implements IPropiedadDAO{
 	@PersistenceContext(unitName="Inmo")
     private EntityManager em;	
 	
+	public List<String> listarIds(String fid) {
+		List<String> ids = null;
+		try {
+			ids = em.createQuery("Select p.fid From Propiedad p",String.class).getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return ids;
+	}
 	
 	public boolean guardarPropiedad(Propiedad propiedad) {
 

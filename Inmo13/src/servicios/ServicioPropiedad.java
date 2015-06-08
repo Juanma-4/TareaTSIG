@@ -36,6 +36,31 @@ public class ServicioPropiedad extends Application {
 	@EJB
 	private IControladorUsuario iuc;
 	
+	
+
+			@GET
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Path("/generarFid")
+			public Response generarFid(@HeaderParam("fid") String fid) {
+		
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+				
+				String fidGenerado = null;
+				
+				try {					
+					fidGenerado = ipc.generarFid(fid);
+					fidGenerado = gson.toJson(fidGenerado);
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					return Response.status(500).entity(fidGenerado).build();
+		
+				}
+				return Response.status(201).entity(fidGenerado).build();
+			
+			}
+			
 			// localhost:8080/Inmo13/PropiedadService/propiedad
 			@POST
 			@Produces(MediaType.APPLICATION_JSON) 

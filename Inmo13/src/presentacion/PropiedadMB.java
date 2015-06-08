@@ -58,6 +58,34 @@ public class PropiedadMB implements Serializable {
 	
 	private List<WrapperPuntoInteres> lpuntosInteres;
 	
+	public void generarFid(){
+		
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String fid = String.valueOf(params.get("fid"));
+		String idGenerado = null;
+		ClientRequest request;
+		ClientResponse<String> response;
+		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		Gson gson = gsonBuilder.create();
+		
+		try {
+			
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/generarFid");
+			request.header("fid",fid);
+			
+			response = request.get(String.class);
+			
+			idGenerado = gson.fromJson(response.getEntity(String.class), String.class);
+			
+		 }catch (Exception e) {
+			 e.printStackTrace();
+		 }
+			
+		RequestContext.getCurrentInstance().addCallbackParam("idGenerado", idGenerado);
+	 
+	}
+
 	public void modificarPropiedad(){
 			
 			ClientRequest request;
