@@ -13,6 +13,8 @@
 	<link rel="stylesheet" type="text/css"
 		href="resources/bootstrap/css/slider.css"></link>
 	<h:outputStylesheet library="defecto" name="css/mapaStyle.css" />
+	<h:outputStylesheet library="Freeow" name="style/freeow/freeow.css" />
+	
 
 	<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
 	<h:outputScript library="bootstrap" name="js/bootstrap.min.js" target="head" />
@@ -22,7 +24,7 @@
     <script src="http://openlayers.org/api/OpenLayers.js"></script> 
     <h:outputScript library="defecto" name="js/javascript.util.js" target="head"/>
     
-	
+	<h:outputScript library="Freeow" name="jquery.freeow.min.js" target="head" />
 
 
 	
@@ -100,7 +102,7 @@
 
 									<label class="labelClass"
 										style="color: white; font-size: 13px;">Propiedad </label>
-									<h:selectOneMenu id="tipoPropiedad" value="1">
+									<h:selectOneMenu id="tipoPropiedad" value="1" onchange="verificarTerreno()">
 										<f:selectItem itemValue="Casa" itemLabel="Casa" />
 										<f:selectItem itemValue="Apartamento" itemLabel="Apartamento" />
 										<f:selectItem itemValue="Terreno" itemLabel="Terreno" />
@@ -123,7 +125,7 @@
 
 
 								<div>
-									<label style="color: white; font-size: 13px;">Rango
+									<label style="color: white; font-size: 13px;">Rango de
 										Precios ($)</label><br></br>
 									
 									<label style="color: white; font-size: 13px;">Min</label>
@@ -301,8 +303,8 @@
 											<label for="type-1"><b>Garage</b></label>
 										</div>
 									</div>
-
-									<br></br>
+									
+	<br />			
 		
 		
 			<div>

@@ -177,6 +177,31 @@ function init() {
 
 };					
 
+function verificarTerreno(){		
+	
+	if(document.getElementById('filtro-centros:tipoPropiedad').value == 'Terreno'){
+		 document.getElementById('filtro-centros:cantDormitorio').disabled = true;
+		 document.getElementById('filtro-centros:cantBanio').disabled = true;
+		 document.getElementById('filtro-centros:parrillero').disabled = true;
+		 document.getElementById('filtro-centros:garage').disabled = true;
+		 
+		 document.getElementById('filtro-centros:cantDormitorio').value= "";
+		 document.getElementById('filtro-centros:cantBanio').value = "";
+		 document.getElementById('filtro-centros:parrillero').value = false;
+		 document.getElementById('filtro-centros:garage').value = false;
+		 
+		 
+	}else{
+		 document.getElementById('filtro-centros:cantDormitorio').disabled = false;
+		 document.getElementById('filtro-centros:cantBanio').disabled = false;
+		 document.getElementById('filtro-centros:parrillero').disabled = false;
+		 document.getElementById('filtro-centros:garage').disabled = false;
+		 
+		 document.getElementById('filtro-centros:cantDormitorio').value= "1";
+		 document.getElementById('filtro-centros:cantBanio').value = "1";
+	}
+}
+
 //Se envian los datos para filtrar las propiedades.
 function buscarPropiedades(){
 	var calleDestino = document.getElementById('filtro-centros:calleDestino').value;

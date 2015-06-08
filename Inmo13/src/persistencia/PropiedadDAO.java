@@ -70,8 +70,8 @@ public class PropiedadDAO implements IPropiedadDAO{
 			propiedad.setPiso(piso);
 			//propiedad.setUsuario(usuario);
 			//propiedad.setFid(fid);
-			em.merge(propiedad);
-			em.refresh(propiedad);
+			em.persist(propiedad);
+//			em.refresh(propiedad);
 			modifico = true;
 		} catch (Exception e) {
 
@@ -99,14 +99,24 @@ public class PropiedadDAO implements IPropiedadDAO{
 	@SuppressWarnings("unchecked")
 	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros) {
 			
+		System.out.println(filtros);
+		
 		// Filtros 
 		String tipoPropiedad = filtros.get(0);
 		String tipoTransaccion = filtros.get(1);
+		Integer cantBanio = 0;
+		Integer cantDorm = 0;
 		
-		Integer cantBanio = Integer.parseInt(filtros.get(4));
-		Integer cantDorm = Integer.parseInt(filtros.get(5));
-		String barrio = filtros.get(7);
 		
+		if(!filtros.get(4).equals("NaN")){
+		cantBanio = Integer.parseInt(filtros.get(4));
+		}
+		if(!filtros.get(5).equals("NaN")){
+			cantDorm = Integer.parseInt(filtros.get(5));
+		}
+			
+			
+	    String barrio = filtros.get(7);
 		Boolean parrillero = Boolean.parseBoolean(filtros.get(8));
 		Boolean garage = Boolean.parseBoolean(filtros.get(9));
 				
@@ -144,9 +154,13 @@ public class PropiedadDAO implements IPropiedadDAO{
 			
 			from = "FROM propiedad ";
 			
+			if(!tipoPropiedad.equals("Terreno")){
 			where = "WHERE propiedad.tipopropiedad = '"+tipoPropiedad+"' AND propiedad.tipotransaccion = '"+tipoTransaccion+"'"
 					+ " AND propiedad.cantbanio = "+cantBanio+" AND propiedad.cantdorm = "+cantDorm+" AND propiedad.parrillero = "+parrillero 
 					+ " AND propiedad.garage = "+garage;
+			}else{
+				where = "WHERE propiedad.tipopropiedad = '"+tipoPropiedad+"' AND propiedad.tipotransaccion = '"+tipoTransaccion+"'";	
+			}
 			
 			if(!filtros.get(2).equalsIgnoreCase("NaN")){
 				Double precioMinimo = Double.parseDouble(filtros.get(2));

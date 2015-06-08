@@ -200,9 +200,9 @@ public class PropiedadMB implements Serializable {
 		this.usuario = String.valueOf(params.get("usuario"));   
 		this.imagen = String.valueOf(params.get("imagen"));   
 		this.piso = String.valueOf(params.get("piso")); 
-		this.distanciaMar = Integer.valueOf(params.get("distanciaMar"));
-		this.distanciaParada = Integer.valueOf(params.get("distanciaParada"));
-		this.distanciaPInteres = Integer.valueOf(params.get("distanciaPInteres"));
+//		this.distanciaMar = Integer.valueOf(params.get("distanciaMar"));
+//		this.distanciaParada = Integer.valueOf(params.get("distanciaParada"));
+//		this.distanciaPInteres = Integer.valueOf(params.get("distanciaPInteres"));
 	
 		//Cargo lista de puntos de interes para esa propiedad
 		this.listarPuntosInteres();
