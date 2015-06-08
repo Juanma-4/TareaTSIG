@@ -205,14 +205,20 @@ function buscarPropiedades(){
 		var metroscuadrados = parseFloat(document.getElementById('filtro-centros:metrosCuadrados').value);
 		var barrio =  document.getElementById('filtro-centros:barrio').value;
 		var parrillero = document.getElementById('filtro-centros:parrillero').checked;
-		var garage = document.getElementById('filtro-centros:garage').checked; 
+		var garage = document.getElementById('filtro-centros:garage').checked;
+		
+		
+		var distanciaMar = parseInt($("#MarSliderVal").text());
+	    var distanciaParada = parseInt($("#BusSliderVal").text());
+	    var distanciaPInteres = parseInt($("#PInteresSliderVal").text());
 		
 		remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},
 		              {name:'minimo', value:minimo},{name:'maximo', value:maximo},
 		              {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
 		              {name:'metroscuadrados', value:metroscuadrados},{name:'barrio', value:barrio},
-		              {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'calleDestino', value:calleDestino},
-		              {name:'esquinaDestino', value:esquinaDestino}]);
+		              {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'distanciaMar', value:distanciaMar},
+		              {name:'distanciaParada', value:distanciaParada},{name:'distanciaPInteres', value:distanciaPInteres},
+		              {name:'calleDestino', value:calleDestino},{name:'esquinaDestino', value:esquinaDestino}]);
 		
 	}
 }
@@ -406,3 +412,32 @@ function enviarDatos(){
 					   {name:'parrillero', value:parrillero},{name:'garage', value:garage},{name:'usuario', value:usuario},{name:'fid', value:fid}]);
 
 }
+
+$(function(){
+    
+	   $("#sliderMar").slider();
+	   $("#sliderMar").on("slide", function(slideEvt) {
+	   	$("#MarSliderVal").text(slideEvt.value);
+	   });
+	   
+});
+
+
+$(function(){
+	      
+	   $("#sliderBus").slider();
+	   $("#sliderBus").on("slide", function(slideEvt) {
+	   	$("#BusSliderVal").text(slideEvt.value);
+	   });
+	   
+});
+
+
+$(function(){
+	      
+	   $("#sliderPInteres").slider();
+	   $("#sliderPInteres").on("slide", function(slideEvt) {
+	   	$("#PInteresSliderVal").text(slideEvt.value);
+	   });
+	   
+});

@@ -45,6 +45,7 @@ public class PropiedadMB implements Serializable {
 	private String piso;
 	private String imagen;
 	
+	
 	private Integer distanciaMar;
 	private Integer distanciaParada;
 	private Integer distanciaPInteres;
@@ -136,6 +137,9 @@ public class PropiedadMB implements Serializable {
 		String barrio = String.valueOf(params.get("barrio"));
 		String parrillero = String.valueOf(params.get("parrillero"));
 		String garage = String.valueOf(params.get("garage"));
+		String distanciaMar = String.valueOf(params.get("distanciaMar"));
+		String distanciaParada = String.valueOf(params.get("distanciaParada"));
+		String distanciaPInteres = String.valueOf(params.get("distanciaPInteres"));
 		String calleDestino = String.valueOf(params.get("calleDestino"));
 		String esquinaDestino = String.valueOf(params.get("esquinaDestino"));
 		
@@ -156,9 +160,9 @@ public class PropiedadMB implements Serializable {
 			datos.add(7, barrio);
 			datos.add(8, parrillero);
 			datos.add(9, garage);
-			datos.add(10, this.distanciaMar.toString());
-			datos.add(11, this.distanciaParada.toString());
-			datos.add(12, this.distanciaPInteres.toString());
+			datos.add(10, distanciaMar);
+			datos.add(11, distanciaParada);
+			datos.add(12, distanciaPInteres);
 			datos.add(13, calleDestino);
 			datos.add(14, esquinaDestino);
 			
@@ -195,7 +199,10 @@ public class PropiedadMB implements Serializable {
 		this.fid = String.valueOf(params.get("fid")); 
 		this.usuario = String.valueOf(params.get("usuario"));   
 		this.imagen = String.valueOf(params.get("imagen"));   
-		this.piso = String.valueOf(params.get("piso"));  
+		this.piso = String.valueOf(params.get("piso")); 
+		this.distanciaMar = Integer.valueOf(params.get("distanciaMar"));
+		this.distanciaParada = Integer.valueOf(params.get("distanciaParada"));
+		this.distanciaPInteres = Integer.valueOf(params.get("distanciaPInteres"));
 	
 		//Cargo lista de puntos de interes para esa propiedad
 		this.listarPuntosInteres();
