@@ -14,6 +14,9 @@
 
 	<ui:define name="contenido">
 	 
+	 <fieldset>
+			           <legend>Modificar o eliminar Administradores</legend> 
+	 
 	  <!-- 	 		    
 	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:30px" /> -->
     
@@ -23,7 +26,7 @@
 		    	
 		        <p:growl id="message" showDetail="true" /> 
 		        <f:facet name="header">
-		             Seccion de Edicion y Eliminacion de Usurios
+		             Seccion de Edicion y Eliminacion de Administradores
 		        </f:facet>
 		        
 		        <p:column headerText="Mail">
@@ -40,7 +43,7 @@
 	  	    </p:dataTable>
 	  	    </h:form>
 	  	    <f:facet name="footer">  
-            Se encuentran #{(listarUsuarios.listusus.size())} usuarios registrados.  
+            Se encuentran #{(listarUsuarios.listusus.size())} administradores registrados.  
         	</f:facet>
 	
 		
@@ -78,7 +81,7 @@
 		    
 		</p:dialog>
 		</h:form>  
- 
+  </fieldset>
 	
 	</ui:define>
 </ui:composition>

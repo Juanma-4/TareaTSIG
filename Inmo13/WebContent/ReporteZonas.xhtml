@@ -8,8 +8,10 @@
 	<ui:define name="titulo">
         Clasificacion Zonas 
     </ui:define>
-
+		
 	<ui:define name="contenido">
+	<fieldset>
+			           <legend>Reporte de Zonas</legend> 
       	<form id="form">
 		    <p:dataTable id="listAdmin" var="zona" value="#{zonaMB.zonas}" 
 		    	emptyMessage="No existen zonas." style=" text-align:center;">
@@ -39,5 +41,6 @@
 		        </p:column>
 		    </p:dataTable>
 		</form>
+		</fieldset>
 	</ui:define>
 </ui:composition>

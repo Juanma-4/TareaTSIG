@@ -27,21 +27,24 @@
 <h:body>      
       
      <h:panelGroup layout="block" id="div-altaPropiedad">
+     
+                  <fieldset style="text-align:center">
+			           <legend>Modificar datos de la  Propiedad</legend>
 	
    		<p:growl id="growl" widgetVar="growl" showDetail="false" />
      
-     <h:form style="margin-top:12px" id="formBMPropiedad">
+     <h:form style="margin-top:12px; text-align: initial;   margin-left: 33%;" id="formBMPropiedad">
    		  
    		  	
-   		    <h:outputText value="Calle " />
+   		    <h:outputText value="Calle " style= "width: 20%; float: left;" />
    		  	<h:inputText value="#{propiedadMB.calle}" id="calle" required="true" requiredMessage="Ingrese una calle"></h:inputText>
    		  	<br/><br/>
    		  	
-   		  	<h:outputText value="Nro Puerta " />
-   		  	<h:inputText value="#{propiedadMB.numPuerta}" id="numeroPuerta" required="true" requiredMessage="Ingrese un Nº de puerta"></h:inputText>
+   		  	<h:outputText value="Nro Puerta " style= "width: 20%; float: left;" />
+   		  	<h:inputText value="#{propiedadMB.numPuerta}" id="numeroPuerta" required="true" size="5" requiredMessage="Ingrese un Nº de puerta"></h:inputText>
    		  
    		  	<br/><br/>
-   		  	
+   		  	<h:outputText value="Propiedad " style= "width: 20%; float: left;" />
    		  	<h:selectOneMenu id="tipoPropiedad" value="#{propiedadMB.tipoPropiedad}">
 	   			<f:selectItem id="casa" itemValue="Casa" itemLabel="Casa" />
 	   			<f:selectItem id="apartamento" itemValue="Apartamento" itemLabel="Apartamento" />
@@ -49,37 +52,38 @@
    		  	</h:selectOneMenu>
    		 	<br/><br/>
    		  	
+   		  	<h:outputText value="Transaccion " style= "width: 20%; float: left;"/>
    		  	<h:selectOneMenu id="tipoTransaccion" value="#{propiedadMB.tipotransaccion}">
 	   			<f:selectItem itemValue="Alquiler" itemLabel="Alquiler" />
 	   			<f:selectItem itemValue="Venta" itemLabel="Venta" />
    		  	</h:selectOneMenu>
    		 	<br/><br/>
 
-   		  	<h:outputText value="Precio $" />
-   		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" requiredMessage="Ingrese un precio"></h:inputText>
+   		  	<h:outputText value="Precio $" style= "width: 20%; float: left;" />
+   		  	<h:inputText value="#{propiedadMB.precio}" id="precio" required="true" size="10" requiredMessage="Ingrese un precio"></h:inputText>
    		   	<br/><br/>
    		  	
-   		  	<h:outputText value="Numero Piso" />
-   		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" requiredMessage="Ingrese un numero de piso"></h:inputText>
+   		  	<h:outputText value="Numero Piso" style= "width: 20%; float: left;"/>
+   		  	<h:inputText value="#{propiedadMB.piso}" id="piso" required="true" size="1" requiredMessage="Ingrese un numero de piso"></h:inputText>
    		  	<br/><br/>
    		  	
-   		    <h:outputText value="Cantidad Baños" />
-   		  	<h:inputText value="#{propiedadMB.cantBanio}" id="cantBanio" required="true" requiredMessage="Ingrese la cantidad de los baños"></h:inputText>
+   		    <h:outputText value="Baños" style= "width: 20%; float: left;"/>
+   		  	<h:inputText value="#{propiedadMB.cantBanio}" id="cantBanio" required="true" size="1" requiredMessage="Ingrese la cantidad de los baños"></h:inputText>
    		  	<br/><br/>
    		  	
-   		  	<h:outputText value="Cantidad Dormitorios" />
-   		  	<h:inputText value="#{propiedadMB.cantDorm}" id="cantDormitorio" required="true" requiredMessage="Ingrese la cantidad de dormitorios"></h:inputText>
+   		  	<h:outputText value="Dormitorios" style= "width: 20%; float: left;"/>
+   		  	<h:inputText value="#{propiedadMB.cantDorm}" id="cantDormitorio" required="true" size="1" requiredMessage="Ingrese la cantidad de dormitorios"></h:inputText>
    		  	<br/><br/>
    		  	
-   		  	<h:outputText value="Metros Cuadrados " />
-   		  	<h:inputText value="#{propiedadMB.metrosCuadrados}" id="metrosCuadrados" required="true" requiredMessage="Ingrese los metros cuadrados"></h:inputText>
+   		  	<h:outputText value="Metros Cuadrados " style= "width: 20%; float: left;"/>
+   		  	<h:inputText value="#{propiedadMB.metrosCuadrados}" id="metrosCuadrados" required="true" size="3" requiredMessage="Ingrese los metros cuadrados"></h:inputText>
    		  	<br/><br/>
    		  	
-			<h:outputText value="Parrillero" />
+			<h:outputText value="Parrillero" style= "width: 20%; float: left;"/>
     		<h:selectBooleanCheckbox value="#{propiedadMB.parrillero}" id="parrillero"/>
     		<br/><br/>
    		  
-    		<h:outputText value="Garage" />
+    		<h:outputText value="Garage" style= "width: 20%; float: left;"/>
     		<h:selectBooleanCheckbox value="#{propiedadMB.garage}" id="garage"/>
 			<br/><br/>
 						
@@ -87,6 +91,7 @@
 				<h:inputText id="usuario" value="#{propiedadMB.usuario}" />	
 			</h:panelGroup>
 						 
+			<h:outputText value="Estado " style= "width: 20%; float: left;" />			 
 			<h:selectOneMenu id= "tipoEstado" value="#{propiedadMB.tipoEstado}">
 	   			<f:selectItem itemValue="Cerrada" itemLabel="Cerrada" />
 	   			<f:selectItem itemValue="Cancelada" itemLabel="Cancelada" />
@@ -96,16 +101,18 @@
 			</h:selectOneMenu>
 				<br/><br/>
 
-			<h:outputText value="URL Imagen" />
+			<h:outputText value="URL Imagen" style= "width: 20%; float: left;"/>
    		  	<h:inputText value="#{propiedadMB.imagen}" id="imagen" required="true" requiredMessage="Ingrese la imagen"></h:inputText>
    		  	<br/><br/> 
 				
-			<h:outputText id="fid" value="Feature ID : #{propiedadMB.fid}" />
-			<br />			
+			
+			<br />		<br />		
 			
    		  			
-				<h:commandButton type="submit" id="botonBMPropiedad" value="Modificar" action="#{propiedadMB.modificarPropiedad}"  update="growl"/>
+				<h:commandButton type="submit" style="margin-left: 20%;" id="botonBMPropiedad" value="Modificar" action="#{propiedadMB.modificarPropiedad}"  update="growl"/>
 			</h:form>
+			
+			</fieldset>
    		
    		
      </h:panelGroup>

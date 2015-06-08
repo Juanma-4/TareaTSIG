@@ -17,26 +17,28 @@
 
 	<h:body>      
         	
-	 	    	  <h:form >
+	 	    	  <h:form style="margin-top:12px; text-align: initial;">
 			 
-	   				 	<p:panel header="Registro de Usuario">  
-	   				 		<br/>
-	   				 			<br/>
-	   				 		<p:panelGrid columns="2" layout="grid" >  
-					   		 			<p:outputLabel for="mail" value="Mail: " />   
-					   		 	 		<p:inputText value="#{usuarioMB.mailregistro}" id="mail" required="true"></p:inputText>
-							   		  	
-						   		  		<p:outputLabel for="password" value="Password: " />   
-										<p:password value="#{usuarioMB.passwordregistro}" id="password" required="true"></p:password>
+	   				 	<fieldset>
+			           <legend>Alta de Administrador</legend>  
+	   				 		
+	   				 		
+	   				 		 			<br/>
+					   		 			<h:outputText value="Mail " style= "width: 20%; float: left;" />  
+					   		 	 		<h:inputText value="#{usuarioMB.mailregistro}" id="mail" required="true"></h:inputText>
+							   		  	<br/><br/>
+						   		  		<h:outputText for="password" value="Password " style= "width: 20%; float: left;" />   
+										<input value="#{usuarioMB.passwordregistro}" type="password" id="password" required="true"></input>
 										
 											
-			   		    	</p:panelGrid>
 			   		    	
-			   		    	<br/>	<br/>
+			   		    	
+			   		    	
+			   		    		<br/><br/>
 				   		  <h:commandButton value="Aceptar" action="#{usuarioMB.registroUsuario()}" update="growl" />
 				   		  	
-					  </p:panel> 
-
+					 
+						</fieldset>
 		   		  </h:form>
 	   
 	        <p:growl id="growl" showDetail="true" sticky="true" />  

@@ -18,7 +18,9 @@
     <h:outputScript library="defecto" name="js/jsts.js" target="head"/>
 			
 </h:head>
-<h:body>      
+<h:body>  
+                       <fieldset>
+			           <legend>Alta de Zonas</legend>    
     <h:outputScript library="defecto" name="js/Variables.js" target="head"/>    
     <h:outputScript library="defecto" name="js/altaZona.js" target="head"/>
       
@@ -29,23 +31,24 @@
    		  <p:growl id="growl" widgetVar="growl" showDetail="false" />
    		  <h:form style="margin-top:12px" id="formZona">
 
-			<h:outputText value="Nombre : " />
+			<h:outputText value="Nombre : " style= "width: 15%; float: left;"/>
    		  	<h:inputText value="#{zonaMB.nombre}" id="nombre" required="true" requiredMessage="Ingrese un nombre para la nueva zona."></h:inputText>
    		  	<br/><br/>
    		  	
-   		  	<h:outputText value="Descripcion : " />
+   		  	<h:outputText value="Descripcion : " style= "width: 15%; float: left;"/>
    		  	<h:inputText value="#{zonaMB.desc}" id="desc" required="true"></h:inputText>
    		  
    		  	<br/><br/>
 				 
-			<div style="width:75%; height:60%" id="map"></div>
-			<div id="coordenadas"></div>		
+			<div style="width:100%; height:58%" id="map"></div>
+				
 			
    		  	<br/>
    		  	<h:commandButton type="submit" id="botonFormZona" value="Aceptar" action="#{zonaMB.irIndex()}"  update="growl"/>
    		  </h:form>
+   		  
      </h:panelGroup>
-
+</fieldset>
 </h:body>
 
 </ui:define>
