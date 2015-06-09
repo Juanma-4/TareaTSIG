@@ -83,7 +83,7 @@ public class ServicioUsuario extends Application {
 		@Path("/modificar")
 		public Response modificarUsuario(String datos) {
 			
-			boolean creado = false;
+			boolean modificado = false;
 			String booleanJSON = null;
 			
 			GsonBuilder gsonBuilder = new GsonBuilder();
@@ -91,72 +91,31 @@ public class ServicioUsuario extends Application {
 
 			Usuario usuario = gson.fromJson(datos, Usuario.class);
 						
-		//	String codigoRetorno = "200";			
-			
 			try {
-				System.out.println("estoy en modificar usuario servicio: mail "+usuario.getMail()+"pass: "+usuario.getPassword());
-				creado = iuc.modificarUsuario(usuario);
-				booleanJSON = gson.toJson(creado);
+//				System.out.println("estoy en modificar usuario servicio: mail "+usuario.getMail()+"pass: "+usuario.getPassword());
+				modificado = iuc.modificarUsuario(usuario);
+				booleanJSON = gson.toJson(modificado);
 				
 			} catch (Exception err) {
-				err.printStackTrace();
-				/*codigoRetorno = "{\"status\":\"500\","
-						+ "\"message\":\"Resource not created.\""
-						+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";*/
 				return Response.status(500).entity(booleanJSON).build();
 			}
-			//return Response.status(201).entity(booleanJSON).build();
 			return Response.ok(booleanJSON).build();
-			/*
-			 * 
-			 * 
-			System.out.println("Estoy en eliminar servicio usuario"+ mail);
-			String booleanoJson = null;
-
-			try {
-				Boolean elimino = iuc.eliminarUsuario(mail);
-				booleanoJson = toJSONString(elimino);
-				
-			} catch (Exception err) {
-				err.printStackTrace();
-				
-				return Response.status(500).entity(booleanoJson).build(); 
-			}
-			return Response.ok(booleanoJson).build();
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * */
-			
-			
-			
-			
-			
+					
 			
 			
 		}
 		
 		@GET
 		@Produces(MediaType.APPLICATION_JSON)
-		@Path("/administradores")	
-		public Response getAdministradores(){
-			System.out.println("estoy en listar administradores servicio");
+		@Path("/getUsuarios")	
+		public Response getUsuarios(){
+			List<Usuario> usuarios = new ArrayList<Usuario>();
 			String response = null;
 			try {
-				List<Usuario> usuarios = iuc.listarUsuarios();
+				usuarios = iuc.listarUsuarios();
 				response = usuarioToJSONString(usuarios);
 					
 			} catch (Exception err) {
-				response = "{\"status\":\"401\","
-				+ "\"message\":\"No content found \""
-				+ "\"developerMessage\":\"" + err.getMessage() + "\"" + "}";
 				return Response.status(401).entity(response).build();
 			}
 			return Response.ok(response).build();

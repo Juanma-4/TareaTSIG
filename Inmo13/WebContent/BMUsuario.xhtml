@@ -21,7 +21,7 @@
 	 	<h:outputLabel value="Editar y/o Eliminar Usuario." style="font-size:30px" /> -->
     
       	<h:form prependId="false" id="form">
-		    <p:dataTable id="listAdmin" var="usu" value="#{listarUsuarios.listusus}" 
+		    <p:dataTable id="listAdmin" var="usu" value="#{usuarioMB.lusuarios}" 
 		    	emptyMessage="No existen Usuarios" scrollable="true" style=" text-align:center;">
 		    	
 		        <p:growl id="message" showDetail="true" /> 
@@ -37,13 +37,13 @@
 		        <p:column headerText="Acciones">
 		      																							
 	        	  <p:commandButton value="Eliminar"  rendered="#{usuarioMB.mail==usu.mail or usuarioMB.mail=='admin'}" onclick="$('#inputmail').val('#{usu.mail}'); PF('eliminar').show();" />	        	 
-	        	  <p:commandButton value="Editar"  rendered="#{usuarioMB.mail==usu.mail or usuarioMB.mail=='admin'}" onclick="$('#inputmail2').val('#{usu.mail}'); $('#inputpass').val('#{usu.password}'); PF('editar').show();" />
+	        	  <p:commandButton value="Editar" onclick="$('#inputmail2').val('#{usu.mail}'); $('#inputpass').val('#{usu.password}'); PF('editar').show();" />
 	        	   
 	    	   	</p:column>
 	  	    </p:dataTable>
 	  	    </h:form>
 	  	    <f:facet name="footer">  
-            Se encuentran #{(listarUsuarios.listusus.size())} administradores registrados.  
+            Se encuentran #{(usuarioMB.lusuarios.size())} administradores registrados.  
         	</f:facet>
 	
 		

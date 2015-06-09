@@ -207,20 +207,13 @@ function buscarPropiedades(){
 	var calleDestino = document.getElementById('filtro-centros:calleDestino').value;
 	var esquinaDestino =  document.getElementById('filtro-centros:esquinaDestino').value;
 	
-	if((calleDestino != "")&&(esquinaDestino == "")){
-	//	$("#freeow").freeow("My Title", "Debe ingresar una esquina");
-	//	$.growl.error({ message: "Debe ingresar una esquina de destino" });
-//		$("#freeow").freeow("Another Title", "One more message", {
-//		    classes: ["gray", "error"],
-//		    autoHide: false,
-//		    autoHideDelay:2000
-//		});
-	
+	if((calleDestino != "")&&(esquinaDestino == "")){	
+		$.growl.error({ message: "Debe ingresar una esquina de destino" });
+
 
 	}else if((esquinaDestino != "")&&(calleDestino == "")){
-		//$("#freeow").freeow("My Title", "Debe ingresar una calle");
-		
-	//	$.growl.error({ message: "Debe ingresar una calle de destino" });
+				
+		$.growl.error({ message: "Debe ingresar una calle de destino" });
 
 	}else{
 		
@@ -240,6 +233,7 @@ function buscarPropiedades(){
 	    var distanciaParada = parseInt($("#BusSliderVal").text());
 	    var distanciaPInteres = parseInt($("#PInteresSliderVal").text());
 		
+	    
 		remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},
 		              {name:'minimo', value:minimo},{name:'maximo', value:maximo},
 		              {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
@@ -263,64 +257,69 @@ function handleConfirm(xhr,status,args)
   // Manipulo el json del callback
   var propiedadesJSON = JSON.parse(args.PropiedaesFiltradas);
  
-  var propArr = [];
-  for(var i=0; i<propiedadesJSON.length;i++){
-	  
-	  var prop = propiedadesJSON[i];
-	  
-	  var propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(prop.latitud, prop.longitud));
-	  propiedadFiltrada.data.calle = prop.calle;
-	  propiedadFiltrada.data.cantbanio = prop.cantBanio;
-	  propiedadFiltrada.data.cantdorm = prop.cantDorm;
-	  propiedadFiltrada.data.fid = prop.fid;
-	  propiedadFiltrada.data.garage = prop.garage;
-	  propiedadFiltrada.data.metroscuadrados = prop.metrosCuadrados;
-	  propiedadFiltrada.data.numeropuerta = prop.numeroPuerta;
-	  propiedadFiltrada.data.parrillero = prop.parrillero;
-	  propiedadFiltrada.data.precio = prop.precio;
-	  propiedadFiltrada.data.tipoestado = prop.tipoEstado;
-	  propiedadFiltrada.data.tipopropiedad = prop.tipoPropiedad;
-	  propiedadFiltrada.data.tipotransaccion = prop.tipotransaccion;
-	  propiedadFiltrada.data.usuario = prop.usuario;
-	  propiedadFiltrada.data.imagen = prop.imagen;
-	  
-      propiedadFiltrada.attributes.calle = prop.calle;
-      propiedadFiltrada.attributes.cantbanio = prop.cantBanio;
-	  propiedadFiltrada.attributes.cantdorm = prop.cantDorm;
-	  propiedadFiltrada.attributes.fid = prop.fid;
-	  propiedadFiltrada.attributes.garage = prop.garage;
-	  propiedadFiltrada.attributes.metroscuadrados = prop.metrosCuadrados;
-	  propiedadFiltrada.attributes.numeropuerta = prop.numeroPuerta;
-	  propiedadFiltrada.attributes.parrillero = prop.parrillero;
-	  propiedadFiltrada.attributes.precio = prop.precio;
-	  propiedadFiltrada.attributes.tipoestado = prop.tipoEstado;
-	  propiedadFiltrada.attributes.tipopropiedad = prop.tipoPropiedad;
-	  propiedadFiltrada.attributes.tipotransaccion = prop.tipotransaccion;
-	  propiedadFiltrada.attributes.usuario = prop.usuario;
-	  propiedadFiltrada.attributes.imagen = prop.imagen;
-	  
-      propiedadFiltrada.renderIntent = "default";
-      
-      propArr.push(propiedadFiltrada);
-	 
- }
-  
-	  setTimeout(function finalizarBusqueda(){
-		  		  //Borro las propiedades que se ven
-				  propiedades.removeAllFeatures();
-				  //Agrego las nuevas si es que hay.
-				  for(var j=0; j<propArr.length;j++){
-					  propiedades.addFeatures([propArr[j]]);
-				  }
-				  $body = $("body");
-				  $body.removeClass("loading");
-  			}, 0) //500) // Duerme por medio segundo y luego ejecuta la función.
- 
-  		/*	if(propiedades.features.length == 0 ){
-  				
-  				$.growl.warning({ message: "No se encontraron propiedades con las carracteriticas que usted desea" });
-  			}
-  		*/	
+	  if(propiedadesJSON.length != 0){
+		  var propArr = [];
+		  for(var i=0; i<propiedadesJSON.length;i++){
+			  
+			  var prop = propiedadesJSON[i];
+			  
+			  var propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(prop.latitud, prop.longitud));
+			  propiedadFiltrada.data.calle = prop.calle;
+			  propiedadFiltrada.data.cantbanio = prop.cantBanio;
+			  propiedadFiltrada.data.cantdorm = prop.cantDorm;
+			  propiedadFiltrada.data.fid = prop.fid;
+			  propiedadFiltrada.data.garage = prop.garage;
+			  propiedadFiltrada.data.metroscuadrados = prop.metrosCuadrados;
+			  propiedadFiltrada.data.numeropuerta = prop.numeroPuerta;
+			  propiedadFiltrada.data.parrillero = prop.parrillero;
+			  propiedadFiltrada.data.precio = prop.precio;
+			  propiedadFiltrada.data.tipoestado = prop.tipoEstado;
+			  propiedadFiltrada.data.tipopropiedad = prop.tipoPropiedad;
+			  propiedadFiltrada.data.tipotransaccion = prop.tipotransaccion;
+			  propiedadFiltrada.data.usuario = prop.usuario;
+			  propiedadFiltrada.data.imagen = prop.imagen;
+			  
+		      propiedadFiltrada.attributes.calle = prop.calle;
+		      propiedadFiltrada.attributes.cantbanio = prop.cantBanio;
+			  propiedadFiltrada.attributes.cantdorm = prop.cantDorm;
+			  propiedadFiltrada.attributes.fid = prop.fid;
+			  propiedadFiltrada.attributes.garage = prop.garage;
+			  propiedadFiltrada.attributes.metroscuadrados = prop.metrosCuadrados;
+			  propiedadFiltrada.attributes.numeropuerta = prop.numeroPuerta;
+			  propiedadFiltrada.attributes.parrillero = prop.parrillero;
+			  propiedadFiltrada.attributes.precio = prop.precio;
+			  propiedadFiltrada.attributes.tipoestado = prop.tipoEstado;
+			  propiedadFiltrada.attributes.tipopropiedad = prop.tipoPropiedad;
+			  propiedadFiltrada.attributes.tipotransaccion = prop.tipotransaccion;
+			  propiedadFiltrada.attributes.usuario = prop.usuario;
+			  propiedadFiltrada.attributes.imagen = prop.imagen;
+			  
+		      propiedadFiltrada.renderIntent = "default";
+		      
+		      propArr.push(propiedadFiltrada);
+			 
+		 }
+		  
+			  setTimeout(function finalizarBusqueda(){
+				  		  //Borro las propiedades que se ven
+						  propiedades.removeAllFeatures();
+						  //Agrego las nuevas si es que hay.
+						  for(var j=0; j<propArr.length;j++){
+							  propiedades.addFeatures([propArr[j]]);
+						  }
+						  $body = $("body");
+						  $body.removeClass("loading");
+		  			}, 0) //500) // Duerme por medio segundo y luego ejecuta la función.
+		 
+	  		
+	}else{	
+		propiedades.removeAllFeatures();
+		$.growl.warning({ message: "No se encontraron propiedades con las características que usted desea" });
+		
+		$body = $("body");
+	    $body.removeClass("loading");
+	}
+  		
 }
 
 

@@ -152,7 +152,7 @@
 	font-weight: bold;
 	margin-left: 10px;
 }
-
+/*
 @media (max-width: 823px) and (min-width: 768px) {
 	.slider-text {
 		color: white;
@@ -162,7 +162,7 @@
 		margin-left: 10px;
 	}
 }
-
+*/
 .btn-buscar {
 	background-color: #0DB6CC;
 	color: white;
@@ -424,5 +424,17 @@ body.loading-puntosInteres .modal2 {
 
     /* Good browsers */
     opacity: 0.85;
+}
+
+#filtro-centros\:minimo {
+	margin-left: 2%;	
+}
+
+#filtro-centros\:maximo{
+	margin-left: 2%;	
+}
+
+#filtro-centros\:barrio{
+	margin-left: 4%;
 }
     	
