@@ -193,14 +193,16 @@ function onPopupFeatureSelect(feature) {
         feature.data.calle +
         '</br>' + 
         feature.data.numeropuerta +
-        '</div>'+
+        '</div>';
       
-
+if(feature.data.tipopropiedad != "Terreno"){
+        	
+	popUpHtml +=   
         '</br>'+ '</br>'+
   '<div style="color:#000000">'+
         '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
         '</br>'+
-        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
+        '<label for="usr"style="color:#000000" >Para: </label>' + feature.data.tipotransaccion +
         '</br>'+
         '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
         '</br>'+
@@ -235,12 +237,33 @@ function onPopupFeatureSelect(feature) {
 			         '</br>'+
 			         '</div>' +
 			        	'</br>' +     
-			            '</br>' +
 			            '<div style="text-align:center">'+
 			            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
 			            '</div>';
-    }
-    
+        }
+ 
+} else{
+        
+	popUpHtml +=
+        	
+        	 '</br>'+ '</br>'+
+        	  '<div style="color:#000000">'+
+        	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
+        	        '</br>'+
+        	        '<label for="usr"style="color:#000000" >Para: </label>' + feature.data.tipotransaccion +
+        	        '</br>'+
+        	        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio + 	       
+        	        '</br>'+
+        	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
+        	        '</br>'+
+        	    
+        				            '<div style="text-align:center">'+
+        				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+        				            '</div>';
+        	    
+        	
+        	
+        }
     popup = new OpenLayers.Popup.FramedCloud(
     		"chicken",
 	        feature.geometry.getBounds().getCenterLonLat(),

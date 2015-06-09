@@ -213,56 +213,104 @@ function onPopupClose(evt) {
 }
 
 function onPopupFeatureSelect(feature) {
-	    selectedFeature = feature;
-	    popup = new OpenLayers.Popup.FramedCloud(
+	selectedFeature = feature;
+    
+    var popUpHtml = 
+        '<div>'+
+        '<div style="color:#FF0000;text-align:center">'+
+        feature.data.calle +
+        '</br>' + 
+        feature.data.numeropuerta +
+        '</div>';
+      
+if(feature.data.tipopropiedad != "Terreno"){
+popUpHtml +=  '</br>'+ '</br>'+
+  '<div style="color:#000000">'+
+        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Para: </label>' + feature.data.tipotransaccion +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
+        '</br>';
+    if(feature.data.parrillero == "true"){
+    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>Si</label>' +
+			        '</br>';
+			        
+    }else{
+    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>No</label>' +
+        '</br>';
+    }
+    if(feature.data.garage == "true"){
+    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>Si</label> '+
+			         '</br>'+
+			         '</div>' +
+			        	'</br>' +
+			            '<div style="text-align:center">'+
+			            
+			            '<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Modificar Datos</a>'+
+			            '</div>'+
+			            '</br>' +
+			            '<div style="text-align:center">'+
+			            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+			            '</div>';
+			        
+    }else{
+    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>No</label> '+
+			         '</br>'+
+			         '</div>' +
+			        	'</br>' +
+			            '<div style="text-align:center">'+
+			            '<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Modificar Datos</a>'+
+			            '</div>'+
+			            '</br>' +
+			            '<div style="text-align:center">'+
+			            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+			            '</div>';
+    }
+}else{
 
-	    		"",
-	        feature.geometry.getBounds().getCenterLonLat(),
-	        null,//new OpenLayers.Size(150,200), 
-	        
-	        '<div>'+
-	        '<div style="color:#FF0000;text-align:center">'+
-	        feature.data.calle +
-	        '</br>' + 
-	        feature.data.numeropuerta +
-	        '</div>'+
-	      
-   
-	        '</br>'+ '</br>'+
-	  '<div style="color:#000000">'+
-	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Parrillero: </label>' + feature.data.parrillero +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Garage: </label>' + feature.data.garage +
-	        '</br>'+
-	       
-        '</div>' +
-        	'</br>' +
-	        '<div style="text-align:center">'+
-	        	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Modificar Datos</a>'+
-	        	 // 	'<p:commandLink id="irMBPropiedad" onclick="enviarDatos()" immediate="true">Modificar/Borrar</p:commandLink>'+
-	        '</div>'+
-	        '</br>' +
-	        '<div style="text-align:center">'+
-	        	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
-//	        	' <img src="http://hogartotal.imujer.com/sites/default/files/hogartotal/Fotos-de-fachadas-de-casas-modernas-3.jpg" width="400" height="200">' +
-	        '</div>',
-	        null, 
-	        true, 
-	        onPopupClose
+popUpHtml += '</br>'+ '</br>'+
+  '<div style="color:#000000">'+
+        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Para: </label>' + feature.data.tipotransaccion +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
+        '</br>'+
+        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
+        '</br>' +
+ 
+			            '<div style="text-align:center">'+
+			            
+			            '<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Modificar Datos</a>'+
+			            '</div>'+
+			            '</br>' +
+			            '<div style="text-align:center">'+
+			            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
+			            '</div>';
+			        
+    }
+    
+    
+    popup = new OpenLayers.Popup.FramedCloud(
+
+    		"",
+        feature.geometry.getBounds().getCenterLonLat(),
+        null,//new OpenLayers.Size(150,200), 
+        popUpHtml,
+        null, 
+        true, 
+        onPopupClose
+
+          
 	);
     popup.panMapIfOutOfView = true;
     popup.autoSize = true;
