@@ -209,7 +209,7 @@ function buscarPropiedades(){
 	
 	if((calleDestino != "")&&(esquinaDestino == "")){
 	//	$("#freeow").freeow("My Title", "Debe ingresar una esquina");
-		$.growl.warning({ message: "Debe ingresar una esquina de destino" });
+	//	$.growl.error({ message: "Debe ingresar una esquina de destino" });
 //		$("#freeow").freeow("Another Title", "One more message", {
 //		    classes: ["gray", "error"],
 //		    autoHide: false,
@@ -220,7 +220,7 @@ function buscarPropiedades(){
 	}else if((esquinaDestino != "")&&(calleDestino == "")){
 		//$("#freeow").freeow("My Title", "Debe ingresar una calle");
 		
-		$.growl.warning({ message: "Debe ingresar una calle de destino" });
+	//	$.growl.error({ message: "Debe ingresar una calle de destino" });
 
 	}else{
 		
@@ -316,6 +316,11 @@ function handleConfirm(xhr,status,args)
 				  $body.removeClass("loading");
   			}, 0) //500) // Duerme por medio segundo y luego ejecuta la función.
  
+  		/*	if(propiedades.features.length == 0 ){
+  				
+  				$.growl.warning({ message: "No se encontraron propiedades con las carracteriticas que usted desea" });
+  			}
+  		*/	
 }
 
 
