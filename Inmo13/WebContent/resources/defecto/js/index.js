@@ -207,18 +207,21 @@ function buscarPropiedades(){
 	var calleDestino = document.getElementById('filtro-centros:calleDestino').value;
 	var esquinaDestino =  document.getElementById('filtro-centros:esquinaDestino').value;
 	
-	if(calleDestino != ""){
-		$("#freeow").freeow("My Title", "Debe ingresar una esquina");
+	if((calleDestino != "")&&(esquinaDestino == "")){
+	//	$("#freeow").freeow("My Title", "Debe ingresar una esquina");
+		$.growl.warning({ message: "Debe ingresar una esquina de destino" });
 //		$("#freeow").freeow("Another Title", "One more message", {
 //		    classes: ["gray", "error"],
 //		    autoHide: false,
 //		    autoHideDelay:2000
 //		});
 	
-//		alert("Debe ingresar una esquina");		
-	}else if(esquinaDestino != ""){
-		$("#freeow").freeow("My Title", "Debe ingresar una calle");
-//		alert("Debe ingresar una calle");
+
+	}else if((esquinaDestino != "")&&(calleDestino == "")){
+		//$("#freeow").freeow("My Title", "Debe ingresar una calle");
+		
+		$.growl.warning({ message: "Debe ingresar una calle de destino" });
+
 	}else{
 		
 		var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
