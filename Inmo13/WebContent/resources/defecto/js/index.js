@@ -7,6 +7,10 @@ var estiloProp;
 var vectorLocalizador;
 var propId;
 var selectedFeature;
+
+var calles;
+var esquinas;
+
 //////////// style para geolocalizacion
 var style = {
 	    fillColor: '#000',
@@ -175,7 +179,19 @@ function init() {
  	            map.getProjectionObject()
  	            ), 12);
 
+		
+		traerCalles();
+		traerEsquinas();
+		
 };					
+
+function cargarCalles(xhr,status,args){
+	calles = JSON.parse(args.Calles);	
+}
+
+function cargarEsquinas(xhr,status,args){
+	esquinas = JSON.parse(args.Esquinas);
+}
 
 function verificarTerreno(){		
 	

@@ -544,7 +544,7 @@ public class PropiedadDAO implements IPropiedadDAO{
 		
 		try{	
 
-			esquinas = new ArrayList<String>(em.createNativeQuery("SELECT DISTINCT esquinas FROM paradas ").getResultList());
+			esquinas = new ArrayList<String>(em.createNativeQuery("SELECT DISTINCT esquina FROM paradas ").getResultList());
 		}catch(Exception e){
 			e.printStackTrace();
 		}

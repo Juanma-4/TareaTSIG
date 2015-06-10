@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.primefaces.context.RequestContext;
@@ -58,6 +60,69 @@ public class PropiedadMB implements Serializable {
 	private String mensaje;
 	
 	private List<WrapperPuntoInteres> lpuntosInteres;
+	
+	private List<String> calles;
+	private List<String> esquinas;
+	
+	@PostConstruct
+	public void iniciar(){
+		ClientRequest request;
+		ClientResponse<String> response;
+		try {
+			
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/listarCalles");
+			
+			response = request.get(String.class);
+			
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			Gson gson = gsonBuilder.create();
+			
+			JsonParser parser = new JsonParser();
+			JsonArray jArray = parser.parse(response.getEntity()).getAsJsonArray();			
+			
+			this.calles = new ArrayList<String>();
+			
+			for (JsonElement calle : jArray) {
+				String c = gson.fromJson(calle, String.class);
+				this.calles.add(c);
+			}
+			
+			request.clear();
+//			response.close();
+			
+			request = new ClientRequest("http://localhost:8080/Inmo13/rest/ServicioPropiedad/listarEsquinas");
+			
+			response = request.get(String.class);
+			
+			 parser = new JsonParser();
+			 jArray = parser.parse(response.getEntity()).getAsJsonArray();			
+			
+			this.esquinas = new ArrayList<String>();
+			
+			for (JsonElement esquina : jArray) {
+				String e = gson.fromJson(esquina, String.class);
+				this.esquinas.add(e);
+			}
+			
+		 }catch (Exception e) {
+			 e.printStackTrace();
+		 }		
+	}
+	
+	public void traerCalles(){
+		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		Gson gson = gsonBuilder.create();
+		
+		
+		RequestContext.getCurrentInstance().addCallbackParam("Calles", gson.toJson(this.calles));
+	}
+	public void traerEsquinas(){
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		Gson gson = gsonBuilder.create();
+		
+		RequestContext.getCurrentInstance().addCallbackParam("Esquinas",  gson.toJson(this.esquinas));
+	}
 	
 	public void generarFid(){
 		
