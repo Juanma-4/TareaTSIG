@@ -174,5 +174,55 @@ public class ServicioPropiedad extends Application {
 				return Response.status(201).entity(respuesta).build();
 			
 			}
+			
+			@GET
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Path("/listarCalles")
+			public Response listarCalles() {
+		
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+				
+				String respuesta = null;
+				ArrayList<String> listCalles;
+				
+				try {					
+					listCalles = ipc.listarCalles();
+					respuesta = gson.toJson(listCalles);
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					return Response.status(500).entity(respuesta).build();
+
+				}
+				return Response.status(201).entity(respuesta).build();
+			
+			}
+			
+			@GET
+			@Produces(MediaType.APPLICATION_JSON) 
+			@Path("/listarEsquinas")
+			public Response listarEsquinas() {
+		
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				Gson gson = gsonBuilder.create();
+				
+				String respuesta = null;
+				ArrayList<String> listEquinas;
+				
+				try {					
+					listEquinas = ipc.listarEsquinas();
+					respuesta = gson.toJson(listEquinas);
+					
+				} catch (Exception err) {
+					err.printStackTrace();
+					return Response.status(500).entity(respuesta).build();
+
+				}
+				return Response.status(201).entity(respuesta).build();
+			
+			}
+			
+			
 	
 }

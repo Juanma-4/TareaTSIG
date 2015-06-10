@@ -156,5 +156,33 @@ public String generarFid(String fid) {
 		return puntosInteres;
 	}
 
+	@Override
+	public ArrayList<String> listarCalles() {
+		ArrayList<String> listCalles = null;
+		try{		
+			listCalles = PropiedadDAO.listarCalles();
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return listCalles;
+	}
+
+	
+	public ArrayList<String> listarEsquinas() {
+		ArrayList<String> listEsquinas = null;
+		try{		
+			listEsquinas = PropiedadDAO.listarEsquinas();
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return listEsquinas;
+	}
+
 }
 

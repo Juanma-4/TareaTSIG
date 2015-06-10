@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import wrappers.WrapperPropiedadFiltrada;
 import wrappers.WrapperPuntoInteres;
 import dominio.Propiedad;
+import dominio.Usuario;
 
 @Stateless
 public class PropiedadDAO implements IPropiedadDAO{
@@ -523,5 +524,30 @@ public class PropiedadDAO implements IPropiedadDAO{
 		}
 		
 		return puntosInteres;
+	}
+
+	public ArrayList<String> listarCalles() {
+		ArrayList<String> calles = null;
+		
+		try{	
+
+			calles = new ArrayList<String>(em.createNativeQuery("SELECT DISTINCT calle FROM paradas ").getResultList());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return calles;
+	}
+
+	@Override
+	public ArrayList<String> listarEsquinas() {
+		ArrayList<String> esquinas = null;
+		
+		try{	
+
+			esquinas = new ArrayList<String>(em.createNativeQuery("SELECT DISTINCT esquinas FROM paradas ").getResultList());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return esquinas;
 	}
 }
