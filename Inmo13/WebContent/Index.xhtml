@@ -14,6 +14,7 @@
 		href="resources/bootstrap/css/slider.css"></link>
 	<h:outputStylesheet library="defecto" name="css/mapaStyle.css" />
 	<h:outputStylesheet library="defecto" name="css/jquery.growl.css" />
+	<h:outputStylesheet library="defecto" name="css/normalize.css" />
 
 	<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
 	<h:outputScript library="bootstrap" name="js/bootstrap.min.js" target="head" />
@@ -90,7 +91,7 @@
 
 
 							<!-- Empiezan los filtros -->
-							<div>
+							<div id="filtros-containter">
 
 
 								<div>
@@ -123,10 +124,10 @@
 									<label style="color: white; font-size: 13px;">Rango
 										Precios ($)</label><br></br>
 									
-									<label style="color: white; font-size: 13px;">Min</label>
+									<label id="labelMin" style="color: white; font-size: 13px;">Min</label>
 									<h:inputText type="text" id="minimo" size="5"
 						           maxlength="16" />
-									<label style="color: white; font-size: 13px;">Máx</label>
+									<label id="labelMax" style="color: white; font-size: 13px;">Máx</label>
 									<h:inputText type="text" id="maximo" size="5"
 										maxlength="16" />
 									<br></br>
@@ -346,7 +347,7 @@
 								
 								</div>
 											<h:commandButton value="Buscar" id="botonBusqueda" 
-											styleClass="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 hidden-sm hidden-xs btn-buscar btn-submit-buscar"
+											styleClass="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 btn-buscar btn-submit-buscar"
 											onclick="buscarPropiedades(); return false;" />	
 									<p:remoteCommand name="remoteListar" action="#{propiedadMB.listarProp}" onstart="load();" oncomplete="handleConfirm(xhr,status,args)"></p:remoteCommand>
 									<p:remoteCommand name="remoteVerInfoProp" action="#{propiedadMB.setearDatos}"></p:remoteCommand>
