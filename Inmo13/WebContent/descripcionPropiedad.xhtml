@@ -19,10 +19,9 @@ Inmo 13 - Descripción Propiedad
 	<link rel="stylesheet" type="text/css"
 		href="resources/bootstrap/css/bootstrap-theme.min.css"></link>
 
-	<link href="http://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" type="text/css" ></link>
-	<h:outputStylesheet library="defecto" name="css/reporte.css" />
+	
 
-	<h:outputStylesheet library="defecto" name="css/descPropStyle.css" />
+	<h:outputStylesheet library="defecto" name="css/mapaStyle.css" />
 	<h:outputStylesheet library="lightbox" name="css/lightbox.css" />
 	
 	
@@ -84,7 +83,7 @@ Inmo 13 - Descripción Propiedad
 				
 				
 				<div class="body-filtros">
-					<div id="descripcion-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h:form style="margin-top:12px" id="formDescripcion">
 						
 						<c:if test="#{propiedadMB.tipoPropiedad == 'Terreno'}">
@@ -106,7 +105,7 @@ Inmo 13 - Descripción Propiedad
 						<h:outputText class="labelClass" style="color: white; font-size: 13px " value=" $#{propiedadMB.numPuerta} " />
 						<br></br><br></br>
 						
-						<label id="label-metroscuadrados" class="labelClass" style="color: white;width: 150px; font-size: 13px;">Metros Cuadrados </label>
+						<label class="labelClass" style="color: white;width: 150px; font-size: 13px;">Metros Cuadrados </label>
 						<h:outputText class="labelClass" style="color: white; font-size: 13px " value="#{propiedadMB.cantBanio}m² " />
 						<br></br><br></br>
 						
@@ -184,8 +183,8 @@ Inmo 13 - Descripción Propiedad
 								 <h:form prependId="false" id="formcorreo">
 								 		<p:dialog header="Contacto" widgetVar="dialco" showEffect="explode" hideEffect="bounce" mminHeight="40">
 								 		
-								 				  <p:panelGrid columns="2" cellpadding="5" >                 
-									               		 <p:outputLabel for="inputnombre" value="Nombre: " />   
+								 				  <p:panelGrid columns="2" cellpadding="5" styleClass="panelNoBorder">                 
+									               		 <p:outputLabel for="inputnombre" value="Nombre: "/>   
 									            		
 									         		     <p:inputText value="#{propiedadMB.nombre}" id="inputnombre" required="true"></p:inputText>
 									         		    
@@ -205,7 +204,7 @@ Inmo 13 - Descripción Propiedad
 								            		    
 								             <f:facet name="footer">  
 								             	<p:commandButton type="submit" value="Enviar" onclick="PF('dialco').hide();" actionListener="#{propiedadMB.mensajeok()}" update="growl" action="#{propiedadMB.enviarCorreo()}" />
-											    <p:commandButton type="submit" value="Cancelar" onclick="PF('dialco').hide();" /> 
+											    <p:commandButton type="submit" value="Cancelar" onclick="PF('dialco').hide();"  style="float:right;"/> 
 								           	 </f:facet> 
 										    		
 										</p:dialog>
