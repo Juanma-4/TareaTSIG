@@ -529,4 +529,9 @@ border-radius: 15px;
   		white-space: pre;
 } 
 
+.panelNoBorder, .panelNoBorder tr, .panelNoBorder td{
+border: hidden;
+border-color: white;
+}
+
     	

@@ -183,8 +183,8 @@ Inmo 13 - Descripción Propiedad
 								 <h:form prependId="false" id="formcorreo">
 								 		<p:dialog header="Contacto" widgetVar="dialco" showEffect="explode" hideEffect="bounce" mminHeight="40">
 								 		
-								 				  <p:panelGrid columns="2" cellpadding="5" >                 
-									               		 <p:outputLabel for="inputnombre" value="Nombre: " />   
+								 				  <p:panelGrid columns="2" cellpadding="5" styleClass="panelNoBorder">                 
+									               		 <p:outputLabel for="inputnombre" value="Nombre: "/>   
 									            		
 									         		     <p:inputText value="#{propiedadMB.nombre}" id="inputnombre" required="true"></p:inputText>
 									         		    
@@ -204,7 +204,7 @@ Inmo 13 - Descripción Propiedad
 								            		    
 								             <f:facet name="footer">  
 								             	<p:commandButton type="submit" value="Enviar" onclick="PF('dialco').hide();" actionListener="#{propiedadMB.mensajeok()}" update="growl" action="#{propiedadMB.enviarCorreo()}" />
-											    <p:commandButton type="submit" value="Cancelar" onclick="PF('dialco').hide();" /> 
+											    <p:commandButton type="submit" value="Cancelar" onclick="PF('dialco').hide();"  style="float:right;"/> 
 								           	 </f:facet> 
 										    		
 										</p:dialog>
