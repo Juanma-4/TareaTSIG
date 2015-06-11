@@ -1,6 +1,5 @@
 html {
-/*	background: url("#{resource['images:2.JPG']}") no-repeat center center fixed;
-*/	-webkit-background-size: cover;
+   -webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
@@ -54,7 +53,12 @@ div.oldMap {
 	color: rgba(55, 170, 206, 1);
 	float: left;
 }
-
+.navbar .ui-layout-unit-content{
+    overflow: hidden !Important;
+}
+.menu .ui-layout-unit-content{
+    overflow: hidden !Important;
+}
 .menu {
 	background-color: rgba(55, 170, 206, 1) !Important;
 	min-width: 12% !Important;

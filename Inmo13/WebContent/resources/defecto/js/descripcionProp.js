@@ -446,19 +446,19 @@ function onPopupClose(evt) {
 
 function onPopupFeatureSelect(feature) {
     selectedFeature = feature;
-   
-    
-    
+       
     var popUpHtml = 
         '<div>'+
-        '<div style="color:#FF0000;text-align:center">'+
+        '<div style="text-align:center" class="font-style">'+
         feature.data.nombre +
         '</br>' +
-        '<div style="color:#000000">'+
-        '<label for="usr"style="color:#000000" >Distancia: </label>'+ feature.data.distancia + '<label for="usr"style="color:#000000" >m </label>'+
+        '<div class="my-container">'+
+        '<font-style2>Distancia: </font-style2> <font-style3>	'+ feature.data.distancia + ' m' +
+        '</font-style3> </br>'+
+//        '<label for="usr"style="color:#000000" >Distancia: </label>'+ feature.data.distancia + '<label for="usr"style="color:#000000" >m </label>'+
         '</div>'+
         '</div>' 
-      
+        
 
     
     popup = new OpenLayers.Popup.FramedCloud(

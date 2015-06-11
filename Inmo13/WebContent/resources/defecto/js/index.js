@@ -8,8 +8,8 @@ var vectorLocalizador;
 var propId;
 var selectedFeature;
 
-var calles;
-var esquinas;
+//var calles;
+//var esquinas;
 
 //////////// style para geolocalizacion
 var style = {
@@ -180,18 +180,18 @@ function init() {
  	            ), 12);
 
 		
-		traerCalles();
-		traerEsquinas();
+//		traerCalles();
+//		traerEsquinas();
 		
 };					
 
-function cargarCalles(xhr,status,args){
-	calles = JSON.parse(args.Calles);	
-}
-
-function cargarEsquinas(xhr,status,args){
-	esquinas = JSON.parse(args.Esquinas);
-}
+//function cargarCalles(xhr,status,args){
+//	calles = JSON.parse(args.Calles);	
+//}
+//
+//function cargarEsquinas(xhr,status,args){
+//	esquinas = JSON.parse(args.Esquinas);
+//}
 
 function verificarTerreno(){		
 	
@@ -338,8 +338,6 @@ function handleConfirm(xhr,status,args)
   		
 }
 
-
-
 //////////////////// Para Pop Ups //////////////////////////
 
 
@@ -388,8 +386,8 @@ if(feature.data.tipopropiedad != "Terreno"){
     	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		Si</font-style3> '+
 					        '</br>'+ '</br>'+
 					         '<div class="div_radius" >'+
-					            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
-					            	/*' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+//					            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+					            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
 					            '</div>'+'</br>' +
 				        '</div>' +
 				        '<div style="text-align:center">'+
@@ -400,8 +398,8 @@ if(feature.data.tipopropiedad != "Terreno"){
     	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		No</font-style3> '+
 				         '</br>'+ '</br>'+
 				         '<div class="div_radius" >'+
-				            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
-				            	/*' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+//				            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+				            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
 				            '</div>'+'</br>' +
 			         '</div>' +
 			         '<div style="text-align:center">'+
@@ -427,8 +425,8 @@ if(feature.data.tipopropiedad != "Terreno"){
 	        '</font-style3> </br>' +
 	        '</br>'+ 
 	        '<div class="div_radius" >'+
-	        '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
-	        /*' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+//	        '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+	      ' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
 	        '</div>'+'</br>' +
   '</div>' +
   '<div style="text-align:center">'+
@@ -513,3 +511,15 @@ $(function(){
 	   });
 	   
 });
+
+//
+//$(function(){
+//	
+//	$(document.getElementById('tags')).autocomplete({
+//	    source: calles
+//	  });
+//	
+//	$(document.getElementById('filtro-centros:calleDestino')).autocomplete({
+//	    source: calles
+//	  });
+//});

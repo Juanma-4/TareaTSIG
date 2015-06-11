@@ -28,6 +28,7 @@
   height: 100%;
   top: 0;
   bottom: 0;
+  background: #BABABA;
 }
 .slider.slider-horizontal .slider-handle {
   margin-left: -10px;
