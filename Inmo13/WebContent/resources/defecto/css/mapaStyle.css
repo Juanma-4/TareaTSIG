@@ -415,4 +415,118 @@ body.loading-puntosInteres .modal2 {
 #filtro-centros\:barrio{
 	margin-left: 4%;
 }
+
+
+.tituloPopUp {
+	color: rgb(204, 53, 53);
+	font-size: 27px;
+	background-color: rgb(255, 255, 255);
+	text-shadow: rgb(3, 3, 3) 4px 1px 3px;
+}
+
+.div-radius
+{
+border-radius: 50% 50% 29% 20%/50%; 
+-webkit-border-radius: 50% 50% 29% 20%/50%; 
+-moz-border-radius: 50% 50% 29% 20%/50%;
+ position: absolute;
+ 
+}	
+
+.font-style
+{
+font-family: Dosis;
+color: #E32424;
+font-size: 22px;
+background-color: #FFFFFF;
+font-weight: bold;
+padding: 20px;
+text-shadow: 1px 0px 0px #666666;
+}
+
+.div_shadow
+{ 
+box-shadow: 18px 20px 19px #333333; 
+-webkit-box-shadow: 18px 20px 19px #333333; 
+-moz-box-shadow: 18px 20px 19px #333333; 
+}
+
+.div_radius
+{ 
+border-radius: 15px; 
+-webkit-border-radius: 15px; 
+-moz-border-radius: 15px; 
+}
+
+.my-container {
+    position: relative;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.my-container:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.2;
+    background-image: url("#{resource['/defecto/img/logo.jpg']}");
+    /*background-repeat: no-repeat;*/
+    background-position: 50% 0;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+   /* background-size: cover;*/
+         
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+     filter: alpha(opacity=50);
+    
+    background-position: left top;
+    background-attachment: scroll;
+    background-size: 100%;
+    
+}
+
+.my-container font-style2 {
+    /*padding: 50px;*/
+    text-align: center;
+    z-index: 2;
+    position: relative;
+   /* color: #fff;*/
+    
+    font-family: Dosis;
+	color: #000000;
+	font-size: 14px;
+	/*background-color: #FFFFFF;*/
+	background-color: transparent;
+	font-weight: bold;
+	padding: 0px;
+	text-shadow: 1px 0px 0px #232794;
+} 
+
+.my-container font-style3 {
+    /*padding: 50px;*/
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    /*color: #fff;*/
+    
+    font-family: Dosis;
+	color: #000000;
+	font-size: 12px;
+	/*background-color: #FFFFFF;*/
+	background-color: transparent;
+	font-weight: bold;
+	padding: 0px;
+	text-transform: uppercase;
+	
+	  	font-family: monospace;
+  		white-space: pre;
+} 
+
     	

@@ -351,89 +351,61 @@ function onPopupFeatureSelect(feature) {
 	    selectedFeature = feature;
 	    
 	    var popUpHtml = 
-	        '<div>'+
-	        '<div style="color:#FF0000;text-align:center">'+
-	        feature.data.calle +
-	        '</br>' + 
-	        feature.data.numeropuerta +
-	        '</div>';
-	      
-if(feature.data.tipopropiedad != "Terreno"){
-	popUpHtml +=  '</br>'+ '</br>'+
-	  '<div style="color:#000000">'+
-	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Para: </label>' + feature.data.tipotransaccion +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
-	        '</br>';
-	    if(feature.data.parrillero == "true"){
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>Si</label>' +
-				        '</br>';
-				        
-	    }else{
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>No</label>' +
-	        '</br>';
-	    }
-	    if(feature.data.garage == "true"){
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>Si</label> '+
-				         '</br>'+
-				         '</div>' +
-				        	'</br>' +
-				            '<div style="text-align:center">'+
-				            
-				           	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
-				            '</div>'+
-				            '</br>' +
-				            '<div style="text-align:center">'+
-				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
-				            '</div>';
-				        
-	    }else{
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>No</label> '+
-				         '</br>'+
-				         '</div>' +
-				        	'</br>' +
-				            '<div style="text-align:center">'+
-				            	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
-				            '</div>'+
-				            '</br>' +
-				            '<div style="text-align:center">'+
-				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
-				            '</div>';
-	    }
-}else{
+	           	'<div style="text-align:center;" class="font-style">'
+	        			+ feature.data.calle + '  ' + feature.data.numeropuerta + 
+	        	'</div>'+
 	
-	popUpHtml += '</br>'+ '</br>'+
-	  '<div style="color:#000000">'+
-	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Para: </label>' + feature.data.tipotransaccion +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
-	        '</br>' +
-	 
-				            '<div style="text-align:center">'+
-				            
-				           	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
-				            '</div>'+
-				            '</br>' +
-				            '<div style="text-align:center">'+
-				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
-				            '</div>';
-				        
-	    }
-	    
+        '</br>'+ 
+  '<div class="my-container">'+
+ 
+        '<font-style2>Propiedad: </font-style2> <font-style3>	'+ feature.data.tipopropiedad +
+        '</font-style3> </br>'+
+        '<font-style2>Para: </font-style2> <font-style3>		'+ feature.data.tipotransaccion +
+        '</font-style3> </br>'+
+        '<font-style2>Precio: </font-style2> <font-style2>$ </font-style2><font-style3>		'+ feature.data.precio +
+        '</font-style3> </br>'+
+        '<font-style2>Piso: </font-style2> <font-style3>		'+ feature.data.piso +
+        '</font-style3> </br>'+
+        '<font-style2>Dormitorios: </font-style2> <font-style3>	'+feature.data.cantdorm +
+        '</font-style3> </br>'+
+        '<font-style2>Baños: </font-style2> <font-style3>		'+feature.data.cantbanio +
+        '</font-style3> </br>'+
+        '<font-style2>Metros Cuadrados: </font-style2> <font-style3>	'+feature.data.metroscuadrados +
+        '</font-style3> </br>';
+    if(feature.data.parrillero == "true"){
+    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>		Si</font-style3>' +
+			        '</br>';
+			        
+    }else{
+    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>		No</font-style3>' +
+        '</br>';
+    }
+    if(feature.data.garage == "true"){
+    	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		Si</font-style3> '+
+					        '</br>'+ '</br>'+
+					         '<div class="div_radius" >'+
+					            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+					            	/*' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+					            '</div>'+'</br>' +
+				        '</div>' +
+				        '<div style="text-align:center">'+
+				       	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
+				       '</div>';
+			        
+    }else{
+    	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		No</font-style3> '+
+				         '</br>'+ '</br>'+
+				         '<div class="div_radius" >'+
+				            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+				            	/*' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+				            '</div>'+'</br>' +
+			         '</div>' +
+			         '<div style="text-align:center">'+
+		            	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
+		            '</div>';
+    
+    	 
+    }	
 	    
 	    popup = new OpenLayers.Popup.FramedCloud(
 
