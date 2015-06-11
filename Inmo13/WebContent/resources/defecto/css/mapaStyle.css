@@ -11,7 +11,12 @@
 	padding: 0 0 0 0;
 	margin: 0;
 }
-
+.slider.slider-horizontal .slider-selection {
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  background: #BABABA;
+}
 .slider.slider-horizontal {
   width: 210px;
   height: 20px;
@@ -115,8 +120,8 @@
 /* Titulo del body ("Busco") */
 .body-filtros-title {
 	color: #b1b1b1;
-	padding-left: 10px;
-	margin-left: 4.5%
+	padding-left: 4.5% !Important;
+	/*margin-left: 4.5%*/
 }
 
 .checkbox label {
@@ -474,9 +479,10 @@ border-radius: 15px;
     height: 100%;
     z-index: 1;
     opacity: 0.2;
-    background-image: url("#{resource['/defecto/img/logo.jpg']}");
-    /*background-repeat: no-repeat;*/
+    background-image: url("#{resource['/defecto/img/logo.jpg']}") ;
+    background-repeat: no-repeat;
     background-position: 50% 0;
+       background-attachment: fixed;
     -ms-background-size: cover;
     -o-background-size: cover;
     -moz-background-size: cover;
