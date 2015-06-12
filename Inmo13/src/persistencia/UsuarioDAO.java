@@ -1,12 +1,11 @@
 package persistencia;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import dominio.Usuario;
 
@@ -37,11 +36,13 @@ public class UsuarioDAO implements IUsuarioDAO{
 		
 		boolean modifico = false;
 		try {
-			if (this.existeUsuario(usuario.getMail())){
-				System.out.println("estoy en modificar usuario DAO mail: "+ usuario.getMail());
-				em.merge(usuario);			
+//			if (this.existeUsuario(usuario.getMail())){
+//				System.out.println("estoy en modificar usuario DAO mail: "+ usuario.getMail());
+				Usuario user = em.find(Usuario.class, usuario.getMail()); 
+				user.setPassword(usuario.getPassword());
+				em.persist(user);			
 				modifico = true;
-    		}
+//    		}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,20 +50,6 @@ public class UsuarioDAO implements IUsuarioDAO{
 		return modifico;
 	}
 	
-	/*System.out.println("eliminar Usuarios en dato DAO"+ u.getMail());
-    	Boolean elimino = false;
-    	
-    	try{
-    		if (this.existeUsuario(u)){
-    			em.remove(u);
-    			elimino = true;
-    		}
-    	}catch(Exception e){
-    		e.printStackTrace();
-    	}
-    	
-    	return elimino;*/
-
 	public boolean existeUsuario(Usuario usuario) {
 		
 		boolean existe = false;
@@ -91,36 +78,17 @@ public class UsuarioDAO implements IUsuarioDAO{
 
 	@SuppressWarnings("unchecked")
 	public List<Usuario> listarUsuarios() {
-		//	List<Usuario> usus = em.createQuery("Select u FROM Usuario u", Usuario.class).getResultList();
-		//return usus;
-		Query q = em.createQuery("SELECT o FROM Usuario o");
-		return q.getResultList();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Usuario> listarUsuariosporProp(Integer id){
+		List<Usuario> usuarios = null;
 		
-		 List<Usuario> usuarios = em.createQuery("SELECT o FROM Usuario o").getResultList();
-		 List<Usuario> uresult = new LinkedList<Usuario>();	 
-	
-		 for(Usuario u : usuarios)
-			{
-				if(u.administraestaPropiedad(id))
-					uresult.add(u);
-			}
-		return uresult;
-		
-	}
+		try{	
+//			usuarios= em.createQuery("SELECT o FROM Usuario o",Usuario.class).getResultList();
+			usuarios = new ArrayList<Usuario>(em.createNativeQuery("SELECT * FROM usuario",Usuario.class).getResultList());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return usuarios;
+	}	
 
-	public void insert(Usuario u)
-    {
-    	em.persist(u);
-    }
-    
-    public void update(Usuario u)
-    {
-    	em.merge(u);
-    }
     
     public Boolean delete(Usuario u)
     {

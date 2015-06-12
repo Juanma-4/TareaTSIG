@@ -18,9 +18,9 @@ public class Usuario implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
-	private List<Propiedad> propiedades;
-	
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.LAZY)
+//	private List<Propiedad> propiedades;
+//	
 	public Usuario(){}
 	
 	public Usuario(String mail,String password){
@@ -44,22 +44,22 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
-	public List<Propiedad> getPropiedades() {
-		return propiedades;
-	}
-
-	public void setPropiedades(List<Propiedad> propiedades) {
-		this.propiedades = propiedades;
-	}	
-	
-	public boolean administraestaPropiedad (Integer id){
-		 for(Propiedad p : propiedades)
-			{
-				if(p.getId()==id)
-					return true;
-			}
-			return false;
-	}	
+//	public List<Propiedad> getPropiedades() {
+//		return propiedades;
+//	}
+//
+//	public void setPropiedades(List<Propiedad> propiedades) {
+//		this.propiedades = propiedades;
+//	}	
+//	
+//	public boolean administraestaPropiedad (Integer id){
+//		 for(Propiedad p : propiedades)
+//			{
+//				if(p.getId()==id)
+//					return true;
+//			}
+//			return false;
+//	}	
 	
 	
 }

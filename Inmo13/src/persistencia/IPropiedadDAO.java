@@ -22,4 +22,6 @@ public interface IPropiedadDAO  {
 	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros);
 	public List<WrapperPuntoInteres> listarPuntosInteres(String fid);
 	public List<String> listarIds(String fid);
+	public ArrayList<String> listarCalles();
+	public ArrayList<String> listarEsquinas();
 }

@@ -18,5 +18,7 @@ public interface IControladorPropiedad {
 	public List<WrapperPropiedadFiltrada> listarPropiedades(ArrayList<String> filtros);
 	public List<WrapperPuntoInteres> listarPuntosInteres(String fid);
 	public String generarFid(String fid);
+	public ArrayList<String> listarCalles();
+	public ArrayList<String> listarEsquinas();
 	
 }

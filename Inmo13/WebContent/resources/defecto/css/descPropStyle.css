@@ -1,0 +1,263 @@
+ html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	height: 100%;
+}
+
+#wrap > .center-container {
+	padding: 0 0 0 0;
+	margin: 0;
+}
+
+.center-container {
+	height: calc(100% - 52px);
+}
+
+.center-row {
+	height: 100%;
+	overflow-y: auto;
+}
+
+/* END MAIN PAGE */
+
+/* START NAVBAR */
+.text-navbar {
+	font-size: 20px;
+}
+
+.navbar-brand {
+	background-color: #FBC02D;
+	padding: 0px 10px;
+	font-size: 28px;
+}
+
+@media (max-width: 823px) /*and (min-width: 768px)*/ {
+	.text-navbar {
+		font-size: 16px;
+	}
+
+	.navbar-brand {
+		background-color: #FBC02D;
+		padding: 0px 10px;
+		font-size: 24px;
+	}
+}
+
+@media (max-width: 366px) {
+	.text-navbar {
+		font-size: 16px;
+	}
+
+	.navbar-brand {
+		background-color: #FBC02D;
+		padding: 0px 10px;
+		font-size: 16px;
+	}
+}
+
+.navbar {
+	border: none;
+	margin-bottom: 0px;
+}
+
+.navbar-brand > img {
+	display: inline;
+}
+
+.container-fluid > .navbar-header {
+	margin-right: 15px;
+}
+/* END NAVBAR */
+
+/* START COLUMN FILTROS */
+/* Color de bondo del panel filtros*/
+.col-filtros {
+	background-color: #808080;
+}
+/* estilo del header del panel filtros*/
+.header-filtros {
+	background-color: #0db6cc;
+	padding-top: 20px;
+	padding-left: 0px;
+ 	left: -5;
+	   
+}
+/* css del texto del header del panel filtros */
+.header-filtros-text {
+	color: white;
+	text-align: center;
+	padding: 0 10px 10px 10px;
+	margin-top: 0px;
+}
+
+.header-filtros-text > h3 {
+	margin-top: 0px;
+}
+/* Barra que divide el header del */
+.header-filtros-divider {
+	background-color: #b1b1b1;
+	height: 5px;
+}
+
+.body-filtros {
+	height: 100%;
+}
+/* Titulo del body ("Busco") */
+.body-filtros-title {
+	color: #b1b1b1;
+	padding-left: 10px;
+	margin-left: 4.5%
+}
+
+.checkbox label {
+	min-height: 20px;
+	padding-left: 0px;
+}
+
+
+/*
+.btn-mapa-lista {
+	background-color: #b6b6b6;
+	color: white;
+	text-align: center;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+.btn-mapa-lista:hover {
+	background-color: #212121;
+}
+
+.btn-mapa-lista-glyph {
+	margin-right: 10px;
+}
+
+.btn-ver-todos {
+	background-color: #0a91a3;
+	color: white;
+	text-align: center;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+.btn-ver-todos:hover {
+	background-color: #087482;
+}
+
+.filtros-divider {
+	margin-top: 15px;
+	background-color: #b1b1b1;
+	height: 3px;
+}
+*/
+/* Estilos checkbox*/
+@media (max-width: 1299px) {
+	.checkbox {
+		color: white;
+		font-size: 14px;
+		padding-left: 10px;
+		margin-left: 7.5%;
+	}
+}
+
+@media (min-width: 1300px) {
+	.checkbox {
+		color: white;
+		font-size: 16px;
+		padding-left: 10px;
+	}
+}
+
+@media (max-width: 768px) {
+	.col-filtros {
+		height: 100%;
+	}
+	
+}
+
+
+
+@media screen and (max-width : 991px){
+	.labelClass{
+		width:100% !important;;
+		float:left;
+	}
+}
+
+@media screen and (max-width : 479px){
+	.labelClass{
+		width:100% !important;;
+		float:left;
+		margin-bottom: 2px;
+	}
+}
+
+
+@media screen and (max-width : 768px){
+	.labelClass{
+		width:25% !important;;
+		float:left;
+	}
+	
+	.col-lg-6 {
+		  width: 200px;
+		  padding-left: 10px;
+		}
+	
+	
+}
+
+@media screen and (max-width : 303px){
+	
+	    .col-lg-6 {
+		  width: 75%;
+		  padding-left: 10px;
+		}
+	
+	
+}
+/* END COLUMN FILTROS */
+
+/* START COLUMN MAPA */
+.col-mapa {
+	background-color: white;
+}
+
+#map {
+	height: 100%;
+}
+/* END COLUMN MAPA */
+
+
+/* START APARECER EN MAPA */
+
+	
+.labelClass{
+    float: left;
+    width: 25%; /*113px*/
+  }	
+}
+
+#panelBusqueda {
+	padding-left : 1.5%;
+}
+
+.olControlScaleLine {
+   /* background: white;*/
+    padding: 10px;
+
+    /* Good browsers */
+    opacity: 0.85;
+}
+
+#filtros-containter{
+	margin-left: 5.5%;
+}
+
+#descripcion-container{
+	 padding-left: 7.5%;
+}
+	

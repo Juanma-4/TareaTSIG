@@ -12,10 +12,7 @@ public interface IUsuarioDAO {
 	public Usuario getUsuario(String nick);
 	public boolean modificarUsuario(Usuario u);
 	public List<Usuario> listarUsuarios();
-	public void insert(Usuario u);
-    public void update(Usuario u);
     public Boolean delete(Usuario u);
-	public List<Usuario> listarUsuariosporProp(Integer id);
     
 }
 

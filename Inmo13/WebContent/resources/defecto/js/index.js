@@ -7,6 +7,10 @@ var estiloProp;
 var vectorLocalizador;
 var propId;
 var selectedFeature;
+
+//var calles;
+//var esquinas;
+
 //////////// style para geolocalizacion
 var style = {
 	    fillColor: '#000',
@@ -175,25 +179,58 @@ function init() {
  	            map.getProjectionObject()
  	            ), 12);
 
+		
+//		traerCalles();
+//		traerEsquinas();
+		
 };					
+
+//function cargarCalles(xhr,status,args){
+//	calles = JSON.parse(args.Calles);	
+//}
+//
+//function cargarEsquinas(xhr,status,args){
+//	esquinas = JSON.parse(args.Esquinas);
+//}
+
+function verificarTerreno(){		
+	
+	if(document.getElementById('filtro-centros:tipoPropiedad').value == 'Terreno'){
+		 document.getElementById('filtro-centros:cantDormitorio').disabled = true;
+		 document.getElementById('filtro-centros:cantBanio').disabled = true;
+		 document.getElementById('filtro-centros:parrillero').disabled = true;
+		 document.getElementById('filtro-centros:garage').disabled = true;
+		 
+		 document.getElementById('filtro-centros:cantDormitorio').value= "";
+		 document.getElementById('filtro-centros:cantBanio').value = "";
+		 document.getElementById('filtro-centros:parrillero').value = false;
+		 document.getElementById('filtro-centros:garage').value = false;
+		 
+		 
+	}else{
+		 document.getElementById('filtro-centros:cantDormitorio').disabled = false;
+		 document.getElementById('filtro-centros:cantBanio').disabled = false;
+		 document.getElementById('filtro-centros:parrillero').disabled = false;
+		 document.getElementById('filtro-centros:garage').disabled = false;
+		 
+		 document.getElementById('filtro-centros:cantDormitorio').value= "1";
+		 document.getElementById('filtro-centros:cantBanio').value = "1";
+	}
+}
 
 //Se envian los datos para filtrar las propiedades.
 function buscarPropiedades(){
 	var calleDestino = document.getElementById('filtro-centros:calleDestino').value;
 	var esquinaDestino =  document.getElementById('filtro-centros:esquinaDestino').value;
 	
-	if(calleDestino != ""){
-		$("#freeow").freeow("My Title", "Debe ingresar una esquina");
-//		$("#freeow").freeow("Another Title", "One more message", {
-//		    classes: ["gray", "error"],
-//		    autoHide: false,
-//		    autoHideDelay:2000
-//		});
-	
-//		alert("Debe ingresar una esquina");		
-	}else if(esquinaDestino != ""){
-		$("#freeow").freeow("My Title", "Debe ingresar una calle");
-//		alert("Debe ingresar una calle");
+	if((calleDestino != "")&&(esquinaDestino == "")){	
+		$.growl.error({ message: "Debe ingresar una esquina de destino" });
+
+
+	}else if((esquinaDestino != "")&&(calleDestino == "")){
+				
+		$.growl.error({ message: "Debe ingresar una calle de destino" });
+
 	}else{
 		
 		var tipopropiedad = document.getElementById('filtro-centros:tipoPropiedad').value;
@@ -212,6 +249,7 @@ function buscarPropiedades(){
 	    var distanciaParada = parseInt($("#BusSliderVal").text());
 	    var distanciaPInteres = parseInt($("#PInteresSliderVal").text());
 		
+	    
 		remoteListar([{name:'tipopropiedad', value:tipopropiedad},{name:'tipotransaccion', value:tipotransaccion},
 		              {name:'minimo', value:minimo},{name:'maximo', value:maximo},
 		              {name:'cantbanio', value:cantbanio},{name:'cantdorm', value:cantdorm},
@@ -235,62 +273,70 @@ function handleConfirm(xhr,status,args)
   // Manipulo el json del callback
   var propiedadesJSON = JSON.parse(args.PropiedaesFiltradas);
  
-  var propArr = [];
-  for(var i=0; i<propiedadesJSON.length;i++){
-	  
-	  var prop = propiedadesJSON[i];
-	  
-	  var propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(prop.latitud, prop.longitud));
-	  propiedadFiltrada.data.calle = prop.calle;
-	  propiedadFiltrada.data.cantbanio = prop.cantBanio;
-	  propiedadFiltrada.data.cantdorm = prop.cantDorm;
-	  propiedadFiltrada.data.fid = prop.fid;
-	  propiedadFiltrada.data.garage = prop.garage;
-	  propiedadFiltrada.data.metroscuadrados = prop.metrosCuadrados;
-	  propiedadFiltrada.data.numeropuerta = prop.numeroPuerta;
-	  propiedadFiltrada.data.parrillero = prop.parrillero;
-	  propiedadFiltrada.data.precio = prop.precio;
-	  propiedadFiltrada.data.tipoestado = prop.tipoEstado;
-	  propiedadFiltrada.data.tipopropiedad = prop.tipoPropiedad;
-	  propiedadFiltrada.data.tipotransaccion = prop.tipotransaccion;
-	  propiedadFiltrada.data.usuario = prop.usuario;
-	  propiedadFiltrada.data.imagen = prop.imagen;
-	  
-      propiedadFiltrada.attributes.calle = prop.calle;
-      propiedadFiltrada.attributes.cantbanio = prop.cantBanio;
-	  propiedadFiltrada.attributes.cantdorm = prop.cantDorm;
-	  propiedadFiltrada.attributes.fid = prop.fid;
-	  propiedadFiltrada.attributes.garage = prop.garage;
-	  propiedadFiltrada.attributes.metroscuadrados = prop.metrosCuadrados;
-	  propiedadFiltrada.attributes.numeropuerta = prop.numeroPuerta;
-	  propiedadFiltrada.attributes.parrillero = prop.parrillero;
-	  propiedadFiltrada.attributes.precio = prop.precio;
-	  propiedadFiltrada.attributes.tipoestado = prop.tipoEstado;
-	  propiedadFiltrada.attributes.tipopropiedad = prop.tipoPropiedad;
-	  propiedadFiltrada.attributes.tipotransaccion = prop.tipotransaccion;
-	  propiedadFiltrada.attributes.usuario = prop.usuario;
-	  propiedadFiltrada.attributes.imagen = prop.imagen;
-	  
-      propiedadFiltrada.renderIntent = "default";
-      
-      propArr.push(propiedadFiltrada);
-	 
- }
-  
-	  setTimeout(function finalizarBusqueda(){
-		  		  //Borro las propiedades que se ven
-				  propiedades.removeAllFeatures();
-				  //Agrego las nuevas si es que hay.
-				  for(var j=0; j<propArr.length;j++){
-					  propiedades.addFeatures([propArr[j]]);
-				  }
-				  $body = $("body");
-				  $body.removeClass("loading");
-  			}, 0) //500) // Duerme por medio segundo y luego ejecuta la función.
- 
+	  if(propiedadesJSON.length != 0){
+		  var propArr = [];
+		  for(var i=0; i<propiedadesJSON.length;i++){
+			  
+			  var prop = propiedadesJSON[i];
+			  
+			  var propiedadFiltrada = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(prop.latitud, prop.longitud));
+			  propiedadFiltrada.data.calle = prop.calle;
+			  propiedadFiltrada.data.cantbanio = prop.cantBanio;
+			  propiedadFiltrada.data.cantdorm = prop.cantDorm;
+			  propiedadFiltrada.data.fid = prop.fid;
+			  propiedadFiltrada.data.garage = prop.garage;
+			  propiedadFiltrada.data.metroscuadrados = prop.metrosCuadrados;
+			  propiedadFiltrada.data.numeropuerta = prop.numeroPuerta;
+			  propiedadFiltrada.data.parrillero = prop.parrillero;
+			  propiedadFiltrada.data.precio = prop.precio;
+			  propiedadFiltrada.data.tipoestado = prop.tipoEstado;
+			  propiedadFiltrada.data.tipopropiedad = prop.tipoPropiedad;
+			  propiedadFiltrada.data.tipotransaccion = prop.tipotransaccion;
+			  propiedadFiltrada.data.usuario = prop.usuario;
+			  propiedadFiltrada.data.imagen = prop.imagen;
+			  
+		      propiedadFiltrada.attributes.calle = prop.calle;
+		      propiedadFiltrada.attributes.cantbanio = prop.cantBanio;
+			  propiedadFiltrada.attributes.cantdorm = prop.cantDorm;
+			  propiedadFiltrada.attributes.fid = prop.fid;
+			  propiedadFiltrada.attributes.garage = prop.garage;
+			  propiedadFiltrada.attributes.metroscuadrados = prop.metrosCuadrados;
+			  propiedadFiltrada.attributes.numeropuerta = prop.numeroPuerta;
+			  propiedadFiltrada.attributes.parrillero = prop.parrillero;
+			  propiedadFiltrada.attributes.precio = prop.precio;
+			  propiedadFiltrada.attributes.tipoestado = prop.tipoEstado;
+			  propiedadFiltrada.attributes.tipopropiedad = prop.tipoPropiedad;
+			  propiedadFiltrada.attributes.tipotransaccion = prop.tipotransaccion;
+			  propiedadFiltrada.attributes.usuario = prop.usuario;
+			  propiedadFiltrada.attributes.imagen = prop.imagen;
+			  
+		      propiedadFiltrada.renderIntent = "default";
+		      
+		      propArr.push(propiedadFiltrada);
+			 
+		 }
+		  
+			  setTimeout(function finalizarBusqueda(){
+				  		  //Borro las propiedades que se ven
+						  propiedades.removeAllFeatures();
+						  //Agrego las nuevas si es que hay.
+						  for(var j=0; j<propArr.length;j++){
+							  propiedades.addFeatures([propArr[j]]);
+						  }
+						  $body = $("body");
+						  $body.removeClass("loading");
+		  			}, 0) //500) // Duerme por medio segundo y luego ejecuta la función.
+		 
+	  		
+	}else{	
+		propiedades.removeAllFeatures();
+		$.growl.warning({ message: "No se encontraron propiedades con las características que usted desea" });
+		
+		$body = $("body");
+	    $body.removeClass("loading");
+	}
+  		
 }
-
-
 
 //////////////////// Para Pop Ups //////////////////////////
 
@@ -303,68 +349,110 @@ function onPopupFeatureSelect(feature) {
 	    selectedFeature = feature;
 	    
 	    var popUpHtml = 
-	        '<div>'+
-	        '<div style="color:#FF0000;text-align:center">'+
-	        feature.data.calle +
-	        '</br>' + 
-	        feature.data.numeropuerta +
-	        '</div>'+
-	      
-   
-	        '</br>'+ '</br>'+
-	  '<div style="color:#000000">'+
-	        '<label for="usr"style="color:#000000" >Propiedad: </label>' + feature.data.tipopropiedad +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Se: </label>' + feature.data.tipotransaccion +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Precio: </label> <label>$ </label>'+ feature.data.precio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Piso: </label>' + feature.data.piso +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Dormitorios: </label>' + feature.data.cantdorm +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Baños: </label>' + feature.data.cantbanio +
-	        '</br>'+
-	        '<label for="usr"style="color:#000000" >Metros Cuadrados: </label>' + feature.data.metroscuadrados +
-	        '</br>';
-	    if(feature.data.parrillero == "true"){
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>Si</label>' +
-				        '</br>';
-				        
-	    }else{
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Parrillero: </label> <label>No</label>' +
-	        '</br>';
-	    }
-	    if(feature.data.garage == "true"){
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>Si</label> '+
-				         '</br>'+
-				         '</div>' +
-				        	'</br>' +
-				            '<div style="text-align:center">'+
-				            
-				           	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
-				            '</div>'+
-				            '</br>' +
-				            '<div style="text-align:center">'+
-				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
-				            '</div>';
-				        
-	    }else{
-	    	popUpHtml += '<label for="usr"style="color:#000000" >Garage: </label> <label>No</label> '+
-				         '</br>'+
-				         '</div>' +
-				        	'</br>' +
-				            '<div style="text-align:center">'+
-				            	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
-				            '</div>'+
-				            '</br>' +
-				            '<div style="text-align:center">'+
-				            	' <img src="'+feature.data.imagen+'" width="400" height="200">' +
-				            '</div>';
-	    }
-	    
-	    
-	    
+	           	'<div style="text-align:center;" class="font-style">'
+	        			+ feature.data.calle + '  ' + feature.data.numeropuerta + 
+	        	'</div>'+
+	
+        '</br>'; 
+        
+if(feature.data.tipopropiedad != "Terreno"){
+        	
+        	popUpHtml +=
+  '<div class="my-container">'+
+ 
+        '<font-style2>Propiedad: </font-style2> <font-style3>	'+ feature.data.tipopropiedad +
+        '</font-style3> </br>'+
+        '<font-style2>Para: </font-style2> <font-style3>		'+ feature.data.tipotransaccion +
+        '</font-style3> </br>'+
+        '<font-style2>Precio: </font-style2> <font-style2>$ </font-style2><font-style3>		'+ feature.data.precio +
+        '</font-style3> </br>'+
+        '<font-style2>Piso: </font-style2> <font-style3>		'+ feature.data.piso +
+        '</font-style3> </br>'+
+        '<font-style2>Dormitorios: </font-style2> <font-style3>	'+feature.data.cantdorm +
+        '</font-style3> </br>'+
+        '<font-style2>Baños: </font-style2> <font-style3>		'+feature.data.cantbanio +
+        '</font-style3> </br>'+
+        '<font-style2>Metros Cuadrados: </font-style2> <font-style3>	'+feature.data.metroscuadrados +
+        '</font-style3> </br>';
+    if(feature.data.parrillero == "true"){
+    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>		Si</font-style3>' +
+			        '</br>';
+			        
+    }else{
+    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>		No</font-style3>' +
+        '</br>';
+    }
+    if(feature.data.garage == "true"){
+    	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		Si</font-style3> '+
+					        '</br>'+ '</br>'+
+					         '<div class="div_radius" >'+
+<<<<<<< HEAD
+//					            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+					            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
+=======
+					         /* '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+					            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+					            ' <img src="'+feature.data.imagen+'" width="200" height="120" class="div_radius">' +
+>>>>>>> refs/remotes/origin/master
+					            '</div>'+'</br>' +
+				        '</div>' +
+				        '<div style="text-align:center">'+
+				       	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
+				       '</div>';
+			        
+    }else{
+    	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		No</font-style3> '+
+				         '</br>'+ '</br>'+
+				         '<div class="div_radius" >'+
+<<<<<<< HEAD
+//				            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+				            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
+=======
+				         /* '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+				            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+				        	' <img src="'+feature.data.imagen+'" width="200" height="120" class="div_radius">' +
+>>>>>>> refs/remotes/origin/master
+				            '</div>'+'</br>' +
+			         '</div>' +
+			         '<div style="text-align:center">'+
+		            	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
+		            '</div>';
+    
+    	 
+    }	
+}else{
+	
+	popUpHtml +=
+	
+		  '<div class="my-container">'+
+		  
+	        '<font-style2>Propiedad: </font-style2> <font-style3>		'+ feature.data.tipopropiedad +
+	        '</font-style3> </br>'+
+	        '<font-style2>Para: </font-style2> <font-style3>		'+ feature.data.tipotransaccion +
+	        '</font-style3> </br>'+
+	        '<font-style2>Precio: </font-style2> <font-style2>$ </font-style2><font-style3>		'+ feature.data.precio +
+	        '</font-style3> </br>'+
+    
+	        '<font-style2>Metros Cuadrados: </font-style2> <font-style3>		'+feature.data.metroscuadrados +
+	        '</font-style3> </br>' +
+	        '</br>'+ 
+	        '<div class="div_radius" >'+
+<<<<<<< HEAD
+//	        '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+	      ' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
+=======
+	        /* '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
+        	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
+	        ' <img src="'+feature.data.imagen+'" width="200" height="120" class="div_radius">' +
+>>>>>>> refs/remotes/origin/master
+	        '</div>'+'</br>' +
+  '</div>' +
+  '<div style="text-align:center">'+
+  '<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Ver Información</a>'+
+   '</div>';
+	
+	
+}    
 	    popup = new OpenLayers.Popup.FramedCloud(
 
 	    		"",
@@ -441,3 +529,15 @@ $(function(){
 	   });
 	   
 });
+
+//
+//$(function(){
+//	
+//	$(document.getElementById('tags')).autocomplete({
+//	    source: calles
+//	  });
+//	
+//	$(document.getElementById('filtro-centros:calleDestino')).autocomplete({
+//	    source: calles
+//	  });
+//});

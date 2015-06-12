@@ -11,10 +11,12 @@
   vertical-align: middle;
   position: relative;
 }
-.slider.slider-horizontal {
+/*.slider.slider-horizontal {
   width: 210px;
   height: 20px;
-}
+  margin-top: 5%; 
+  margin-left: 2%;
+}*/
 .slider.slider-horizontal .slider-track {
   height: 10px;
   width: 100%;
@@ -26,6 +28,7 @@
   height: 100%;
   top: 0;
   bottom: 0;
+  background: #BABABA;
 }
 .slider.slider-horizontal .slider-handle {
   margin-left: -10px;
