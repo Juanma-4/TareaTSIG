@@ -375,25 +375,23 @@ if(feature.data.tipopropiedad != "Terreno"){
         '<font-style2>Metros Cuadrados: </font-style2> <font-style3>	'+feature.data.metroscuadrados +
         '</font-style3> </br>';
     if(feature.data.parrillero == "true"){
-    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>		Si</font-style3>' +
+    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>	Si</font-style3>' +
 			        '</br>';
 			        
     }else{
-    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>		No</font-style3>' +
+    	popUpHtml += '<font-style2>Parrillero: </font-style2> <font-style3>	No</font-style3>' +
         '</br>';
     }
     if(feature.data.garage == "true"){
     	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		Si</font-style3> '+
 					        '</br>'+ '</br>'+
 					         '<div class="div_radius" >'+
-<<<<<<< HEAD
+
 //					            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
 					            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
-=======
-					         /* '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
-					            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
-					            ' <img src="'+feature.data.imagen+'" width="200" height="120" class="div_radius">' +
->>>>>>> refs/remotes/origin/master
+
+					        
+
 					            '</div>'+'</br>' +
 				        '</div>' +
 				        '<div style="text-align:center">'+
@@ -404,14 +402,12 @@ if(feature.data.tipopropiedad != "Terreno"){
     	popUpHtml += '<font-style2>Garage: </font-style2> <font-style3>		No</font-style3> '+
 				         '</br>'+ '</br>'+
 				         '<div class="div_radius" >'+
-<<<<<<< HEAD
+
 //				            '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
 				            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
-=======
-				         /* '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
-				            	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
-				        	' <img src="'+feature.data.imagen+'" width="200" height="120" class="div_radius">' +
->>>>>>> refs/remotes/origin/master
+
+				        
+
 				            '</div>'+'</br>' +
 			         '</div>' +
 			         '<div style="text-align:center">'+
@@ -426,25 +422,23 @@ if(feature.data.tipopropiedad != "Terreno"){
 	
 		  '<div class="my-container">'+
 		  
-	        '<font-style2>Propiedad: </font-style2> <font-style3>		'+ feature.data.tipopropiedad +
+	        '<font-style2>Propiedad: </font-style2> <font-style3>   	'+ feature.data.tipopropiedad +
 	        '</font-style3> </br>'+
 	        '<font-style2>Para: </font-style2> <font-style3>		'+ feature.data.tipotransaccion +
 	        '</font-style3> </br>'+
 	        '<font-style2>Precio: </font-style2> <font-style2>$ </font-style2><font-style3>		'+ feature.data.precio +
 	        '</font-style3> </br>'+
     
-	        '<font-style2>Metros Cuadrados: </font-style2> <font-style3>		'+feature.data.metroscuadrados +
+	        '<font-style2>Metros Cuadrados: </font-style2> <font-style3> '+feature.data.metroscuadrados +
 	        '</font-style3> </br>' +
 	        '</br>'+ 
 	        '<div class="div_radius" >'+
-<<<<<<< HEAD
+
 //	        '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
 	      ' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +
-=======
-	        /* '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu_Shk6FE0rfzy4mOsdZPDj3SdrqJn6nLaSeKLhWSZ3G557S7JyV50_XB0" "width="380" height="150" class="div_radius">'+
-        	' <img src="'+feature.data.imagen+'" "width="280" height="130" class="div_radius">' +*/
-	        ' <img src="'+feature.data.imagen+'" width="200" height="120" class="div_radius">' +
->>>>>>> refs/remotes/origin/master
+
+	       
+
 	        '</div>'+'</br>' +
   '</div>' +
   '<div style="text-align:center">'+
