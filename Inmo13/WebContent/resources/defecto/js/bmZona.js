@@ -218,16 +218,16 @@ window.onload = function() {
 		        feature.geometry.getBounds().getCenterLonLat(),
 		        null,//new OpenLayers.Size(150,200), 
 		        
-		        '<div>'+
-		        	'<div style="color:#FF0000;text-align:center">Zona</div>'+'</br>'+
-		        		'<div style="color:#000000">'+
-		        			'<label for="usr"style="color:#000000" >Nombre: </label>' + feature.data.nombre +
-		        			'</br>'+
-		        			'<label for="usr"style="color:#000000" >Descripcion: </label>' + feature.data.descripcion +
-		        			'</br>'+
-		        		'</div>'+
-	        		'</div>'+
-	        		'</br>' +
+		        '<div style="text-align:center;" class="font-style">'
+		        + feature.data.nombre + 
+    			'</div>'+
+		        
+    			'<div class="my-container">'+
+    			 
+    	        '<font-style2>Descripción: </font-style2> <font-style3>	'+ feature.data.descripcion +
+    	        '</font-style3> </br>'+
+    	        '</div>'+
+    	        '</br>'+
 	    	        '<div style="text-align:center">'+
 	    	        	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Modificar Datos</a>'+
 	    	        	 // 	'<p:commandLink id="irMBPropiedad" onclick="enviarDatos()" immediate="true">Modificar/Borrar</p:commandLink>'+
