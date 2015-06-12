@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import wrappers.WrapperPuntoInteres;
 import wrappers.WrapperZona;
+import dominio.Propiedad;
 import dominio.Usuario;
 import dominio.Zona;
 
@@ -65,5 +66,25 @@ public class ZonaDAO implements IZonaDAO{
 		}
 		
 		return retorno;
+	}
+
+
+	@Override
+	public boolean modificarZona(String nombre, String desc, String fid) {
+			
+			boolean modifico = false;
+			try {
+				Zona zona = (Zona) em.createQuery(
+								"Select z From Zona z Where z.fid = '" + fid + "'").getSingleResult();
+				
+				zona.setNombre(nombre);
+				zona.setDescripcion(desc);
+				em.persist(zona);
+				modifico = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return modifico;
+		
 	}
 }

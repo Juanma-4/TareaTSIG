@@ -43,28 +43,27 @@ window.onload = function() {
  		saveStrategy.events.register("failure", '', fallo);	    
 
  		/* 	Estilo de la propiedad que se va a ingresar */
-// 		var estiloProp = new OpenLayers.StyleMap({
-// 				"default" : new OpenLayers.Style(null, {
-// 					rules : [ new OpenLayers.Rule({
-// 						symbolizer : {
-// 							"Polygon" : {
-// 								pointRadius : 20,
-// 								externalGraphic : "resources/defecto/img/localizacion.png",
-// 								graphicOpacity : 1,
-// 								graphicWidth : 50,
-// 								graphicHeight : 36
-//
-// 							}
-// 						}
-// 					}) ]
-// 				})
-// 			});
+ 		var estiloProp = new OpenLayers.StyleMap({
+ 				"default" : new OpenLayers.Style(null, {
+ 					rules : [ new OpenLayers.Rule({
+ 						symbolizer : {
+ 							"Polygon" : {
+ 								pointRadius : 20,
+ 								graphicOpacity : 1,
+ 								graphicWidth : 50,
+ 								graphicHeight : 36
+
+ 							}
+ 						}
+ 					}) ]
+ 				})
+ 			});
  		
 
  		/* "Layer Constructor" : Pide capa de porpiedades via WFS-T  */
  		 zonas = new OpenLayers.Layer.Vector("Zonas", {
  			strategies : [ new OpenLayers.Strategy.BBOX(), saveStrategy ],
-// 			styleMap: estiloProp,
+ 			styleMap: estiloProp,
  			displayInLayerSwitcher : false,
  		//	filter: filtro,
  			protocol : new OpenLayers.Protocol.WFS({
@@ -129,17 +128,17 @@ window.onload = function() {
 
      	
      	/*	Control para la selección de popUps */
-//		selectControl = new OpenLayers.Control.SelectFeature([propiedades],
-//				    {
-//				        onSelect: onPopupFeatureSelect,
-//				        onUnselect: onPopupFeatureUnselect,
-//				        //hover:true,
-//				        //highlightOnly: false // en true solo se agranda, es solo para eso
-//				    }
-//				    );
+		selectControl = new OpenLayers.Control.SelectFeature([zonas],
+				    {
+				        onSelect: onPopupFeatureSelect,
+				        onUnselect: onPopupFeatureUnselect,
+				        //hover:true,
+				        //highlightOnly: false // en true solo se agranda, es solo para eso
+				    }
+				    );
 		
-//	    map.addControl(selectControl);
-//	    selectControl.activate();
+	    map.addControl(selectControl);
+	    selectControl.activate();
      	
      	var navegar = new OpenLayers.Control.Navigation({
      		title : "Navegación Mapa"
@@ -220,13 +219,21 @@ window.onload = function() {
 		        null,//new OpenLayers.Size(150,200), 
 		        
 		        '<div>'+
-		        '<div style="color:#FF0000;text-align:center">Zona</div>'+'</br>'+
-		  '<div style="color:#000000">'+
-		        '<label for="usr"style="color:#000000" >Nombre: </label>' + feature.data.nombre +
-		        '</br>'+
-		        '<label for="usr"style="color:#000000" >Descripcion: </label>' + feature.data.descripcion +
-		        '</br>'+
-	        '</div>'
+		        	'<div style="color:#FF0000;text-align:center">Zona</div>'+'</br>'+
+		        		'<div style="color:#000000">'+
+		        			'<label for="usr"style="color:#000000" >Nombre: </label>' + feature.data.nombre +
+		        			'</br>'+
+		        			'<label for="usr"style="color:#000000" >Descripcion: </label>' + feature.data.descripcion +
+		        			'</br>'+
+		        		'</div>'+
+	        		'</div>'+
+	        		'</br>' +
+	    	        '<div style="text-align:center">'+
+	    	        	'<a class="linkMB" onclick="enviarDatos()" href="javascript:void(0);">Modificar Datos</a>'+
+	    	        	 // 	'<p:commandLink id="irMBPropiedad" onclick="enviarDatos()" immediate="true">Modificar/Borrar</p:commandLink>'+
+	    	        '</div>'+
+	    	        '</br>'+
+	        	'</div>'
 	        	,
 		        null, 
 		        true, 
@@ -241,4 +248,12 @@ window.onload = function() {
 	    map.removePopup(feature.popup);
 	    feature.popup.destroy();
 	    feature.popup = null;
+	}
+	function enviarDatos(){
+		var nombre = selectedFeature.data.nombre;
+		var descripcion = selectedFeature.data.descripcion;
+		var fid = selectedFeature.data.fid; 
+		
+		remoteBMPropiedad([{name:'nombre', value:nombre},{name:'descripcion', value:descripcion},{name:'fid', value:fid}]);
+
 	}

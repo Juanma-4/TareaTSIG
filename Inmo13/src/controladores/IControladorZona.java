@@ -10,4 +10,6 @@ import dominio.Zona;
 @Local
 public interface IControladorZona {
 	public List<WrapperZona> actualizarInfoZonas();
+
+	public boolean modificarZona(String datosZona);
 }

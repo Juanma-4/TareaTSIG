@@ -10,6 +10,8 @@ import dominio.Zona;
 public interface IZonaDAO {	
 	
 	public List<WrapperZona> actualizarZonas();
+
+	public boolean modificarZona(String nombre, String desc, String fid);
     
 }
 
